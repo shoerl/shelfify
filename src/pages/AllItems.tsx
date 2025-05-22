@@ -9,10 +9,10 @@ export default function AllItems() {
   const [sort, setSort] = useState('title');
 
   const columns = [
-    { field: 'typeName', headerName: 'Type', flex: 1 },
-    { field: 'title', headerName: 'Title', flex: 1 },
+    { field: 'typeName', headerName: 'Collection Type', flex: 1 },
+    { field: 'title', headerName: 'Release Title', flex: 1 },
     { field: 'condition', headerName: 'Condition', flex: 1 },
-    { field: 'pricePaid', headerName: 'Price Paid', flex: 1, type: 'number' },
+    { field: 'pricePaid', headerName: 'Price Paid (Copy)', flex: 1, type: 'number' },
   ];
 
   // Merge catalog data with user data
@@ -26,7 +26,7 @@ export default function AllItems() {
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
-        My Collection
+        My Copies
       </Typography>
       <ItemTable 
         columns={columns} 

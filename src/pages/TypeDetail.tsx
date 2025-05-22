@@ -27,7 +27,7 @@ export default function TypeDetail() {
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
-        {type.name}
+        {type.name} Releases
       </Typography>
       <Typography variant="body1" color="text.secondary" paragraph>
         {type.description}
@@ -37,10 +37,10 @@ export default function TypeDetail() {
         color="primary" 
         sx={{ mb: 3 }}
       >
-        Add to My Collection
+        Add Copy to My Collection
       </Button>
       <ItemTable 
-        columns={columns} 
+        columns={columns.map(col => col.field === 'title' ? { ...col, headerName: 'Release Title' } : col)} 
         rows={catalogData?.items.map(item => ({
           id: item.id,
           ...item.data
