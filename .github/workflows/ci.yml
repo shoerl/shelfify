@@ -1,0 +1,28 @@
+name: CI Checks
+
+on:
+  pull_request:
+    branches: [ main ] # Adjust if your main branch is different (e.g., master, develop)
+
+jobs:
+  lint_and_test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x' # Replace '20.x' if a specific version is found in package.json
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run linters
+        run: yarn lint
+
+      - name: Run tests
+        run: yarn test
