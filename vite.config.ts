@@ -13,10 +13,10 @@ const previewId = process.env.VITE_PREVIEW_ID;
 export default defineConfig(({ command }) => {
   // For development, use root path
   // For production (GitHub Pages), use the repository name as base path
-  // For preview deployments, use a unique path based on the branch name
+  // For preview deployments, use a unique path with incremental number
   const base = command === 'build'
     ? previewId
-      ? `/preview/${previewId}/`
+      ? `/${repoName}-${previewId}/`
       : `/${repoName}/`
     : '/';
 

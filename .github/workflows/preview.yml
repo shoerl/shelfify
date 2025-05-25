@@ -53,18 +53,40 @@ jobs:
       - name: Install Dependencies
         run: yarn install --immutable
 
+      # Get the next available preview number
+      - name: Get Next Preview Number
+        id: preview_number
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: deployments } = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment: 'preview'
+            });
+            
+            // Find the highest preview number
+            let maxNumber = 0;
+            for (const deployment of deployments) {
+              const match = deployment.ref.match(/preview-(\d+)/);
+              if (match) {
+                maxNumber = Math.max(maxNumber, parseInt(match[1]));
+              }
+            }
+            
+            // Return the next number
+            return maxNumber + 1;
+
       - name: Build Project
         run: yarn build
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
-          # Add a unique identifier for preview builds
-          VITE_PREVIEW_ID: ${{ github.head_ref }}
+          VITE_PREVIEW_ID: preview-${{ steps.preview_number.outputs.result }}
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
         with:
-          # Use a unique path for preview deployments
-          path: /preview/${{ github.head_ref }}
+          path: /preview-${{ steps.preview_number.outputs.result }}
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
@@ -82,10 +104,34 @@ jobs:
             const deploymentUrl = '${{ steps.deployment.outputs.page_url }}';
             const prNumber = context.issue.number;
             const branchName = context.payload.pull_request.head.ref;
+            const previewNumber = '${{ steps.preview_number.outputs.result }}';
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
-              body: `🚀 Preview deployment is ready!\n\nVisit: ${deploymentUrl}\n\nThis is a preview deployment for branch \`${branchName}\` (PR #${prNumber}).`
-            }); 
+              body: `🚀 Preview deployment is ready!\n\nVisit: ${deploymentUrl}\n\nThis is preview deployment #${previewNumber} for branch \`${branchName}\` (PR #${prNumber}).`
+            });
+
+      # Clean up old preview deployments when PR is closed
+      - name: Cleanup Old Previews
+        if: github.event.action == 'closed'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: deployments } = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment: 'preview'
+            });
+            
+            // Delete all preview deployments except the current one
+            for (const deployment of deployments) {
+              if (deployment.ref !== `preview-${process.env.PREVIEW_NUMBER}`) {
+                await github.rest.repos.deleteDeployment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: deployment.id
+                });
+              }
+            } 
