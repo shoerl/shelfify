@@ -5,6 +5,6 @@ export function useCatalog(typeId: string, page: number, sort: string) {
   return useQuery({
     queryKey: ['catalog', { typeId, page, sort }],
     queryFn: () => fetchCatalog(typeId, { page, sort }),
-    keepPreviousData: true
+    keepPreviousData: true,
   });
 }

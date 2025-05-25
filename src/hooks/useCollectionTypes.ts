@@ -4,6 +4,6 @@ import { fetchCollectionTypes } from '../api/collectionTypes';
 export function useCollectionTypes() {
   return useQuery({
     queryKey: ['collection-types'],
-    queryFn: fetchCollectionTypes
+    queryFn: fetchCollectionTypes,
   });
 }

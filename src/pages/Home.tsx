@@ -48,7 +48,10 @@ export default function Home() {
           letterSpacing: '-2px',
         }}
       >
-        Welcome back, {userName}!
+        Welcome back,
+        {' '}
+        {userName}
+        !
       </Typography>
       <Typography
         variant="h6"
@@ -78,14 +81,14 @@ export default function Home() {
             <Grid item xs={6} key={item.title}>
               <Card
                 sx={{
-                  borderRadius: 3,
-                  background: item.color,
-                  color: '#22223B',
-                  boxShadow: '0 2px 8px #0001',
-                  minHeight: 100,
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
+                  'borderRadius': 3,
+                  'background': item.color,
+                  'color': '#22223B',
+                  'boxShadow': '0 2px 8px #0001',
+                  'minHeight': 100,
+                  'display': 'flex',
+                  'alignItems': 'center',
+                  'cursor': 'pointer',
                   '&:hover': { boxShadow: '0 4px 12px #0002' },
                 }}
                 onClick={() => navigate(path)}
@@ -105,7 +108,7 @@ export default function Home() {
                       </Typography>
                     </Box>
                   </Box>
-                  <Button variant="outlined" size="small" onClick={e => { e.stopPropagation(); navigate(path); }}>
+                  <Button variant="outlined" size="small" onClick={(e) => { e.stopPropagation(); navigate(path); }}>
                     Browse
                   </Button>
                 </CardContent>
@@ -126,14 +129,14 @@ export default function Home() {
             <Grid item xs={6} key={item.title}>
               <Card
                 sx={{
-                  borderRadius: 3,
-                  background: item.color,
-                  color: '#22223B',
-                  boxShadow: '0 2px 8px #0001',
-                  minHeight: 100,
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
+                  'borderRadius': 3,
+                  'background': item.color,
+                  'color': '#22223B',
+                  'boxShadow': '0 2px 8px #0001',
+                  'minHeight': 100,
+                  'display': 'flex',
+                  'alignItems': 'center',
+                  'cursor': 'pointer',
                   '&:hover': { boxShadow: '0 4px 12px #0002' },
                 }}
                 onClick={() => navigate(path)}
@@ -153,7 +156,7 @@ export default function Home() {
                       </Typography>
                     </Box>
                   </Box>
-                  <Button variant="outlined" size="small" onClick={e => { e.stopPropagation(); navigate(path); }}>
+                  <Button variant="outlined" size="small" onClick={(e) => { e.stopPropagation(); navigate(path); }}>
                     {item.title === 'My Music Copies' ? 'View My Music' : 'View My Movies'}
                   </Button>
                 </CardContent>

@@ -28,8 +28,8 @@ export default function AllItems() {
       <Typography variant="h4" gutterBottom>
         My Copies
       </Typography>
-      <ItemTable 
-        columns={columns} 
+      <ItemTable
+        columns={columns}
         rows={rows}
         loading={isLoading}
         onPageChange={setPage}

@@ -7,9 +7,9 @@ export default function TypesList() {
   const { data: types = [], isLoading } = useCollectionTypes();
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredTypes = types.filter(type => 
-    type.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    type.description.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredTypes = types.filter(type =>
+    type.name.toLowerCase().includes(searchTerm.toLowerCase())
+    || type.description.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -18,7 +18,7 @@ export default function TypesList() {
         fullWidth
         label="Search types"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={e => setSearchTerm(e.target.value)}
         sx={{ mb: 3 }}
       />
       <Grid container spacing={2}>

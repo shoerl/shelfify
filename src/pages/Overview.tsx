@@ -1,10 +1,10 @@
-import { 
-  Box, 
-  Card, 
-  CardContent, 
-  Typography, 
-  Grid, 
-  TextField, 
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  TextField,
   InputAdornment,
   IconButton,
   MenuItem,
@@ -12,13 +12,13 @@ import {
   FormControl,
   InputLabel,
   Skeleton,
-  Fade
+  Fade,
 } from '@mui/material';
-import { 
+import {
   Search as SearchIcon,
   Sort as SortIcon,
   MusicNote as MusicIcon,
-  Movie as MovieIcon
+  Movie as MovieIcon,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -30,7 +30,7 @@ const categories = [
     subtitle: 'Records & CDs',
     icon: <MusicIcon sx={{ fontSize: 40 }} />,
     color: '#2563eb',
-    count: 2
+    count: 2,
   },
   {
     id: 'movies',
@@ -38,8 +38,8 @@ const categories = [
     subtitle: 'DVDs, Blu-rays & VHS',
     icon: <MovieIcon sx={{ fontSize: 40 }} />,
     color: '#7c3aed',
-    count: 2
-  }
+    count: 2,
+  },
 ];
 
 export function Overview() {
@@ -59,7 +59,7 @@ export function Overview() {
         <TextField
           placeholder="Search collections..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
           sx={{ flexGrow: 1, minWidth: 200 }}
           InputProps={{
             startAdornment: (
@@ -74,12 +74,12 @@ export function Overview() {
           <Select
             value={sortBy}
             label="Sort By"
-            onChange={(e) => setSortBy(e.target.value)}
-            startAdornment={
+            onChange={e => setSortBy(e.target.value)}
+            startAdornment={(
               <InputAdornment position="start">
                 <SortIcon color="action" />
               </InputAdornment>
-            }
+            )}
           >
             <MenuItem value="name">Name</MenuItem>
             <MenuItem value="count">Item Count</MenuItem>
@@ -89,17 +89,17 @@ export function Overview() {
       </Box>
 
       <Grid container spacing={3}>
-        {categories.map((category) => (
+        {categories.map(category => (
           <Grid item xs={12} sm={6} key={category.id}>
             <Fade in timeout={500}>
               <Card
                 component={Link}
                 to={`/types/${category.id}`}
                 sx={{
-                  height: '100%',
-                  textDecoration: 'none',
-                  color: 'inherit',
-                  transition: 'transform 0.2s ease-in-out',
+                  'height': '100%',
+                  'textDecoration': 'none',
+                  'color': 'inherit',
+                  'transition': 'transform 0.2s ease-in-out',
                   '&:hover': {
                     transform: 'translateY(-4px)',
                   },
@@ -133,12 +133,14 @@ export function Overview() {
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Typography variant="body2" color="text.secondary">
-                      {category.count} items in collection
+                      {category.count}
+                      {' '}
+                      items in collection
                     </Typography>
                     <IconButton
                       size="small"
                       sx={{
-                        color: category.color,
+                        'color': category.color,
                         '&:hover': {
                           backgroundColor: `${category.color}15`,
                         },
@@ -155,4 +157,4 @@ export function Overview() {
       </Grid>
     </Box>
   );
-} 
+}

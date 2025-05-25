@@ -10,7 +10,7 @@ export default function TypeDetail() {
   const { data: types } = useCollectionTypes();
   const [page, setPage] = useState(0);
   const [sort, setSort] = useState('title');
-  
+
   const type = types?.find(t => t.id === typeId);
   const { data: catalogData, isLoading } = useCatalog(typeId!, page, sort);
 
@@ -27,23 +27,25 @@ export default function TypeDetail() {
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
-        {type.name} Releases
+        {type.name}
+        {' '}
+        Releases
       </Typography>
       <Typography variant="body1" color="text.secondary" paragraph>
         {type.description}
       </Typography>
-      <Button 
-        variant="contained" 
-        color="primary" 
+      <Button
+        variant="contained"
+        color="primary"
         sx={{ mb: 3 }}
       >
         Add Copy to My Collection
       </Button>
-      <ItemTable 
-        columns={columns.map(col => col.field === 'title' ? { ...col, headerName: 'Release Title' } : col)} 
+      <ItemTable
+        columns={columns.map(col => col.field === 'title' ? { ...col, headerName: 'Release Title' } : col)}
         rows={catalogData?.items.map(item => ({
           id: item.id,
-          ...item.data
+          ...item.data,
         })) || []}
         loading={isLoading}
         onPageChange={setPage}

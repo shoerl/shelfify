@@ -18,13 +18,13 @@ import {
   IconButton,
   Chip,
   Fade,
-  Skeleton
+  Skeleton,
 } from '@mui/material';
 import {
   Add as AddIcon,
   Close as CloseIcon,
   Search as SearchIcon,
-  Sort as SortIcon
+  Sort as SortIcon,
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -37,7 +37,7 @@ const conditions = [
   'Good Plus',
   'Good',
   'Fair',
-  'Poor'
+  'Poor',
 ];
 
 interface MusicItem {
@@ -73,7 +73,7 @@ const mockData: Record<string, CollectionItem[]> = {
       year: 1979,
       format: 'Vinyl',
       label: 'EMI',
-      country: 'UK'
+      country: 'UK',
     },
     {
       id: 2,
@@ -82,8 +82,8 @@ const mockData: Record<string, CollectionItem[]> = {
       year: 1969,
       format: 'CD',
       label: 'Apple',
-      country: 'UK'
-    }
+      country: 'UK',
+    },
   ],
   movies: [
     {
@@ -94,7 +94,7 @@ const mockData: Record<string, CollectionItem[]> = {
       format: 'Blu-ray',
       region: 'Region A',
       edition: 'Final Cut',
-      studio: 'Warner Bros.'
+      studio: 'Warner Bros.',
     },
     {
       id: 2,
@@ -104,9 +104,9 @@ const mockData: Record<string, CollectionItem[]> = {
       format: 'DVD',
       region: 'Region 1',
       edition: 'Standard',
-      studio: 'Warner Bros.'
-    }
-  ]
+      studio: 'Warner Bros.',
+    },
+  ],
 };
 
 export function CategoryDetail() {
@@ -116,7 +116,7 @@ export function CategoryDetail() {
   const [formData, setFormData] = useState({
     condition: '',
     pricePaid: '',
-    notes: ''
+    notes: '',
   });
 
   const isMusic = typeId === 'music';
@@ -167,70 +167,74 @@ export function CategoryDetail() {
         <Table>
           <TableHead>
             <TableRow>
-              {isMusic ? (
-                <>
-                  <TableCell>Release Title</TableCell>
-                  <TableCell>Artist</TableCell>
-                  <TableCell>Year</TableCell>
-                  <TableCell>Format</TableCell>
-                  <TableCell>Label</TableCell>
-                  <TableCell>Country</TableCell>
-                </>
-              ) : (
-                <>
-                  <TableCell>Release Title</TableCell>
-                  <TableCell>Director</TableCell>
-                  <TableCell>Year</TableCell>
-                  <TableCell>Format</TableCell>
-                  <TableCell>Region</TableCell>
-                  <TableCell>Edition</TableCell>
-                  <TableCell>Studio</TableCell>
-                </>
-              )}
+              {isMusic
+                ? (
+                    <>
+                      <TableCell>Release Title</TableCell>
+                      <TableCell>Artist</TableCell>
+                      <TableCell>Year</TableCell>
+                      <TableCell>Format</TableCell>
+                      <TableCell>Label</TableCell>
+                      <TableCell>Country</TableCell>
+                    </>
+                  )
+                : (
+                    <>
+                      <TableCell>Release Title</TableCell>
+                      <TableCell>Director</TableCell>
+                      <TableCell>Year</TableCell>
+                      <TableCell>Format</TableCell>
+                      <TableCell>Region</TableCell>
+                      <TableCell>Edition</TableCell>
+                      <TableCell>Studio</TableCell>
+                    </>
+                  )}
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item) => (
+            {data.map(item => (
               <TableRow key={item.id}>
-                {isMusicItem(item) ? (
-                  <>
-                    <TableCell>{item.title}</TableCell>
-                    <TableCell>{item.artist}</TableCell>
-                    <TableCell>{item.year}</TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={item.format} 
-                        size="small"
-                        sx={{ 
-                          backgroundColor: item.format === 'Vinyl' ? '#2563eb15' : '#7c3aed15',
-                          color: item.format === 'Vinyl' ? '#2563eb' : '#7c3aed'
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>{item.label}</TableCell>
-                    <TableCell>{item.country}</TableCell>
-                  </>
-                ) : (
-                  <>
-                    <TableCell>{item.title}</TableCell>
-                    <TableCell>{item.director}</TableCell>
-                    <TableCell>{item.year}</TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={item.format} 
-                        size="small"
-                        sx={{ 
-                          backgroundColor: item.format === 'Blu-ray' ? '#2563eb15' : '#7c3aed15',
-                          color: item.format === 'Blu-ray' ? '#2563eb' : '#7c3aed'
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>{item.region}</TableCell>
-                    <TableCell>{item.edition}</TableCell>
-                    <TableCell>{item.studio}</TableCell>
-                  </>
-                )}
+                {isMusicItem(item)
+                  ? (
+                      <>
+                        <TableCell>{item.title}</TableCell>
+                        <TableCell>{item.artist}</TableCell>
+                        <TableCell>{item.year}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={item.format}
+                            size="small"
+                            sx={{
+                              backgroundColor: item.format === 'Vinyl' ? '#2563eb15' : '#7c3aed15',
+                              color: item.format === 'Vinyl' ? '#2563eb' : '#7c3aed',
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>{item.label}</TableCell>
+                        <TableCell>{item.country}</TableCell>
+                      </>
+                    )
+                  : (
+                      <>
+                        <TableCell>{item.title}</TableCell>
+                        <TableCell>{item.director}</TableCell>
+                        <TableCell>{item.year}</TableCell>
+                        <TableCell>
+                          <Chip
+                            label={item.format}
+                            size="small"
+                            sx={{
+                              backgroundColor: item.format === 'Blu-ray' ? '#2563eb15' : '#7c3aed15',
+                              color: item.format === 'Blu-ray' ? '#2563eb' : '#7c3aed',
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell>{item.region}</TableCell>
+                        <TableCell>{item.edition}</TableCell>
+                        <TableCell>{item.studio}</TableCell>
+                      </>
+                    )}
                 <TableCell align="right">
                   <Button
                     variant="outlined"
@@ -246,13 +250,13 @@ export function CategoryDetail() {
         </Table>
       </TableContainer>
 
-      <Dialog 
-        open={addModalOpen} 
+      <Dialog
+        open={addModalOpen}
         onClose={handleClose}
         maxWidth="sm"
         fullWidth
         PaperProps={{
-          sx: { borderRadius: 2 }
+          sx: { borderRadius: 2 },
         }}
       >
         <DialogTitle>
@@ -275,10 +279,10 @@ export function CategoryDetail() {
               fullWidth
               label="Condition"
               value={formData.condition}
-              onChange={(e) => setFormData({ ...formData, condition: e.target.value })}
+              onChange={e => setFormData({ ...formData, condition: e.target.value })}
               sx={{ mb: 2 }}
             >
-              {conditions.map((condition) => (
+              {conditions.map(condition => (
                 <MenuItem key={condition} value={condition}>
                   {condition}
                 </MenuItem>
@@ -289,9 +293,9 @@ export function CategoryDetail() {
               label="Price Paid (Copy)"
               type="number"
               value={formData.pricePaid}
-              onChange={(e) => setFormData({ ...formData, pricePaid: e.target.value })}
+              onChange={e => setFormData({ ...formData, pricePaid: e.target.value })}
               InputProps={{
-                startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>
+                startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
               }}
               sx={{ mb: 2 }}
             />
@@ -301,14 +305,14 @@ export function CategoryDetail() {
               multiline
               rows={3}
               value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              onChange={e => setFormData({ ...formData, notes: e.target.value })}
             />
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 2, pt: 0 }}>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             onClick={handleSubmit}
             disabled={!formData.condition || !formData.pricePaid}
           >
@@ -318,4 +322,4 @@ export function CategoryDetail() {
       </Dialog>
     </Box>
   );
-} 
+}

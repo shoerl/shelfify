@@ -14,13 +14,13 @@ interface DynamicFormProps<T> {
 export function DynamicForm<T>({ fields, schema, onSubmit, defaultValues }: DynamicFormProps<T>) {
   const { control, handleSubmit } = useForm<T>({
     resolver: zodResolver(schema),
-    defaultValues: defaultValues as T
+    defaultValues: defaultValues as T,
   });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={2}>
-        {fields.map((field) => (
+        {fields.map(field => (
           <Controller
             key={field.name}
             name={field.name as keyof T}
@@ -37,7 +37,7 @@ export function DynamicForm<T>({ fields, schema, onSubmit, defaultValues }: Dyna
                     helperText={error?.message}
                     fullWidth
                   >
-                    {field.options?.map((option) => (
+                    {field.options?.map(option => (
                       <MenuItem key={option} value={option}>
                         {option}
                       </MenuItem>

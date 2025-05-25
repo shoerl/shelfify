@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel
+  InputLabel,
 } from '@mui/material';
 import {
   Timeline,
@@ -18,7 +18,7 @@ import {
   TimelineConnector,
   TimelineContent,
   TimelineDot,
-  TimelineOppositeContent
+  TimelineOppositeContent,
 } from '@mui/lab';
 import { PhotoCamera as PhotoCameraIcon } from '@mui/icons-material';
 import type { ConditionHistory } from '../../types/owned';
@@ -37,13 +37,13 @@ const CONDITION_GRADES = [
   'Good Plus (G+)',
   'Good (G)',
   'Fair (F)',
-  'Poor (P)'
+  'Poor (P)',
 ];
 
-export function ConditionTracking({ 
-  currentCondition, 
-  conditionHistory, 
-  onAddCondition 
+export function ConditionTracking({
+  currentCondition,
+  conditionHistory,
+  onAddCondition,
 }: ConditionTrackingProps) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newCondition, setNewCondition] = useState('');
@@ -89,9 +89,9 @@ export function ConditionTracking({
                     <Select
                       value={newCondition}
                       label="New Condition"
-                      onChange={(e) => setNewCondition(e.target.value)}
+                      onChange={e => setNewCondition(e.target.value)}
                     >
-                      {CONDITION_GRADES.map((grade) => (
+                      {CONDITION_GRADES.map(grade => (
                         <MenuItem key={grade} value={grade}>
                           {grade}
                         </MenuItem>
@@ -104,7 +104,7 @@ export function ConditionTracking({
                     rows={3}
                     label="Notes"
                     value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
+                    onChange={e => setNotes(e.target.value)}
                     placeholder="Add any notes about the condition change..."
                   />
                   <Button
@@ -144,7 +144,9 @@ export function ConditionTracking({
                   {entry.photos && entry.photos.length > 0 && (
                     <Box mt={1}>
                       <Typography variant="caption" color="text.secondary">
-                        {entry.photos.length} photo(s)
+                        {entry.photos.length}
+                        {' '}
+                        photo(s)
                       </Typography>
                     </Box>
                   )}
@@ -156,4 +158,4 @@ export function ConditionTracking({
       </CardContent>
     </Card>
   );
-} 
+}
