@@ -28,11 +28,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'yarn'
+
+      - name: Enable Corepack and Set Yarn Version
+        run: |-
+          corepack enable
+          corepack prepare yarn@stable --activate
+
+      - name: Get Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        id: yarn-cache # Give an id to the cache step to check if cache was hit
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-berry-${{ hashFiles('**/yarn.lock') }} # Differentiate key for Yarn Berry
+          restore-keys: |
+            ${{ runner.os }}-yarn-berry-
 
       # Installs dependencies
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       # Runs the linter
       - name: Run Linter
