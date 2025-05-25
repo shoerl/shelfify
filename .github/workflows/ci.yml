@@ -44,17 +44,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Print Cache Keys
-        run: |
-          echo "Cache Key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}"
-          echo "Restore Keys: ${{ runner.os }}-yarn-"
-
       # Installs dependencies
       - name: Install Dependencies
         run: yarn install --immutable
-
-      - name: List Yarn Cache Contents
-        run: ls -lh .yarn/cache
 
       # Runs the linter
       - name: Run Linter
