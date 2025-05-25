@@ -1,9 +1,9 @@
 // eslint.config.js
-import js from '@eslint/js'
-import tsParser from '@typescript-eslint/parser'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
-import reactPlugin from 'eslint-plugin-react'
-import stylistic from '@stylistic/eslint-plugin'
+import js from '@eslint/js';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import reactPlugin from 'eslint-plugin-react';
+import stylistic from '@stylistic/eslint-plugin';
 
 export default [
   // 1) ESLint core “recommended”
@@ -52,7 +52,7 @@ export default [
   stylistic.configs.customize({
     indent: 2,
     quotes: 'single',
-    semi: false,
+    semi: true,
     jsx: true,
 
   }),
@@ -62,4 +62,4 @@ export default [
       '@stylistic/max-statements-per-line': 'off',
     },
   },
-]
+];

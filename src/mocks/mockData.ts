@@ -1,6 +1,6 @@
-import type { CollectionType, CollectionTypeProposal } from '../types/collection'
-import type { CatalogItem } from '../types/catalog'
-import type { OwnedItem } from '../types/owned'
+import type { CollectionType, CollectionTypeProposal } from '../types/collection';
+import type { CatalogItem } from '../types/catalog';
+import type { OwnedItem } from '../types/owned';
 
 export const mockCollectionTypes: CollectionType[] = [
   {
@@ -129,7 +129,7 @@ export const mockCollectionTypes: CollectionType[] = [
       version: 1,
     },
   },
-]
+];
 
 export const mockCollectionTypeProposals: CollectionTypeProposal[] = [
   {
@@ -172,7 +172,7 @@ export const mockCollectionTypeProposals: CollectionTypeProposal[] = [
     submittedBy: 'user1',
     submittedAt: '2024-03-15T00:00:00Z',
   },
-]
+];
 
 export const mockCatalogItems: CatalogItem[] = [
   {
@@ -224,7 +224,7 @@ export const mockCatalogItems: CatalogItem[] = [
       verificationDate: '2024-01-01T00:00:00Z',
     },
   },
-]
+];
 
 export const mockOwnedItems: OwnedItem[] = [
   {
@@ -277,4 +277,4 @@ export const mockOwnedItems: OwnedItem[] = [
       },
     },
   },
-]
+];

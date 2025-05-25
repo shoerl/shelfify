@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   Box,
   Card,
@@ -16,32 +16,32 @@ import {
   Chip,
   IconButton,
   Tooltip,
-} from '@mui/material'
+} from '@mui/material';
 import {
   TrendingUp as TrendingUpIcon,
   TrendingDown as TrendingDownIcon,
   Info as InfoIcon,
-} from '@mui/icons-material'
-import type { PriceHistory } from '../../types/catalog'
+} from '@mui/icons-material';
+import type { PriceHistory } from '../../types/catalog';
 
 interface ValueTrackingProps {
-  currentValue: number
-  priceHistory: PriceHistory[]
-  onAddValue: (value: number, source: string, condition?: string) => void
+  currentValue: number;
+  priceHistory: PriceHistory[];
+  onAddValue: (value: number, source: string, condition?: string) => void;
 }
 
 export function ValueTracking({ currentValue, priceHistory, onAddValue }: ValueTrackingProps) {
-  const [showAddForm, setShowAddForm] = useState(false)
+  const [showAddForm, setShowAddForm] = useState(false);
 
   const calculateChange = () => {
-    if (priceHistory.length < 2) return 0
-    const oldest = priceHistory[0].value
-    const newest = priceHistory[priceHistory.length - 1].value
-    return ((newest - oldest) / oldest) * 100
-  }
+    if (priceHistory.length < 2) return 0;
+    const oldest = priceHistory[0].value;
+    const newest = priceHistory[priceHistory.length - 1].value;
+    return ((newest - oldest) / oldest) * 100;
+  };
 
-  const change = calculateChange()
-  const isPositive = change > 0
+  const change = calculateChange();
+  const isPositive = change > 0;
 
   return (
     <Card>
@@ -138,5 +138,5 @@ export function ValueTracking({ currentValue, priceHistory, onAddValue }: ValueT
         </Grid>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,12 +1,12 @@
-import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 
 interface ItemTableProps<T> {
-  columns: GridColDef[]
-  rows: T[]
-  loading?: boolean
-  pageSize?: number
-  onPageChange?: (page: number) => void
-  onSortChange?: (field: string, direction: 'asc' | 'desc') => void
+  columns: GridColDef[];
+  rows: T[];
+  loading?: boolean;
+  pageSize?: number;
+  onPageChange?: (page: number) => void;
+  onSortChange?: (field: string, direction: 'asc' | 'desc') => void;
 }
 
 export function ItemTable<T extends { id: string }>({
@@ -27,7 +27,7 @@ export function ItemTable<T extends { id: string }>({
       onPageChange={page => onPageChange?.(page)}
       onSortModelChange={(model) => {
         if (model.length > 0) {
-          onSortChange?.(model[0].field, model[0].sort as 'asc' | 'desc')
+          onSortChange?.(model[0].field, model[0].sort as 'asc' | 'desc');
         }
       }}
       disableSelectionOnClick
@@ -37,5 +37,5 @@ export function ItemTable<T extends { id: string }>({
         },
       }}
     />
-  )
+  );
 }

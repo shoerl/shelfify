@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   Box,
   Card,
@@ -10,7 +10,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-} from '@mui/material'
+} from '@mui/material';
 import {
   Timeline,
   TimelineItem,
@@ -19,14 +19,14 @@ import {
   TimelineContent,
   TimelineDot,
   TimelineOppositeContent,
-} from '@mui/lab'
-import { PhotoCamera as PhotoCameraIcon } from '@mui/icons-material'
-import type { ConditionHistory } from '../../types/owned'
+} from '@mui/lab';
+import { PhotoCamera as PhotoCameraIcon } from '@mui/icons-material';
+import type { ConditionHistory } from '../../types/owned';
 
 interface ConditionTrackingProps {
-  currentCondition: string
-  conditionHistory: ConditionHistory[]
-  onAddCondition: (condition: string, notes?: string, photos?: string[]) => void
+  currentCondition: string;
+  conditionHistory: ConditionHistory[];
+  onAddCondition: (condition: string, notes?: string, photos?: string[]) => void;
 }
 
 const CONDITION_GRADES = [
@@ -38,23 +38,23 @@ const CONDITION_GRADES = [
   'Good (G)',
   'Fair (F)',
   'Poor (P)',
-]
+];
 
 export function ConditionTracking({
   currentCondition,
   conditionHistory,
   onAddCondition,
 }: ConditionTrackingProps) {
-  const [showAddForm, setShowAddForm] = useState(false)
-  const [newCondition, setNewCondition] = useState('')
-  const [notes, setNotes] = useState('')
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newCondition, setNewCondition] = useState('');
+  const [notes, setNotes] = useState('');
 
   const handleSubmit = () => {
-    onAddCondition(newCondition, notes)
-    setShowAddForm(false)
-    setNewCondition('')
-    setNotes('')
-  }
+    onAddCondition(newCondition, notes);
+    setShowAddForm(false);
+    setNewCondition('');
+    setNotes('');
+  };
 
   return (
     <Card>
@@ -157,5 +157,5 @@ export function ConditionTracking({
         </Box>
       </CardContent>
     </Card>
-  )
+  );
 }

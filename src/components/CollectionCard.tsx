@@ -1,6 +1,6 @@
-import { Card, CardContent, Typography } from '@mui/material'
-import { Link } from 'react-router-dom'
-import type { CollectionType } from '../types/collection'
+import { Card, CardContent, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import type { CollectionType } from '../types/collection';
 
 export function CollectionCard({ type }: { type: CollectionType }) {
   return (
@@ -31,5 +31,5 @@ export function CollectionCard({ type }: { type: CollectionType }) {
         </Typography>
       </CardContent>
     </Card>
-  )
+  );
 }

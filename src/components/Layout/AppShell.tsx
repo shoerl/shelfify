@@ -28,9 +28,9 @@ import {
   ListItemAvatar,
   Button,
   Collapse,
-} from '@mui/material'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+} from '@mui/material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import {
   Menu as MenuIcon,
   CollectionsBookmark as CollectionsIcon,
@@ -46,48 +46,48 @@ import {
   Person as PersonIcon,
   Logout as LogoutIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
-} from '@mui/icons-material'
+} from '@mui/icons-material';
 
-const DRAWER_WIDTH = 280
+const DRAWER_WIDTH = 280;
 
 const collectionTypes = [
   { label: 'Music', path: '/collections/music' },
   { label: 'Movies', path: '/collections/movies' },
-]
+];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const [drawerOpen, setDrawerOpen] = useState(false)
-  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light')
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null)
-  const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null)
-  const location = useLocation()
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const navigate = useNavigate()
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null);
+  const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
+  const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
   // Determine if Collections is selected
-  const collectionsSelected = location.pathname.startsWith('/collections')
+  const collectionsSelected = location.pathname.startsWith('/collections');
 
   const toggleTheme = () => {
-    setThemeMode(prev => prev === 'light' ? 'dark' : 'light')
-  }
+    setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   const handleNotificationsOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setNotificationsAnchor(event.currentTarget)
-  }
+    setNotificationsAnchor(event.currentTarget);
+  };
 
   const handleNotificationsClose = () => {
-    setNotificationsAnchor(null)
-  }
+    setNotificationsAnchor(null);
+  };
 
   const handleProfileOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setProfileAnchor(event.currentTarget)
-  }
+    setProfileAnchor(event.currentTarget);
+  };
 
   const handleProfileClose = () => {
-    setProfileAnchor(null)
-  }
+    setProfileAnchor(null);
+  };
 
   const notifications = [
     {
@@ -108,7 +108,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       message: 'Your "Games" type proposal was approved',
       time: '2 hours ago',
     },
-  ]
+  ];
 
   const drawer = (
     <Box sx={{ width: DRAWER_WIDTH, height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -217,7 +217,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </ListItem>
       </List>
     </Box>
-  )
+  );
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -535,5 +535,5 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </Fade>
       </Box>
     </Box>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import {
   Box,
   Card,
@@ -11,18 +11,18 @@ import {
   TextField,
   FormControlLabel,
   Switch,
-} from '@mui/material'
-import type { CollectionTypeProposal } from '../../types/collection'
+} from '@mui/material';
+import type { CollectionTypeProposal } from '../../types/collection';
 
 interface ProposalReviewProps {
-  proposal: CollectionTypeProposal
-  onApprove: (proposal: CollectionTypeProposal, notes: string) => void
-  onReject: (proposal: CollectionTypeProposal, notes: string) => void
+  proposal: CollectionTypeProposal;
+  onApprove: (proposal: CollectionTypeProposal, notes: string) => void;
+  onReject: (proposal: CollectionTypeProposal, notes: string) => void;
 }
 
 export function ProposalReview({ proposal, onApprove, onReject }: ProposalReviewProps) {
-  const [reviewNotes, setReviewNotes] = useState('')
-  const [isPublic, setIsPublic] = useState(proposal.metadata.isPublic)
+  const [reviewNotes, setReviewNotes] = useState('');
+  const [isPublic, setIsPublic] = useState(proposal.metadata.isPublic);
 
   return (
     <Card>
@@ -146,5 +146,5 @@ export function ProposalReview({ proposal, onApprove, onReject }: ProposalReview
         </Grid>
       </CardContent>
     </Card>
-  )
+  );
 }

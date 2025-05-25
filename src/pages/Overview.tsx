@@ -13,15 +13,15 @@ import {
   InputLabel,
   Skeleton,
   Fade,
-} from '@mui/material'
+} from '@mui/material';
 import {
   Search as SearchIcon,
   Sort as SortIcon,
   MusicNote as MusicIcon,
   Movie as MovieIcon,
-} from '@mui/icons-material'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+} from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const categories = [
   {
@@ -40,11 +40,11 @@ const categories = [
     color: '#7c3aed',
     count: 2,
   },
-]
+];
 
 export function Overview() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortBy, setSortBy] = useState('name')
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('name');
 
   return (
     <Box>
@@ -156,5 +156,5 @@ export function Overview() {
         ))}
       </Grid>
     </Box>
-  )
+  );
 }

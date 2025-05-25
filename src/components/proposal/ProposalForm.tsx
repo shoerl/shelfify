@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { useForm, useFieldArray } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { useState } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import {
   Box,
   Button,
@@ -17,9 +17,9 @@ import {
   Grid,
   Chip,
   Stack,
-} from '@mui/material'
-import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material'
-import type { CollectionTypeProposal } from '../../types/collection'
+} from '@mui/material';
+import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import type { CollectionTypeProposal } from '../../types/collection';
 
 const fieldSchema = z.object({
   name: z.string().min(1, 'Field name is required'),
@@ -39,7 +39,7 @@ const fieldSchema = z.object({
     isSearchable: z.boolean().optional(),
     isFilterable: z.boolean().optional(),
   }).optional(),
-})
+});
 
 const proposalSchema = z.object({
   name: z.string().min(1, 'Collection type name is required'),
@@ -52,16 +52,16 @@ const proposalSchema = z.object({
     rationale: z.string().min(1, 'Rationale is required'),
     examples: z.array(z.string()).min(1, 'At least one example is required'),
   }),
-})
+});
 
-type ProposalFormData = z.infer<typeof proposalSchema>
+type ProposalFormData = z.infer<typeof proposalSchema>;
 
 interface ProposalFormProps {
-  onSubmit: (data: Omit<CollectionTypeProposal, 'id' | 'status' | 'submittedBy' | 'submittedAt'>) => void
+  onSubmit: (data: Omit<CollectionTypeProposal, 'id' | 'status' | 'submittedBy' | 'submittedAt'>) => void;
 }
 
 export function ProposalForm({ onSubmit }: ProposalFormProps) {
-  const [selectedType, setSelectedType] = useState<string>('string')
+  const [selectedType, setSelectedType] = useState<string>('string');
 
   const { register, control, handleSubmit, watch, formState: { errors } } = useForm<ProposalFormData>({
     resolver: zodResolver(proposalSchema),
@@ -72,21 +72,21 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
         examples: [],
       },
     },
-  })
+  });
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'fieldDefs',
-  })
+  });
 
   const { fields: exampleFields, append: appendExample, remove: removeExample } = useFieldArray({
     control,
     name: 'metadata.examples',
-  })
+  });
 
   const onFormSubmit = (data: ProposalFormData) => {
-    onSubmit(data)
-  }
+    onSubmit(data);
+  };
 
   return (
     <Card>
@@ -210,11 +210,11 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
                 label="Add Example"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
-                    e.preventDefault()
-                    const input = e.target as HTMLInputElement
+                    e.preventDefault();
+                    const input = e.target as HTMLInputElement;
                     if (input.value) {
-                      appendExample(input.value)
-                      input.value = ''
+                      appendExample(input.value);
+                      input.value = '';
                     }
                   }
                 }}
@@ -235,5 +235,5 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
         </Box>
       </CardContent>
     </Card>
-  )
+  );
 }

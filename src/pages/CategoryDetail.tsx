@@ -19,15 +19,15 @@ import {
   Chip,
   Fade,
   Skeleton,
-} from '@mui/material'
+} from '@mui/material';
 import {
   Add as AddIcon,
   Close as CloseIcon,
   Search as SearchIcon,
   Sort as SortIcon,
-} from '@mui/icons-material'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+} from '@mui/icons-material';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const conditions = [
   'Sealed',
@@ -38,30 +38,30 @@ const conditions = [
   'Good',
   'Fair',
   'Poor',
-]
+];
 
 interface MusicItem {
-  id: number
-  title: string
-  artist: string
-  year: number
-  format: string
-  label: string
-  country: string
+  id: number;
+  title: string;
+  artist: string;
+  year: number;
+  format: string;
+  label: string;
+  country: string;
 }
 
 interface MovieItem {
-  id: number
-  title: string
-  director: string
-  year: number
-  format: string
-  region: string
-  edition: string
-  studio: string
+  id: number;
+  title: string;
+  director: string;
+  year: number;
+  format: string;
+  region: string;
+  edition: string;
+  studio: string;
 }
 
-type CollectionItem = MusicItem | MovieItem
+type CollectionItem = MusicItem | MovieItem;
 
 // Mock data - replace with actual data fetching
 const mockData: Record<string, CollectionItem[]> = {
@@ -107,41 +107,41 @@ const mockData: Record<string, CollectionItem[]> = {
       studio: 'Warner Bros.',
     },
   ],
-}
+};
 
 export function CategoryDetail() {
-  const { typeId } = useParams<{ typeId: string }>()
-  const [addModalOpen, setAddModalOpen] = useState(false)
-  const [selectedItem, setSelectedItem] = useState<CollectionItem | null>(null)
+  const { typeId } = useParams<{ typeId: string }>();
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<CollectionItem | null>(null);
   const [formData, setFormData] = useState({
     condition: '',
     pricePaid: '',
     notes: '',
-  })
+  });
 
-  const isMusic = typeId === 'music'
-  const data = mockData[typeId as keyof typeof mockData] || []
+  const isMusic = typeId === 'music';
+  const data = mockData[typeId as keyof typeof mockData] || [];
 
   const handleAddClick = (item: CollectionItem) => {
-    setSelectedItem(item)
-    setAddModalOpen(true)
-  }
+    setSelectedItem(item);
+    setAddModalOpen(true);
+  };
 
   const handleClose = () => {
-    setAddModalOpen(false)
-    setSelectedItem(null)
-    setFormData({ condition: '', pricePaid: '', notes: '' })
-  }
+    setAddModalOpen(false);
+    setSelectedItem(null);
+    setFormData({ condition: '', pricePaid: '', notes: '' });
+  };
 
   const handleSubmit = () => {
     // Handle form submission
-    console.log('Adding to collection:', { ...selectedItem, ...formData })
-    handleClose()
-  }
+    console.log('Adding to collection:', { ...selectedItem, ...formData });
+    handleClose();
+  };
 
   const isMusicItem = (item: CollectionItem): item is MusicItem => {
-    return 'artist' in item
-  }
+    return 'artist' in item;
+  };
 
   return (
     <Box>
@@ -321,5 +321,5 @@ export function CategoryDetail() {
         </DialogActions>
       </Dialog>
     </Box>
-  )
+  );
 }

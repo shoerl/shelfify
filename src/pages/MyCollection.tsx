@@ -17,22 +17,22 @@ import {
   FormControl,
   InputLabel,
   Fade,
-} from '@mui/material'
+} from '@mui/material';
 import {
   Search as SearchIcon,
   Sort as SortIcon,
   FilterList as FilterIcon,
-} from '@mui/icons-material'
-import { useState } from 'react'
+} from '@mui/icons-material';
+import { useState } from 'react';
 
 interface CollectionItem {
-  id: number
-  category: 'Music' | 'Movies'
-  title: string
-  condition: string
-  pricePaid: number
-  format: string
-  year: number
+  id: number;
+  category: 'Music' | 'Movies';
+  title: string;
+  condition: string;
+  pricePaid: number;
+  format: string;
+  year: number;
 }
 
 // Mock data - replace with actual data fetching
@@ -55,7 +55,7 @@ const mockData: CollectionItem[] = [
     format: 'Blu-ray',
     year: 2010,
   },
-]
+];
 
 const conditions = [
   'Sealed',
@@ -66,33 +66,33 @@ const conditions = [
   'Good',
   'Fair',
   'Poor',
-]
+];
 
 export function MyCollection() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortBy, setSortBy] = useState('title')
-  const [filterCategory, setFilterCategory] = useState<string>('all')
-  const [filterCondition, setFilterCondition] = useState<string>('all')
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('title');
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [filterCondition, setFilterCondition] = useState<string>('all');
 
   const filteredData = mockData.filter((item) => {
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = filterCategory === 'all' || item.category === filterCategory
-    const matchesCondition = filterCondition === 'all' || item.condition === filterCondition
-    return matchesSearch && matchesCategory && matchesCondition
-  })
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = filterCategory === 'all' || item.category === filterCategory;
+    const matchesCondition = filterCondition === 'all' || item.condition === filterCondition;
+    return matchesSearch && matchesCategory && matchesCondition;
+  });
 
   const sortedData = [...filteredData].sort((a, b) => {
     switch (sortBy) {
       case 'title':
-        return a.title.localeCompare(b.title)
+        return a.title.localeCompare(b.title);
       case 'year':
-        return b.year - a.year
+        return b.year - a.year;
       case 'price':
-        return b.pricePaid - a.pricePaid
+        return b.pricePaid - a.pricePaid;
       default:
-        return 0
+        return 0;
     }
-  })
+  });
 
   return (
     <Box>
@@ -234,5 +234,5 @@ export function MyCollection() {
         </Table>
       </TableContainer>
     </Box>
-  )
+  );
 }
