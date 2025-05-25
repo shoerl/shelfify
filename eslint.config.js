@@ -6,6 +6,15 @@ import reactPlugin from 'eslint-plugin-react';
 import stylistic from '@stylistic/eslint-plugin';
 
 export default [
+  // 0) *Ignore* everything in these paths/globs
+  {
+    ignores: [
+      "node_modules/**",
+      "dist/**",
+      "config/**",
+      "**/*.config.js",
+    ],
+  },
   // 1) ESLint core “recommended”
   js.configs.recommended,
 
