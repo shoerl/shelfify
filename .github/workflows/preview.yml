@@ -1,11 +1,11 @@
-# Workflow to deploy the application to GitHub Pages
-name: Deploy to GitHub Pages
+# Workflow for preview deployments on PRs
+name: Preview Deployment
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push events but only for the main branch
-  push:
-    branches: [ main ]
+  # Triggers the workflow on pull request events
+  pull_request:
+    types: [ opened, synchronize, reopened ]
   # Allows manual triggering of the workflow
   workflow_dispatch:
 
@@ -14,17 +14,18 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  pull-requests: write
 
 # Configures concurrency settings for the workflow
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: preview-${{ github.head_ref }}
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  preview:
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: preview
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
@@ -56,9 +57,14 @@ jobs:
         run: yarn build
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
+          # Add a unique identifier for preview builds
+          VITE_PREVIEW_ID: ${{ github.head_ref }}
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
+        with:
+          # Use a unique path for preview deployments
+          path: /preview/${{ github.head_ref }}
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
@@ -68,3 +74,18 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Add PR Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deploymentUrl = '${{ steps.deployment.outputs.page_url }}';
+            const prNumber = context.issue.number;
+            const branchName = context.payload.pull_request.head.ref;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: `🚀 Preview deployment is ready!\n\nVisit: ${deploymentUrl}\n\nThis is a preview deployment for branch \`${branchName}\` (PR #${prNumber}).`
+            }); 

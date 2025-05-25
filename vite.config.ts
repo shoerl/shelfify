@@ -7,10 +7,18 @@ const repoName = process.env.GITHUB_REPOSITORY
   ? process.env.GITHUB_REPOSITORY.split('/')[1]
   : 'shelfify';
 
+// Get the preview ID if it exists
+const previewId = process.env.VITE_PREVIEW_ID;
+
 export default defineConfig(({ command }) => {
   // For development, use root path
   // For production (GitHub Pages), use the repository name as base path
-  const base = command === 'build' ? `/${repoName}/` : '/';
+  // For preview deployments, use a unique path based on the branch name
+  const base = command === 'build'
+    ? previewId
+      ? `/preview/${previewId}/`
+      : `/${repoName}/`
+    : '/';
 
   return {
     plugins: [react()],
