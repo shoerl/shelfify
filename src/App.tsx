@@ -18,9 +18,13 @@ export default function App() {
     <AppShell>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/shelves" element={<MyShelves />} /> {/* Use the new MyShelves component */}
+        <Route path="/shelves" element={<MyShelves />} />
+        {' '}
+        {/* Use the new MyShelves component */}
         <Route path="/shelves/:shelfId" element={<ShelfDetailPlaceholder />} />
-        <Route path="/copies" element={<AllCopies />} /> {/* Use the aliased AllCopies component */}
+        <Route path="/copies" element={<AllCopies />} />
+        {' '}
+        {/* Use the aliased AllCopies component */}
         <Route path="/wishlist" element={<WishlistPlaceholder />} />
         <Route path="/stats" element={<StatisticsPlaceholder />} />
         <Route path="/activity" element={<ActivityFeedPlaceholder />} />

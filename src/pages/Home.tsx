@@ -29,26 +29,26 @@ const copiesData = [
 ];
 
 const mockShelvesPreview = [
-  { name: "Music Shelf", count: 3 },
-  { name: "Movies Shelf", count: 1 },
-  { name: "Pokémon Shelf", count: 0 },
+  { name: 'Music Shelf', count: 3 },
+  { name: 'Movies Shelf', count: 1 },
+  { name: 'Pokémon Shelf', count: 0 },
 ];
 
 const mockMetrics = [
-  { label: "Total Copies", value: "24 items", link: "/copies" },
-  { label: "Categories Collected", value: "3 of 50+", link: "/shelves" },
-  { label: "Recent Spend", value: "$1,200", link: "/stats" },
+  { label: 'Total Copies', value: '24 items', link: '/copies' },
+  { label: 'Categories Collected', value: '3 of 50+', link: '/shelves' },
+  { label: 'Recent Spend', value: '$1,200', link: '/stats' },
 ];
 
 const mockRecentlyAdded = [
-  { thumbnail: true, title: "The Wall — Vinyl, UK", condition: "Near Mint", price: 25, timeAgo: "2h" },
-  { thumbnail: true, title: "Inception — DVD, Region 1", condition: "Sealed", price: 30, timeAgo: "1d" },
+  { thumbnail: true, title: 'The Wall — Vinyl, UK', condition: 'Near Mint', price: 25, timeAgo: '2h' },
+  { thumbnail: true, title: 'Inception — DVD, Region 1', condition: 'Sealed', price: 30, timeAgo: '1d' },
   // Add more mock data as needed
 ];
 
 const mockExploreMore = [
-  { label: "Start your Pokémon Shelf", action: "goToPokemonReleases" }, // action will need implementation
-  { label: "New Release: [Title]", action: "viewRelease" }, // action will need implementation
+  { label: 'Start your Pokémon Shelf', action: 'goToPokemonReleases' }, // action will need implementation
+  { label: 'New Release: [Title]', action: 'viewRelease' }, // action will need implementation
 ];
 
 export default function Home() {
@@ -60,7 +60,8 @@ export default function Home() {
     // Implement actual navigation or modal opens here later
     if (action === 'goToPokemonReleases') {
       navigate('/releases/pokemon'); // Example navigation (assuming this route exists)
-    } else if (action === 'viewRelease') {
+    }
+    else if (action === 'viewRelease') {
       // navigate to a specific release page
     }
   };
@@ -82,13 +83,18 @@ export default function Home() {
           gutterBottom
           sx={{ fontWeight: 800, color: '#22223B' }}
         >
-          Welcome back, {userName}!
+          Welcome back,
+          {' '}
+          {userName}
+          !
         </Typography>
         <Typography variant="h6" sx={{ color: '#4A4E69', mb: 4 }}>
           Your physical media, perfectly organized.
         </Typography>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <Button variant="contained" size="large" startIcon={<AddIcon />}> {/* Using AddIcon for 'Add Manually' feel */}
+          <Button variant="contained" size="large" startIcon={<AddIcon />}>
+            {' '}
+            {/* Using AddIcon for 'Add Manually' feel */}
             Add Manually
           </Button>
           {/* Barcode Scan CTA - Placeholder for now */}
@@ -98,14 +104,16 @@ export default function Home() {
         </Stack>
       </Box>
 
-      <Divider sx={{ my: 4 }} /> {/* Divider */}
+      <Divider sx={{ my: 4 }} />
+      {' '}
+      {/* Divider */}
 
       {/* My Shelves Preview Section */}
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
         My Shelves
       </Typography>
       <Grid container spacing={3} sx={{ mb: 6 }}>
-        {mockShelvesPreview.map((shelf) => (
+        {mockShelvesPreview.map(shelf => (
           <Grid item xs={12} sm={6} md={4} key={shelf.name}>
             <Card
               sx={{
@@ -125,7 +133,9 @@ export default function Home() {
                     {shelf.name}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    {shelf.count} items
+                    {shelf.count}
+                    {' '}
+                    items
                   </Typography>
                 </Box>
                 {/* Optional: Add an icon for the shelf type */}
@@ -138,14 +148,16 @@ export default function Home() {
         ))}
       </Grid>
 
-      <Divider sx={{ my: 4 }} /> {/* Divider */}
+      <Divider sx={{ my: 4 }} />
+      {' '}
+      {/* Divider */}
 
       {/* Metrics Section */}
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
         Your Insights
       </Typography>
       <Grid container spacing={3} sx={{ mb: 6 }}>
-        {mockMetrics.map((metric) => (
+        {mockMetrics.map(metric => (
           <Grid item xs={12} sm={6} md={4} key={metric.label}>
             <Card
               sx={{
@@ -172,7 +184,9 @@ export default function Home() {
         ))}
       </Grid>
 
-      <Divider sx={{ my: 4 }} /> {/* Divider */}
+      <Divider sx={{ my: 4 }} />
+      {' '}
+      {/* Divider */}
 
       {/* Recently Added Section */}
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
@@ -188,7 +202,18 @@ export default function Home() {
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{item.title}</Typography>
               <Typography variant="body2" color="text.secondary">
-                Condition: {item.condition} | Price: ${item.price} | Added: {item.timeAgo} ago
+                Condition:
+                {' '}
+                {item.condition}
+                {' '}
+                | Price: $
+                {item.price}
+                {' '}
+                | Added:
+                {' '}
+                {item.timeAgo}
+                {' '}
+                ago
               </Typography>
             </Box>
             {/* Optional: View Item button */}
@@ -197,14 +222,16 @@ export default function Home() {
         ))}
       </Stack>
 
-      <Divider sx={{ my: 4 }} /> {/* Divider */}
+      <Divider sx={{ my: 4 }} />
+      {' '}
+      {/* Divider */}
 
       {/* Explore More Section */}
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
         Explore More
       </Typography>
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 6 }}>
-        {mockExploreMore.map((item) => (
+        {mockExploreMore.map(item => (
           <Button
             key={item.label}
             variant="outlined"
@@ -217,13 +244,17 @@ export default function Home() {
         ))}
       </Stack>
 
-      <Divider sx={{ my: 4 }} /> {/* Divider */}
+      <Divider sx={{ my: 4 }} />
+      {' '}
+      {/* Divider */}
 
       {/* Footer Links Section */}
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-         <Button component={Link} to="/copies" variant="text">All Copies</Button>
-         <Button component={Link} to="/releases" variant="text">Browse All Releases</Button> {/* Assuming a /releases route */}
-         <Button component={Link} to="/activity" variant="text">Activity Feed</Button>
+        <Button component={Link} to="/copies" variant="text">All Copies</Button>
+        <Button component={Link} to="/releases" variant="text">Browse All Releases</Button>
+        {' '}
+        {/* Assuming a /releases route */}
+        <Button component={Link} to="/activity" variant="text">Activity Feed</Button>
       </Stack>
 
     </Box>

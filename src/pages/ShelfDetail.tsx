@@ -124,7 +124,6 @@ const YourCopiesTabPanel = ({ shelfId }: { shelfId: string }) => {
           </Grid>
         )
       ) : (
-        {/* Empty State */}
         <Box sx={{ textAlign: 'center', mt: 6 }}>
           <Typography variant="h6" color="text.secondary">No copies found in this shelf.</Typography>
           {/* TODO: Add CTA to add copy */}

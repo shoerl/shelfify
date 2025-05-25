@@ -127,7 +127,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <Box sx={{ width: DRAWER_WIDTH, height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Divider sx={{ mb: 1 }} />
       <List sx={{ px: 2, flex: 1 }}>
-        {sidebarNavItems.map((item) => (
+        {sidebarNavItems.map(item => (
           <React.Fragment key={item.label}>
             <ListItem disablePadding sx={{ mb: 1 }}>
               <ListItemButton
@@ -160,26 +160,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {item.expandable && (
               <Collapse in={shelvesOpen} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                  {mockShelves.map((shelf) => (
+                  {mockShelves.map(shelf => (
                     <ListItemButton
                       key={shelf.id}
                       component={Link}
                       to={`/shelves/${shelf.id}`}
                       selected={location.pathname === `/shelves/${shelf.id}`}
                       sx={{
-                        pl: 6,
-                        borderRadius: 2,
-                        mb: 0.5,
+                        'pl': 6,
+                        'borderRadius': 2,
+                        'mb': 0.5,
                         '&.Mui-selected': {
-                          'backgroundColor': 'primary.light',
-                          'color': 'primary.contrastText',
+                          backgroundColor: 'primary.light',
+                          color: 'primary.contrastText',
                         },
                       }}
                     >
                       <ListItemAvatar sx={{ minWidth: 40 }}>
-                         <Avatar sx={{ bgcolor: '#fff', color: 'primary.main', width: 24, height: 24 }}>
-                           {shelf.icon}
-                         </Avatar>
+                        <Avatar sx={{ bgcolor: '#fff', color: 'primary.main', width: 24, height: 24 }}>
+                          {shelf.icon}
+                        </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={shelf.name} />
                     </ListItemButton>
@@ -240,7 +240,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
             {isDesktop && (
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {topNavItems.map((item) => (
+                {topNavItems.map(item => (
                   <Button
                     key={item.label}
                     component={Link}
@@ -258,12 +258,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {isDesktop && (
               <Box sx={{ position: 'relative', borderRadius: theme.shape.borderRadius, bgcolor: 'action.hover', ml: 2, width: 'auto' }}>
-                 <Box sx={{ p: theme.spacing(0, 1), height: '100%', position: 'absolute', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <SearchIcon />
-                 </Box>
+                <Box sx={{ p: theme.spacing(0, 1), height: '100%', position: 'absolute', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <SearchIcon />
+                </Box>
                 <InputBase
                   placeholder="Search your copies or explore releases..."
-                  sx={{ color: 'inherit', '& .MuiInputBase-input': { p: theme.spacing(1, 1, 1, 0), pl: `calc(1em + ${theme.spacing(3)})`, transition: theme.transitions.create('width'), width: '20ch' } }}
+                  sx={{ 'color': 'inherit', '& .MuiInputBase-input': { p: theme.spacing(1, 1, 1, 0), pl: `calc(1em + ${theme.spacing(3)})`, transition: theme.transitions.create('width'), width: '20ch' } }}
                 />
               </Box>
             )}
@@ -298,8 +298,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {isDesktop && (
         <Drawer
           sx={{
-            width: DRAWER_WIDTH,
-            flexShrink: 0,
+            'width': DRAWER_WIDTH,
+            'flexShrink': 0,
             '& .MuiDrawer-paper': {
               width: DRAWER_WIDTH,
               boxSizing: 'border-box',
@@ -353,7 +353,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 position: 'absolute',
                 right: 8,
                 top: 8,
-                color: (theme) => theme.palette.grey[500],
+                color: theme => theme.palette.grey[500],
               }}
             >
               <CloseIcon />
@@ -387,9 +387,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </Box>
 
       {!isDesktop && (
-         <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: theme => theme.zIndex.drawer + 1 }}>
-            <MobileBottomNavigation />
-         </Box>
+        <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: theme => theme.zIndex.drawer + 1 }}>
+          <MobileBottomNavigation />
+        </Box>
       )}
     </Box>
   );

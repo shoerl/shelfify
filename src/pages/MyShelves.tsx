@@ -38,7 +38,7 @@ export default function MyShelves() {
       </Button>
 
       <Grid container spacing={3}>
-        {mockShelves.map((shelf) => (
+        {mockShelves.map(shelf => (
           <Grid item xs={12} sm={6} md={4} key={shelf.id}>
             <Card
               sx={{
@@ -51,7 +51,11 @@ export default function MyShelves() {
             >
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>{shelf.name}</Typography>
-                <Typography variant="body2" color="text.secondary">{shelf.count} items</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {shelf.count}
+                  {' '}
+                  items
+                </Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -67,4 +71,4 @@ export default function MyShelves() {
       {/* )} */}
     </Box>
   );
-} 
+}

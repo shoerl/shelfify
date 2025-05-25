@@ -79,7 +79,7 @@ const mockData: CollectionItem[] = [
     pricePaid: 20,
     format: 'DVD',
     year: 2019,
-  }
+  },
 ];
 
 const conditions = [
@@ -196,71 +196,87 @@ export function AllCopies() {
         </FormControl>
       </Box>
 
-      {sortedData.length > 0 ? (
-        isDesktop ? (
-          <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Shelf</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Variant</TableCell>
-                  <TableCell>Condition</TableCell>
-                  <TableCell align="right">Price Paid</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {sortedData.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell>
-                      <Chip
-                        label={item.category}
-                        size="small"
-                      />
-                    </TableCell>
-                    <TableCell>{item.title}</TableCell>
-                    <TableCell>{item.format}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={item.condition}
-                        size="small"
-                      />
-                    </TableCell>
-                    <TableCell align="right">
-                      $
-                      {item.pricePaid.toFixed(2)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          <Grid container spacing={2}>
-            {sortedData.map(item => (
-              <Grid item xs={12} key={item.id}>
-                <Card sx={{ borderRadius: 2, boxShadow: '0 2px 8px #0001' }}>
-                  <CardContent>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-                      {item.title}
-                    </Typography>
-                    <Stack spacing={1} direction="column">
-                      <Typography variant="body2" color="text.secondary">Shelf: {item.category}</Typography>
-                      <Typography variant="body2" color="text.secondary">Variant: {item.format}</Typography>
-                      <Typography variant="body2" color="text.secondary">Condition: {item.condition}</Typography>
-                      <Typography variant="body2" color="text.secondary">Price Paid: ${item.pricePaid.toFixed(2)}</Typography>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        )
-      ) : (
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography variant="h6" color="text.secondary">No items found matching your filters</Typography>
-        </Box>
-      )}
+      {sortedData.length > 0
+        ? (
+            isDesktop
+              ? (
+                  <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Shelf</TableCell>
+                          <TableCell>Title</TableCell>
+                          <TableCell>Variant</TableCell>
+                          <TableCell>Condition</TableCell>
+                          <TableCell align="right">Price Paid</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {sortedData.map(item => (
+                          <TableRow key={item.id}>
+                            <TableCell>
+                              <Chip
+                                label={item.category}
+                                size="small"
+                              />
+                            </TableCell>
+                            <TableCell>{item.title}</TableCell>
+                            <TableCell>{item.format}</TableCell>
+                            <TableCell>
+                              <Chip
+                                label={item.condition}
+                                size="small"
+                              />
+                            </TableCell>
+                            <TableCell align="right">
+                              $
+                              {item.pricePaid.toFixed(2)}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                )
+              : (
+                  <Grid container spacing={2}>
+                    {sortedData.map(item => (
+                      <Grid item xs={12} key={item.id}>
+                        <Card sx={{ borderRadius: 2, boxShadow: '0 2px 8px #0001' }}>
+                          <CardContent>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+                              {item.title}
+                            </Typography>
+                            <Stack spacing={1} direction="column">
+                              <Typography variant="body2" color="text.secondary">
+                                Shelf:
+                                {item.category}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Variant:
+                                {item.format}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Condition:
+                                {item.condition}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Price Paid: $
+                                {item.pricePaid.toFixed(2)}
+                              </Typography>
+                            </Stack>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                )
+          )
+        : (
+            <Box sx={{ textAlign: 'center', mt: 6 }}>
+              <Typography variant="h6" color="text.secondary">No items found matching your filters</Typography>
+            </Box>
+          )}
     </Box>
   );
 }
