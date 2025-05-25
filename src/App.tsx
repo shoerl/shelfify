@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { AppShell } from './components/Layout/AppShell';
+import { Helmet } from 'react-helmet-async';
 // import TypesList from './pages/TypesList'; // Removed unused import
 // import TypeDetail from './pages/TypeDetail'; // Removed unused import
 // import AllItems from './pages/AllItems'; // Removed unused import
@@ -14,8 +15,13 @@ const StatisticsPlaceholder = () => <div>Statistics Page Placeholder</div>;
 const ActivityFeedPlaceholder = () => <div>Activity Feed Page Placeholder</div>;
 
 export default function App() {
+  const previewId = import.meta.env.VITE_PREVIEW_ID;
+
   return (
     <AppShell>
+      <Helmet>
+        <title>{`Shelfify${previewId ? ' (Preview ' + previewId + ')' : ''}`}</title>
+      </Helmet>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shelves" element={<MyShelves />} />
