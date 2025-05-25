@@ -52,18 +52,18 @@ jobs:
           corepack enable
           corepack prepare yarn@stable --activate
 
-      - name: Get Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - name: Enable Corepack & Set Yarn Version
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
 
-      - name: Cache Yarn dependencies
-        uses: actions/cache@v4
+      - name: Cache Yarn
         id: yarn-cache
+        uses: actions/cache@v4
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-berry-${{ hashFiles('**/yarn.lock') }} # Differentiate key for Yarn Berry
-          restore-keys: |
-            ${{ runner.os }}-yarn-berry-
+          path: ~/.yarn/cache
+          key: ${{ runner.os }}-yarn-berry-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-berry-
 
       # Installs dependencies
       - name: Install Dependencies
