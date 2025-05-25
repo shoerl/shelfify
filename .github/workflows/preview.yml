@@ -38,6 +38,13 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           VITE_PREVIEW_ID: pr-${{ github.event.pull_request.number }}
 
+      - name: Debug base and index.html
+        run: |
+          echo "VITE_PREVIEW_ID=$VITE_PREVIEW_ID"
+          head -20 dist/index.html
+        env:
+          VITE_PREVIEW_ID: pr-${{ github.event.pull_request.number }}
+
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
