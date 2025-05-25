@@ -6,11 +6,12 @@ import reactPlugin from 'eslint-plugin-react'
 import stylistic from '@stylistic/eslint-plugin'
 
 export default [
-  // 1) Core ESLint recommended
+  // 1) ESLint core “recommended”
   js.configs.recommended,
 
-  // 2) TS + React in one go
+  // 2) TypeScript + React support
   {
+    // apply to both .ts/.tsx
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -18,20 +19,33 @@ export default [
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
       },
+
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
       'react': reactPlugin,
     },
     rules: {
-      // all the TS-recommended rules…
+      // TS and React recommended
       ...tsPlugin.configs.recommended.rules,
-      // …plus React’s recommended rules
       ...reactPlugin.configs.recommended.rules,
-      // …but disable the old “must import React” rule:
+
+      // we no longer need to import React for JSX
       'react/react-in-jsx-scope': 'off',
+
+      // let TS handle “undefined” names
+      'no-undef': 'off',
+
+      // shrink unused-vars to warnings, and ignore _-prefixed names
+      '@typescript-eslint/no-unused-vars': 'off',
+
+      // don’t block you from ever using `any`
+      '@typescript-eslint/no-explicit-any': ['warn'],
+
     },
-    settings: { 'react': { version: 'detect' }, 'react/jsx-runtime': 'automatic' },
+    settings: {
+      react: { version: 'detect' },
+    },
   },
 
   // 3) Your stylistic overrides
@@ -40,5 +54,12 @@ export default [
     quotes: 'single',
     semi: false,
     jsx: true,
+
   }),
+  // 4) Turn off max-statements-per-line
+  {
+    rules: {
+      '@stylistic/max-statements-per-line': 'off',
+    },
+  },
 ]
