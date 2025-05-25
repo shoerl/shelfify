@@ -1,14 +1,18 @@
+// vite.config.ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
-
-// Determine repository name, defaulting for local builds
 const repoName = process.env.GITHUB_REPOSITORY
   ? process.env.GITHUB_REPOSITORY.split('/')[1]
-  : 'shelfify'; // Default repository name
+  : 'shelfify';
 
-export default defineConfig({
-  plugins: [react()],
-  base: process.env.GITHUB_REF_NAME === 'main' ? `/${repoName}/` : '/',
+export default defineConfig(({ command }) => {
+  // `command === 'serve'` when you run `yarn dev`
+  // `command === 'build'` when you run `vite build`
+  const base = command === 'build' ? `/${repoName}/` : '/';
+
+  return {
+    plugins: [react()],
+    base,
+  };
 });
