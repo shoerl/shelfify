@@ -27,17 +27,20 @@ import {
   MenuItem,
   ListItemAvatar,
   Button,
-  Collapse
+  Collapse,
+  Paper, // Added for Bottom Navigation
+  BottomNavigation, // Added for Bottom Navigation
+  BottomNavigationAction // Added for Bottom Navigation
 } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import {
   Menu as MenuIcon,
-  CollectionsBookmark as CollectionsIcon,
-  Settings as SettingsIcon,
+  // CollectionsBookmark as CollectionsIcon, // No longer used
+  // Settings as SettingsIcon, // No longer used
   ExpandLess,
   ExpandMore,
-  Add as AddIcon,
+  // Add as AddIcon, // No longer used for Propose Type button in drawer
   Brightness4 as DarkModeIcon,
   Brightness7 as LightModeIcon,
   Notifications as NotificationsIcon,
@@ -45,18 +48,26 @@ import {
   Close as CloseIcon,
   Person as PersonIcon,
   Logout as LogoutIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+  Home as HomeIcon,
+  LibraryBooks as LibraryBooksIcon,
+  FileCopy as FileCopyIcon,
+  Favorite as FavoriteIcon,
+  BarChart as BarChartIcon,
+  RssFeed as RssFeedIcon,
+  Inventory as InventoryIcon // Added for Shelves in Bottom Navigation
 } from '@mui/icons-material';
 
 const DRAWER_WIDTH = 280;
 
-const collectionTypes = [
-  { label: 'Music', path: '/collections/music' },
-  { label: 'Movies', path: '/collections/movies' },
-];
+// const collectionTypes = [ // No longer used
+//   { label: 'Music', path: '/collections/music' },
+//   { label: 'Movies', path: '/collections/movies' },
+// ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [myShelvesOpen, setMyShelvesOpen] = useState(false); // New state for My Shelves
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
   const [searchOpen, setSearchOpen] = useState(false);
   const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null);
@@ -66,8 +77,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
 
-  // Determine if Collections is selected
-  const collectionsSelected = location.pathname.startsWith('/collections');
+  // Determine if Collections is selected - No longer needed
+  // const collectionsSelected = location.pathname.startsWith('/collections');
 
   const toggleTheme = () => {
     setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
@@ -110,104 +121,99 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     }
   ];
 
+  const drawerItems = [
+    { label: 'Home', path: '/', icon: <HomeIcon /> },
+    { label: 'My Shelves', path: '/shelves', icon: <LibraryBooksIcon />, expandable: true },
+    { label: 'All Copies', path: '/copies', icon: <FileCopyIcon /> },
+    { label: 'Wishlist', path: '/wishlist', icon: <FavoriteIcon /> },
+    { label: 'Statistics', path: '/stats', icon: <BarChartIcon /> },
+    { label: 'Activity Feed', path: '/activity', icon: <RssFeedIcon /> },
+  ];
+
+  ];
+
+  const mobileNavItems = [
+    { label: 'Home', path: '/', icon: <HomeIcon /> },
+    { label: 'Shelves', path: '/shelves', icon: <InventoryIcon /> }, // Using InventoryIcon for mobile "Shelves"
+    { label: 'Copies', path: '/copies', icon: <FileCopyIcon /> },
+    { label: 'Wishlist', path: '/wishlist', icon: <FavoriteIcon /> },
+    { label: 'Stats', path: '/stats', icon: <BarChartIcon /> },
+  ];
+
   const drawer = (
     <Box sx={{ width: DRAWER_WIDTH, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      {/* Propose Type button at top */}
-      <Box sx={{ p: 2, pb: 0 }}>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<AddIcon />}
-          component={Link}
-          to="/propose"
-          sx={{ borderRadius: 2, mb: 2, fontWeight: 500 }}
-        >
-          Propose Type
-        </Button>
-      </Box>
-      <Divider sx={{ mb: 1 }} />
-      <List sx={{ px: 2, flex: 1 }}>
-        {/* Collections Main Item */}
-        <ListItem disablePadding sx={{ mb: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
-          <ListItemButton
-            selected={collectionsSelected}
-            onClick={() => navigate('/collections')}
-            sx={{
-              borderRadius: 2,
-              width: '100%',
-              mb: 0.5,
-              backgroundColor: collectionsSelected ? 'primary.main' : undefined,
-              color: collectionsSelected ? 'primary.contrastText' : undefined,
-              '&:hover': {
-                backgroundColor: collectionsSelected ? 'primary.dark' : 'action.hover',
-              },
-            }}
-          >
-            <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
-              <CollectionsIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Collections"
-              secondary="Browse and manage your collections"
-              primaryTypographyProps={{ fontWeight: 700 }}
-              secondaryTypographyProps={{ sx: { fontSize: '0.75rem', opacity: 0.7 } }}
-            />
-            {collectionsSelected ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          {/* Always expanded submenu if selected */}
-          <Collapse in={collectionsSelected} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
-            <List component="div" disablePadding>
-              {collectionTypes.map((type) => (
-                <ListItemButton
-                  key={type.path}
-                  component={Link}
-                  to={type.path}
-                  selected={location.pathname === type.path}
-                  sx={{
-                    pl: 6,
-                    borderRadius: 2,
-                    mb: 0.5,
-                    backgroundColor: location.pathname === type.path ? 'primary.light' : undefined,
-                    color: location.pathname === type.path ? 'primary.contrastText' : undefined,
-                  }}
-                >
-                  <ListItemText primary={type.label} />
-                </ListItemButton>
-              ))}
-            </List>
-          </Collapse>
-        </ListItem>
-        {/* Settings Main Item */}
-        <ListItem disablePadding sx={{ mb: 1 }}>
-          <ListItemButton
-            component={Link}
-            to="/settings"
-            selected={location.pathname === '/settings'}
-            sx={{
-              borderRadius: 2,
-              width: '100%',
-              '&.Mui-selected': {
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
-                '&:hover': {
-                  backgroundColor: 'primary.dark',
+      {/* Removed Propose Type button and old structure */}
+      {/* <Divider sx={{ mb: 1 }} /> No longer needed here, AppBar has its own top border */}
+      <List sx={{ px: 2, flex: 1, pt: 2 /* Added padding top */ }}>
+        {drawerItems.map((item) => (
+          <Box key={item.label} sx={{ mb: 0.5 }}>
+            <ListItemButton
+              component={Link}
+              to={item.path}
+              selected={location.pathname === item.path && !item.expandable} // Only select if not expandable or specifically on the expandable item's path
+              onClick={() => {
+                if (item.expandable) {
+                  setMyShelvesOpen(!myShelvesOpen);
+                  // Optional: navigate to item.path if you want the main "My Shelves" to be a page itself
+                  // navigate(item.path); 
+                } else {
+                  navigate(item.path);
+                  if (isMobile) setDrawerOpen(false); // Close drawer on mobile after navigation
+                }
+              }}
+              sx={{
+                borderRadius: 2,
+                width: '100%',
+                '&.Mui-selected': {
+                  backgroundColor: 'primary.main',
+                  color: 'primary.contrastText',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark',
+                  },
+                  '& .MuiListItemIcon-root': {
+                    color: 'inherit',
+                  },
                 },
-                '& .MuiListItemIcon-root': {
-                  color: 'inherit',
-                },
-              },
-            }}
-          >
-            <ListItemIcon sx={{ minWidth: 40 }}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary="Settings"
-              secondary="Manage your preferences"
-              secondaryTypographyProps={{ sx: { fontSize: '0.75rem', opacity: 0.7 } }}
-            />
-          </ListItemButton>
-        </ListItem>
+                // Apply selected style also if it's the "My Shelves" parent and it's open or its sub-routes are active
+                ...(item.expandable && (myShelvesOpen || location.pathname.startsWith(item.path)) && {
+                  backgroundColor: 'primary.main',
+                  color: 'primary.contrastText',
+                  '& .MuiListItemIcon-root': {
+                    color: 'inherit',
+                  },
+                }),
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 40, color: (item.expandable && (myShelvesOpen || location.pathname.startsWith(item.path))) || (location.pathname === item.path && !item.expandable) ? 'inherit' : undefined }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText 
+                primary={item.label} 
+                primaryTypographyProps={{ fontWeight: location.pathname === item.path || (item.expandable && myShelvesOpen) ? 600 : 500 }}
+              />
+              {item.expandable ? (myShelvesOpen ? <ExpandLess /> : <ExpandMore />) : null}
+            </ListItemButton>
+            {item.expandable && (
+              <Collapse in={myShelvesOpen} timeout="auto" unmountOnExit sx={{ width: '100%', pl: 2 /* Indent sub-items */ }}>
+                <List component="div" disablePadding>
+                  {/* Placeholder for user shelves */}
+                  <ListItem sx={{ pl: 4 /* Further indent */, py:1 }}>
+                    <ListItemText 
+                      secondary="[all user shelves, searchable]" 
+                      secondaryTypographyProps={{ sx: { fontSize: '0.8rem', fontStyle: 'italic', opacity: 0.8 } }}
+                    />
+                  </ListItem>
+                  {/* Example of how dynamic shelves might look (commented out) */}
+                  {/* {userShelves.map(shelf => (
+                    <ListItemButton key={shelf.id} component={Link} to={`/shelves/${shelf.id}`} sx={{ pl: 4, borderRadius: 2 }}>
+                      <ListItemText primary={shelf.name} />
+                    </ListItemButton>
+                  ))} */}
+                </List>
+              </Collapse>
+            )}
+          </Box>
+        ))}
       </List>
       <Divider sx={{ mt: 'auto' }} />
       <List sx={{ px: 2 }}>
@@ -248,11 +254,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 color: 'inherit',
                 fontWeight: 700,
                 letterSpacing: '-0.5px',
-                display: { xs: 'none', sm: 'block' }
+                display: { xs: 'none', sm: 'block' },
+                mr: 2 // Add some margin to the right of the logo
               }}
             >
               Shelfify
             </Typography>
+          </Box>
+
+          {/* Top Navigation Menu Items */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+            <Button component={Link} to="/" color="inherit" sx={{ textTransform: 'none', fontWeight: 500 }}>
+              Home
+            </Button>
+            <Button component={Link} to="/shelves" color="inherit" sx={{ textTransform: 'none', fontWeight: 500 }}>
+              My Shelves
+            </Button>
+            <Button component={Link} to="/copies" color="inherit" sx={{ textTransform: 'none', fontWeight: 500 }}>
+              All Copies
+            </Button>
+            <Button component={Link} to="/wishlist" color="inherit" sx={{ textTransform: 'none', fontWeight: 500 }}>
+              Wishlist
+            </Button>
+            <Button component={Link} to="/statistics" color="inherit" sx={{ textTransform: 'none', fontWeight: 500 }}>
+              Statistics
+            </Button>
           </Box>
           
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -330,7 +356,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <TextField
             autoFocus
             fullWidth
-            placeholder="Search collections, items, or types..."
+            placeholder="Search your copies or explore releases..."
             variant="outlined"
             InputProps={{
               startAdornment: (
@@ -445,29 +471,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <Divider />
         <MenuItem 
           component={Link} 
-          to="/profile"
+          to="/proposals"
           onClick={handleProfileClose}
           sx={{ py: 1.5 }}
         >
-          <ListItemIcon>
-            <PersonIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Profile</ListItemText>
+          {/* Consider adding an icon for "Your Proposals" if available or appropriate */}
+          {/* <ListItemIcon><SomeIcon fontSize="small" /></ListItemIcon> */}
+          <ListItemText>Your Proposals</ListItemText>
         </MenuItem>
         <MenuItem 
           component={Link} 
-          to="/settings"
+          to="/profile-settings"
           onClick={handleProfileClose}
           sx={{ py: 1.5 }}
         >
           <ListItemIcon>
-            <SettingsIcon fontSize="small" />
+            <PersonIcon fontSize="small" /> 
           </ListItemIcon>
-          <ListItemText>Settings</ListItemText>
+          <ListItemText>Profile & Settings</ListItemText>
         </MenuItem>
         <Divider />
         <MenuItem 
-          onClick={handleProfileClose}
+          onClick={handleProfileClose} // Actual logout logic is out of scope
           sx={{ py: 1.5, color: 'error.main' }}
         >
           <ListItemIcon>
@@ -521,9 +546,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
-          mt: '64px',
+          mt: '64px', // For AppBar
+          pb: { xs: '56px', sm: 0 }, // For BottomNavigation on mobile
           backgroundColor: 'background.default',
-          minHeight: 'calc(100vh - 64px)'
+          minHeight: 'calc(100vh - 64px)' // Ensure content can fill height above potential bottom nav
         }}
       >
         <Fade in timeout={500}>
@@ -532,6 +558,40 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </Box>
         </Fade>
       </Box>
+
+      {/* Mobile Bottom Navigation */}
+      <Paper 
+        sx={{ 
+          position: 'fixed', 
+          bottom: 0, 
+          left: 0, 
+          right: 0, 
+          display: { xs: 'block', sm: 'none' },
+          zIndex: (theme) => theme.zIndex.appBar // Ensure it's above content
+        }} 
+        elevation={3}
+      >
+        <BottomNavigation
+          showLabels
+          value={location.pathname}
+          // onChange might be needed if we want to trigger actions beyond navigation,
+          // but for simple Link navigation, component={Link} on Action is enough.
+          // onChange={(event, newValue) => {
+          //   navigate(newValue); // If not using Link component on actions
+          // }}
+        >
+          {mobileNavItems.map((item) => (
+            <BottomNavigationAction
+              key={item.label}
+              label={item.label}
+              value={item.path}
+              icon={item.icon}
+              component={Link}
+              to={item.path}
+            />
+          ))}
+        </BottomNavigation>
+      </Paper>
     </Box>
   );
 }
