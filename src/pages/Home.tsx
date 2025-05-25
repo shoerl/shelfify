@@ -9,10 +9,13 @@ import {
   Avatar,
   Stack,
   Tooltip,
+  Divider,
 } from '@mui/material';
 import AlbumIcon from '@mui/icons-material/Album';
 import MovieIcon from '@mui/icons-material/Movie';
-import { useNavigate } from 'react-router-dom';
+import CasinoIcon from '@mui/icons-material/Casino';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate, Link } from 'react-router-dom';
 
 // Mock data for demo
 const userName = 'Sean';
@@ -25,146 +28,204 @@ const copiesData = [
   { title: 'My Movie Copies', count: 1, icon: <MovieIcon />, color: '#7EC4CF' },
 ];
 
+const mockShelvesPreview = [
+  { name: "Music Shelf", count: 3 },
+  { name: "Movies Shelf", count: 1 },
+  { name: "Pokémon Shelf", count: 0 },
+];
+
+const mockMetrics = [
+  { label: "Total Copies", value: "24 items", link: "/copies" },
+  { label: "Categories Collected", value: "3 of 50+", link: "/shelves" },
+  { label: "Recent Spend", value: "$1,200", link: "/stats" },
+];
+
+const mockRecentlyAdded = [
+  { thumbnail: true, title: "The Wall — Vinyl, UK", condition: "Near Mint", price: 25, timeAgo: "2h" },
+  { thumbnail: true, title: "Inception — DVD, Region 1", condition: "Sealed", price: 30, timeAgo: "1d" },
+  // Add more mock data as needed
+];
+
+const mockExploreMore = [
+  { label: "Start your Pokémon Shelf", action: "goToPokemonReleases" }, // action will need implementation
+  { label: "New Release: [Title]", action: "viewRelease" }, // action will need implementation
+];
+
 export default function Home() {
   const navigate = useNavigate();
+
+  // Helper function for actions (placeholders for now)
+  const handleExploreAction = (action: string) => {
+    console.log(`Action clicked: ${action}`);
+    // Implement actual navigation or modal opens here later
+    if (action === 'goToPokemonReleases') {
+      navigate('/releases/pokemon'); // Example navigation (assuming this route exists)
+    } else if (action === 'viewRelease') {
+      // navigate to a specific release page
+    }
+  };
+
   return (
     <Box
       sx={{
-        maxWidth: 800,
+        maxWidth: 1000, // Increased max width for better desktop view
         mx: 'auto',
         py: { xs: 4, md: 8 },
         px: { xs: 2, md: 0 },
-        position: 'relative',
       }}
     >
-      {/* Welcome & Tagline */}
-      <Typography
-        variant="h3"
-        sx={{
-          fontWeight: 800,
-          fontFamily: 'monospace',
-          color: '#22223B',
-          mb: 1,
-          letterSpacing: '-2px',
-        }}
-      >
-        Welcome back,
-        {' '}
-        {userName}
-        !
-      </Typography>
-      <Typography
-        variant="h6"
-        sx={{
-          color: '#4A4E69',
-          mb: 3,
-          fontFamily: 'monospace',
-        }}
-      >
-        Your hub for all releases and your personal copies.
-      </Typography>
+      {/* Hero Section */}
+      <Box sx={{ mb: 6 }}>
+        <Typography
+          variant="h3"
+          component="h1"
+          gutterBottom
+          sx={{ fontWeight: 800, color: '#22223B' }}
+        >
+          Welcome back, {userName}!
+        </Typography>
+        <Typography variant="h6" sx={{ color: '#4A4E69', mb: 4 }}>
+          Your physical media, perfectly organized.
+        </Typography>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <Button variant="contained" size="large" startIcon={<AddIcon />}> {/* Using AddIcon for 'Add Manually' feel */}
+            Add Manually
+          </Button>
+          {/* Barcode Scan CTA - Placeholder for now */}
+          <Button variant="outlined" size="large">
+            Scan Barcode
+          </Button>
+        </Stack>
+      </Box>
 
-      {/* Primary Actions */}
-      <Stack direction="row" spacing={2} sx={{ mb: 4 }}>
-        <Button variant="contained">Explore Collections</Button>
-        <Button variant="outlined">View Your Copies</Button>
+      <Divider sx={{ my: 4 }} /> {/* Divider */}
+
+      {/* My Shelves Preview Section */}
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+        My Shelves
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 6 }}>
+        {mockShelvesPreview.map((shelf) => (
+          <Grid item xs={12} sm={6} md={4} key={shelf.name}>
+            <Card
+              sx={{
+                'borderRadius': 3,
+                'boxShadow': '0 2px 8px #0001',
+                'minHeight': 100,
+                'display': 'flex',
+                'alignItems': 'center',
+                'cursor': 'pointer',
+                '&:hover': { boxShadow: '0 4px 12px #0002' },
+              }}
+              onClick={() => navigate(`/shelves/${shelf.name.toLowerCase().replace(' ', '-')}`)} // Example navigation
+            >
+              <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%', justifyContent: 'space-between' }}>
+                <Box>
+                  <Typography variant="h5" sx={{ fontWeight: 800 }}>
+                    {shelf.name}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {shelf.count} items
+                  </Typography>
+                </Box>
+                {/* Optional: Add an icon for the shelf type */}
+                <Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>
+                  {shelf.name.includes('Music') ? <AlbumIcon /> : shelf.name.includes('Movies') ? <MovieIcon /> : <CasinoIcon />}
+                </Avatar>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <Divider sx={{ my: 4 }} /> {/* Divider */}
+
+      {/* Metrics Section */}
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+        Your Insights
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 6 }}>
+        {mockMetrics.map((metric) => (
+          <Grid item xs={12} sm={6} md={4} key={metric.label}>
+            <Card
+              sx={{
+                'borderRadius': 3,
+                'boxShadow': '0 2px 8px #0001',
+                'minHeight': 100,
+                'display': 'flex',
+                'alignItems': 'center',
+                'cursor': metric.link ? 'pointer' : 'default',
+                '&:hover': { boxShadow: metric.link ? '0 4px 12px #0002' : 'none' },
+              }}
+              onClick={metric.link ? () => navigate(metric.link) : undefined}
+            >
+              <CardContent>
+                <Typography variant="h4" sx={{ fontWeight: 800 }}>
+                  {metric.value}
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
+                  {metric.label}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <Divider sx={{ my: 4 }} /> {/* Divider */}
+
+      {/* Recently Added Section */}
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+        Recently Added
+      </Typography>
+      <Stack spacing={2} sx={{ mb: 6 }}>
+        {mockRecentlyAdded.map((item, index) => (
+          <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* Thumbnail Placeholder */}
+            {item.thumbnail && (
+              <Box sx={{ width: 50, height: 50, bgcolor: 'grey.300', borderRadius: 1 }} />
+            )}
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{item.title}</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Condition: {item.condition} | Price: ${item.price} | Added: {item.timeAgo} ago
+              </Typography>
+            </Box>
+            {/* Optional: View Item button */}
+            <Button variant="outlined" size="small">View</Button>
+          </Box>
+        ))}
       </Stack>
 
-      {/* Explore Collections Section */}
-      <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: 'monospace', mb: 2 }}>
-        Explore Collections
-      </Typography>
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {exploreData.map((item) => {
-          const path = item.title === 'Music' ? '/collections/music' : '/collections/movies';
-          return (
-            <Grid item xs={6} key={item.title}>
-              <Card
-                sx={{
-                  'borderRadius': 3,
-                  'background': item.color,
-                  'color': '#22223B',
-                  'boxShadow': '0 2px 8px #0001',
-                  'minHeight': 100,
-                  'display': 'flex',
-                  'alignItems': 'center',
-                  'cursor': 'pointer',
-                  '&:hover': { boxShadow: '0 4px 12px #0002' },
-                }}
-                onClick={() => navigate(path)}
-              >
-                <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%', justifyContent: 'space-between' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Avatar sx={{ bgcolor: '#fff', color: item.color, mr: 2 }}>{item.icon}</Avatar>
-                    <Box>
-                      <Typography variant="h4" sx={{ fontWeight: 800, fontFamily: 'monospace' }}>
-                        {item.count}
-                      </Typography>
-                      <Typography variant="body1" sx={{ fontFamily: 'monospace' }}>
-                        {item.title}
-                      </Typography>
-                      <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
-                        Releases
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Button variant="outlined" size="small" onClick={(e) => { e.stopPropagation(); navigate(path); }}>
-                    Browse
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          );
-        })}
-      </Grid>
+      <Divider sx={{ my: 4 }} /> {/* Divider */}
 
-      {/* Your Copies Section */}
-      <Typography variant="h5" sx={{ fontWeight: 700, fontFamily: 'monospace', mb: 2 }}>
-        Your Copies
+      {/* Explore More Section */}
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+        Explore More
       </Typography>
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {copiesData.map((item) => {
-          const path = item.title === 'My Music Copies' ? '/my-collection?category=music' : '/my-collection?category=movies';
-          return (
-            <Grid item xs={6} key={item.title}>
-              <Card
-                sx={{
-                  'borderRadius': 3,
-                  'background': item.color,
-                  'color': '#22223B',
-                  'boxShadow': '0 2px 8px #0001',
-                  'minHeight': 100,
-                  'display': 'flex',
-                  'alignItems': 'center',
-                  'cursor': 'pointer',
-                  '&:hover': { boxShadow: '0 4px 12px #0002' },
-                }}
-                onClick={() => navigate(path)}
-              >
-                <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%', justifyContent: 'space-between' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Avatar sx={{ bgcolor: '#fff', color: item.color, mr: 2 }}>{item.icon}</Avatar>
-                    <Box>
-                      <Typography variant="h4" sx={{ fontWeight: 800, fontFamily: 'monospace' }}>
-                        {item.count}
-                      </Typography>
-                      <Typography variant="body1" sx={{ fontFamily: 'monospace' }}>
-                        {item.title}
-                      </Typography>
-                      <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
-                        Owned
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Button variant="outlined" size="small" onClick={(e) => { e.stopPropagation(); navigate(path); }}>
-                    {item.title === 'My Music Copies' ? 'View My Music' : 'View My Movies'}
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          );
-        })}
-      </Grid>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 6 }}>
+        {mockExploreMore.map((item) => (
+          <Button
+            key={item.label}
+            variant="outlined"
+            size="large"
+            onClick={() => handleExploreAction(item.action)}
+            sx={{ flexGrow: 1 }}
+          >
+            {item.label}
+          </Button>
+        ))}
+      </Stack>
+
+      <Divider sx={{ my: 4 }} /> {/* Divider */}
+
+      {/* Footer Links Section */}
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
+         <Button component={Link} to="/copies" variant="text">All Copies</Button>
+         <Button component={Link} to="/releases" variant="text">Browse All Releases</Button> {/* Assuming a /releases route */}
+         <Button component={Link} to="/activity" variant="text">Activity Feed</Button>
+      </Stack>
+
     </Box>
   );
 }

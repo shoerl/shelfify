@@ -17,13 +17,20 @@ import {
   FormControl,
   InputLabel,
   Fade,
+  useMediaQuery,
+  useTheme,
+  Card,
+  CardContent,
+  Grid,
+  Stack,
+  Divider,
 } from '@mui/material';
 import {
   Search as SearchIcon,
   Sort as SortIcon,
   FilterList as FilterIcon,
 } from '@mui/icons-material';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface CollectionItem {
   id: number;
@@ -55,6 +62,24 @@ const mockData: CollectionItem[] = [
     format: 'Blu-ray',
     year: 2010,
   },
+  {
+    id: 3,
+    category: 'Music',
+    title: 'Dark Side of the Moon',
+    condition: 'Very Good Plus',
+    pricePaid: 15,
+    format: 'CD',
+    year: 1973,
+  },
+  {
+    id: 4,
+    category: 'Movies',
+    title: 'Parasite',
+    condition: 'Like New',
+    pricePaid: 20,
+    format: 'DVD',
+    year: 2019,
+  }
 ];
 
 const conditions = [
@@ -68,11 +93,14 @@ const conditions = [
   'Poor',
 ];
 
-export function MyCollection() {
+export function AllCopies() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('title');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [filterCondition, setFilterCondition] = useState<string>('all');
+
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
   const filteredData = mockData.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -95,11 +123,11 @@ export function MyCollection() {
   });
 
   return (
-    <Box>
+    <Box sx={{ maxWidth: 1000, mx: 'auto', py: { xs: 2, md: 4 } }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ mb: 1 }}>My Copies</Typography>
+        <Typography variant="h4" sx={{ mb: 1 }}>All Copies</Typography>
         <Typography variant="body1" color="text.secondary">
-          View and manage all copies you own
+          View and manage all copies you own across all your shelves
         </Typography>
       </Box>
 
@@ -168,71 +196,71 @@ export function MyCollection() {
         </FormControl>
       </Box>
 
-      <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Collection Type</TableCell>
-              <TableCell>Release Title</TableCell>
-              <TableCell>Year</TableCell>
-              <TableCell>Format</TableCell>
-              <TableCell>Condition</TableCell>
-              <TableCell align="right">Price Paid (Copy)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      {sortedData.length > 0 ? (
+        isDesktop ? (
+          <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Shelf</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Variant</TableCell>
+                  <TableCell>Condition</TableCell>
+                  <TableCell align="right">Price Paid</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortedData.map(item => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <Chip
+                        label={item.category}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell>{item.title}</TableCell>
+                    <TableCell>{item.format}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={item.condition}
+                        size="small"
+                      />
+                    </TableCell>
+                    <TableCell align="right">
+                      $
+                      {item.pricePaid.toFixed(2)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Grid container spacing={2}>
             {sortedData.map(item => (
-              <TableRow key={item.id}>
-                <TableCell>
-                  <Chip
-                    label={item.category}
-                    size="small"
-                    sx={{
-                      backgroundColor: item.category === 'Music' ? '#2563eb15' : '#7c3aed15',
-                      color: item.category === 'Music' ? '#2563eb' : '#7c3aed',
-                    }}
-                  />
-                </TableCell>
-                <TableCell>{item.title}</TableCell>
-                <TableCell>{item.year}</TableCell>
-                <TableCell>
-                  <Chip
-                    label={item.format}
-                    size="small"
-                    sx={{
-                      backgroundColor: item.format === 'Vinyl' || item.format === 'Blu-ray' ? '#2563eb15' : '#7c3aed15',
-                      color: item.format === 'Vinyl' || item.format === 'Blu-ray' ? '#2563eb' : '#7c3aed',
-                    }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Chip
-                    label={item.condition}
-                    size="small"
-                    sx={{
-                      backgroundColor: item.condition === 'Sealed' || item.condition === 'Near Mint' ? '#2563eb15' : '#7c3aed15',
-                      color: item.condition === 'Sealed' || item.condition === 'Near Mint' ? '#2563eb' : '#7c3aed',
-                    }}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  $
-                  {item.pricePaid}
-                </TableCell>
-              </TableRow>
+              <Grid item xs={12} key={item.id}>
+                <Card sx={{ borderRadius: 2, boxShadow: '0 2px 8px #0001' }}>
+                  <CardContent>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+                      {item.title}
+                    </Typography>
+                    <Stack spacing={1} direction="column">
+                      <Typography variant="body2" color="text.secondary">Shelf: {item.category}</Typography>
+                      <Typography variant="body2" color="text.secondary">Variant: {item.format}</Typography>
+                      <Typography variant="body2" color="text.secondary">Condition: {item.condition}</Typography>
+                      <Typography variant="body2" color="text.secondary">Price Paid: ${item.pricePaid.toFixed(2)}</Typography>
+                    </Stack>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-            {sortedData.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
-                  <Typography color="text.secondary">
-                    No items found matching your filters
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </Grid>
+        )
+      ) : (
+        <Box sx={{ textAlign: 'center', mt: 6 }}>
+          <Typography variant="h6" color="text.secondary">No items found matching your filters</Typography>
+        </Box>
+      )}
     </Box>
   );
 }
