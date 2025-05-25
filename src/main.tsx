@@ -9,12 +9,15 @@ import { theme } from './theme';
 
 const queryClient = new QueryClient();
 
+// Get the base path from the Vite config
+const basePath = import.meta.env.BASE_URL || '/';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <BrowserRouter>
+        <BrowserRouter basename={basePath}>
           <App />
         </BrowserRouter>
       </ThemeProvider>

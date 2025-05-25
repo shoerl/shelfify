@@ -24,7 +24,6 @@ dist-ssr
 *.sw?
 .yarn
 .yarn/*
-.yarnrc.yml
 
 # ignore everything in build folders (including generated .d.ts)
 dist/
