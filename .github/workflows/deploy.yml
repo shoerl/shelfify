@@ -1,0 +1,66 @@
+# Workflow to deploy the main site to GitHub Pages
+name: Deploy to GitHub Pages
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the main branch
+  push:
+    branches: [ main ]
+  # Allows manual triggering of the workflow
+  workflow_dispatch:
+
+# Sets permissions for the workflow
+permissions:
+  contents: write
+
+# Configures concurrency settings for the workflow
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable Corepack and Set Yarn Version
+        run: |
+          corepack enable
+          corepack prepare yarn@stable --activate
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build project
+        run: yarn build
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copy build to root
+        run: |
+          rm -rf gh-pages/*
+          cp -r dist/* gh-pages/
+          # Do NOT remove the preview folder
+          if [ -d gh-pages/preview ]; then cp -r gh-pages/preview gh-pages/; fi
+
+      - name: Commit and push
+        run: |
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Deploy main site" || echo "No changes to commit"
+          git push origin gh-pages

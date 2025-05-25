@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+vite.config.js
 node_modules
 dist
 dist-ssr
@@ -24,4 +25,15 @@ dist-ssr
 *.sw?
 .yarn
 .yarn/*
-.yarnrc.yml
+
+# ignore everything in build folders (including generated .d.ts)
+dist/
+build/
+
+# ignore TS build info
+*.tsbuildinfo
+
+# optionally ignore any stray declaration files at project root
+# but make sure NOT to ignore your src/ declarations!
+*.d.ts
+

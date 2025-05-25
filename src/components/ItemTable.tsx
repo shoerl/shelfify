@@ -9,13 +9,13 @@ interface ItemTableProps<T> {
   onSortChange?: (field: string, direction: 'asc' | 'desc') => void;
 }
 
-export function ItemTable<T extends { id: string }>({ 
-  columns, 
-  rows, 
+export function ItemTable<T extends { id: string }>({
+  columns,
+  rows,
   loading = false,
   pageSize = 10,
   onPageChange,
-  onSortChange
+  onSortChange,
 }: ItemTableProps<T>) {
   return (
     <DataGrid
@@ -24,7 +24,7 @@ export function ItemTable<T extends { id: string }>({
       rows={rows}
       loading={loading}
       pageSize={pageSize}
-      onPageChange={(page) => onPageChange?.(page)}
+      onPageChange={page => onPageChange?.(page)}
       onSortModelChange={(model) => {
         if (model.length > 0) {
           onSortChange?.(model[0].field, model[0].sort as 'asc' | 'desc');
@@ -33,8 +33,8 @@ export function ItemTable<T extends { id: string }>({
       disableSelectionOnClick
       sx={{
         '& .MuiDataGrid-cell:focus': {
-          outline: 'none'
-        }
+          outline: 'none',
+        },
       }}
     />
   );

@@ -15,12 +15,12 @@ import {
   Paper,
   Chip,
   IconButton,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
 import {
   TrendingUp as TrendingUpIcon,
   TrendingDown as TrendingDownIcon,
-  Info as InfoIcon
+  Info as InfoIcon,
 } from '@mui/icons-material';
 import type { PriceHistory } from '../../types/catalog';
 
@@ -65,19 +65,23 @@ export function ValueTracking({ currentValue, priceHistory, onAddValue }: ValueT
           <Grid item xs={12}>
             <Box display="flex" alignItems="center" gap={2}>
               <Typography variant="h4">
-                ${currentValue.toFixed(2)}
+                $
+                {currentValue.toFixed(2)}
               </Typography>
               <Box display="flex" alignItems="center" gap={1}>
-                {isPositive ? (
-                  <TrendingUpIcon color="success" />
-                ) : (
-                  <TrendingDownIcon color="error" />
-                )}
+                {isPositive
+                  ? (
+                      <TrendingUpIcon color="success" />
+                    )
+                  : (
+                      <TrendingDownIcon color="error" />
+                    )}
                 <Typography
                   variant="h6"
                   color={isPositive ? 'success.main' : 'error.main'}
                 >
-                  {change.toFixed(1)}%
+                  {change.toFixed(1)}
+                  %
                 </Typography>
                 <Tooltip title="Change since first recorded value">
                   <IconButton size="small">
@@ -105,16 +109,22 @@ export function ValueTracking({ currentValue, priceHistory, onAddValue }: ValueT
                       <TableCell>
                         {new Date(entry.date).toLocaleDateString()}
                       </TableCell>
-                      <TableCell>${entry.value.toFixed(2)}</TableCell>
+                      <TableCell>
+                        $
+                        {entry.value.toFixed(2)}
+                      </TableCell>
                       <TableCell>
                         <Chip
                           label={entry.source}
                           size="small"
                           color={
-                            entry.source === 'manual' ? 'default' :
-                            entry.source === 'discogs' ? 'primary' :
-                            entry.source === 'ebay' ? 'secondary' :
-                            'info'
+                            entry.source === 'manual'
+                              ? 'default'
+                              : entry.source === 'discogs'
+                                ? 'primary'
+                                : entry.source === 'ebay'
+                                  ? 'secondary'
+                                  : 'info'
                           }
                         />
                       </TableCell>
@@ -129,4 +139,4 @@ export function ValueTracking({ currentValue, priceHistory, onAddValue }: ValueT
       </CardContent>
     </Card>
   );
-} 
+}
