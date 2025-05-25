@@ -11,6 +11,9 @@ on:
 
 # Sets permissions for the workflow
 permissions:
+  pages: write
+  id-token: write
+  pull-requests: write
   contents: write
 
 # Configures concurrency settings for the workflow
