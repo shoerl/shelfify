@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles'
 
 export const theme = createTheme({
   palette: {
@@ -24,7 +24,7 @@ export const theme = createTheme({
     },
     mode: 'light',
   },
-  spacing: 8,   // 1 unit = 8px
+  spacing: 8, // 1 unit = 8px
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
@@ -85,7 +85,7 @@ export const theme = createTheme({
   },
   components: {
     MuiButton: {
-      defaultProps: { 
+      defaultProps: {
         disableElevation: true,
       },
       styleOverrides: {
@@ -101,7 +101,7 @@ export const theme = createTheme({
           },
         },
         outlined: {
-          borderWidth: 2,
+          'borderWidth': 2,
           '&:hover': {
             borderWidth: 2,
             transform: 'translateY(-1px)',
@@ -112,9 +112,9 @@ export const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
-          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-          transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+          'borderRadius': 16,
+          'boxShadow': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+          'transition': 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
           '&:hover': {
             transform: 'translateY(-2px)',
             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
@@ -144,8 +144,8 @@ export const theme = createTheme({
     MuiListItemButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
-          transition: 'all 0.2s ease-in-out',
+          'borderRadius': 8,
+          'transition': 'all 0.2s ease-in-out',
           '&:hover': {
             backgroundColor: 'rgba(37, 99, 235, 0.08)',
           },
@@ -155,7 +155,7 @@ export const theme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          transition: 'all 0.2s ease-in-out',
+          'transition': 'all 0.2s ease-in-out',
           '&:hover': {
             transform: 'scale(1.1)',
           },
@@ -163,4 +163,4 @@ export const theme = createTheme({
       },
     },
   },
-});
+})

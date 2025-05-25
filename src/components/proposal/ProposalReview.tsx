@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 import {
   Box,
   Card,
@@ -10,25 +10,27 @@ import {
   Stack,
   TextField,
   FormControlLabel,
-  Switch
-} from '@mui/material';
-import type { CollectionTypeProposal } from '../../types/collection';
+  Switch,
+} from '@mui/material'
+import type { CollectionTypeProposal } from '../../types/collection'
 
 interface ProposalReviewProps {
-  proposal: CollectionTypeProposal;
-  onApprove: (proposal: CollectionTypeProposal, notes: string) => void;
-  onReject: (proposal: CollectionTypeProposal, notes: string) => void;
+  proposal: CollectionTypeProposal
+  onApprove: (proposal: CollectionTypeProposal, notes: string) => void
+  onReject: (proposal: CollectionTypeProposal, notes: string) => void
 }
 
 export function ProposalReview({ proposal, onApprove, onReject }: ProposalReviewProps) {
-  const [reviewNotes, setReviewNotes] = useState('');
-  const [isPublic, setIsPublic] = useState(proposal.metadata.isPublic);
+  const [reviewNotes, setReviewNotes] = useState('')
+  const [isPublic, setIsPublic] = useState(proposal.metadata.isPublic)
 
   return (
     <Card>
       <CardContent>
         <Typography variant="h5" gutterBottom>
-          Review Proposal: {proposal.name}
+          Review Proposal:
+          {' '}
+          {proposal.name}
         </Typography>
 
         <Grid container spacing={3}>
@@ -101,12 +103,12 @@ export function ProposalReview({ proposal, onApprove, onReject }: ProposalReview
 
           <Grid item xs={12}>
             <FormControlLabel
-              control={
+              control={(
                 <Switch
                   checked={isPublic}
-                  onChange={(e) => setIsPublic(e.target.checked)}
+                  onChange={e => setIsPublic(e.target.checked)}
                 />
-              }
+              )}
               label="Make this collection type public"
             />
           </Grid>
@@ -118,7 +120,7 @@ export function ProposalReview({ proposal, onApprove, onReject }: ProposalReview
               rows={4}
               label="Review Notes"
               value={reviewNotes}
-              onChange={(e) => setReviewNotes(e.target.value)}
+              onChange={e => setReviewNotes(e.target.value)}
               placeholder="Add any notes about your decision..."
             />
           </Grid>
@@ -144,5 +146,5 @@ export function ProposalReview({ proposal, onApprove, onReject }: ProposalReview
         </Grid>
       </CardContent>
     </Card>
-  );
-} 
+  )
+}

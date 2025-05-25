@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useState } from 'react'
+import { useForm, useFieldArray } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import {
   Box,
   Button,
@@ -16,10 +16,10 @@ import {
   InputLabel,
   Grid,
   Chip,
-  Stack
-} from '@mui/material';
-import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import type { CollectionTypeProposal } from '../../types/collection';
+  Stack,
+} from '@mui/material'
+import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material'
+import type { CollectionTypeProposal } from '../../types/collection'
 
 const fieldSchema = z.object({
   name: z.string().min(1, 'Field name is required'),
@@ -30,16 +30,16 @@ const fieldSchema = z.object({
     required: z.boolean().optional(),
     min: z.number().optional(),
     max: z.number().optional(),
-    pattern: z.string().optional()
+    pattern: z.string().optional(),
   }).optional(),
   metadata: z.object({
     description: z.string().optional(),
     example: z.string().optional(),
     isPublic: z.boolean().optional(),
     isSearchable: z.boolean().optional(),
-    isFilterable: z.boolean().optional()
-  }).optional()
-});
+    isFilterable: z.boolean().optional(),
+  }).optional(),
+})
 
 const proposalSchema = z.object({
   name: z.string().min(1, 'Collection type name is required'),
@@ -50,43 +50,43 @@ const proposalSchema = z.object({
     icon: z.string().optional(),
     isPublic: z.boolean(),
     rationale: z.string().min(1, 'Rationale is required'),
-    examples: z.array(z.string()).min(1, 'At least one example is required')
-  })
-});
+    examples: z.array(z.string()).min(1, 'At least one example is required'),
+  }),
+})
 
-type ProposalFormData = z.infer<typeof proposalSchema>;
+type ProposalFormData = z.infer<typeof proposalSchema>
 
 interface ProposalFormProps {
-  onSubmit: (data: Omit<CollectionTypeProposal, 'id' | 'status' | 'submittedBy' | 'submittedAt'>) => void;
+  onSubmit: (data: Omit<CollectionTypeProposal, 'id' | 'status' | 'submittedBy' | 'submittedAt'>) => void
 }
 
 export function ProposalForm({ onSubmit }: ProposalFormProps) {
-  const [selectedType, setSelectedType] = useState<string>('string');
-  
+  const [selectedType, setSelectedType] = useState<string>('string')
+
   const { register, control, handleSubmit, watch, formState: { errors } } = useForm<ProposalFormData>({
     resolver: zodResolver(proposalSchema),
     defaultValues: {
       fieldDefs: [],
       metadata: {
         isPublic: true,
-        examples: []
-      }
-    }
-  });
+        examples: [],
+      },
+    },
+  })
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'fieldDefs'
-  });
+    name: 'fieldDefs',
+  })
 
   const { fields: exampleFields, append: appendExample, remove: removeExample } = useFieldArray({
     control,
-    name: 'metadata.examples'
-  });
+    name: 'metadata.examples',
+  })
 
   const onFormSubmit = (data: ProposalFormData) => {
-    onSubmit(data);
-  };
+    onSubmit(data)
+  }
 
   return (
     <Card>
@@ -94,7 +94,7 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
         <Typography variant="h5" gutterBottom>
           Propose New Collection Type
         </Typography>
-        
+
         <Box component="form" onSubmit={handleSubmit(onFormSubmit)}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -106,7 +106,7 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
                 helperText={errors.name?.message}
               />
             </Grid>
-            
+
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -123,7 +123,7 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
               <Typography variant="h6" gutterBottom>
                 Fields
               </Typography>
-              
+
               {fields.map((field, index) => (
                 <Card key={field.id} sx={{ mb: 2, p: 2 }}>
                   <Grid container spacing={2} alignItems="center">
@@ -136,7 +136,7 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
                         helperText={errors.fieldDefs?.[index]?.name?.message}
                       />
                     </Grid>
-                    
+
                     <Grid item xs={12} sm={3}>
                       <TextField
                         fullWidth
@@ -146,7 +146,7 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
                         helperText={errors.fieldDefs?.[index]?.label?.message}
                       />
                     </Grid>
-                    
+
                     <Grid item xs={12} sm={3}>
                       <FormControl fullWidth>
                         <InputLabel>Type</InputLabel>
@@ -167,7 +167,7 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
                         </Select>
                       </FormControl>
                     </Grid>
-                    
+
                     <Grid item xs={12} sm={2}>
                       <IconButton onClick={() => remove(index)} color="error">
                         <DeleteIcon />
@@ -176,13 +176,13 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
                   </Grid>
                 </Card>
               ))}
-              
+
               <Button
                 startIcon={<AddIcon />}
-                onClick={() => append({ 
-                  name: '', 
-                  label: '', 
-                  type: 'string' as const 
+                onClick={() => append({
+                  name: '',
+                  label: '',
+                  type: 'string' as const,
                 })}
                 sx={{ mt: 2 }}
               >
@@ -194,7 +194,7 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
               <Typography variant="h6" gutterBottom>
                 Examples
               </Typography>
-              
+
               <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
                 {exampleFields.map((field, index) => (
                   <Chip
@@ -204,17 +204,17 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
                   />
                 ))}
               </Stack>
-              
+
               <TextField
                 fullWidth
                 label="Add Example"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
-                    e.preventDefault();
-                    const input = e.target as HTMLInputElement;
+                    e.preventDefault()
+                    const input = e.target as HTMLInputElement
                     if (input.value) {
-                      appendExample(input.value);
-                      input.value = '';
+                      appendExample(input.value)
+                      input.value = ''
                     }
                   }
                 }}
@@ -235,5 +235,5 @@ export function ProposalForm({ onSubmit }: ProposalFormProps) {
         </Box>
       </CardContent>
     </Card>
-  );
-} 
+  )
+}

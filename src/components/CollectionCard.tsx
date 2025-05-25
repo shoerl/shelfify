@@ -1,20 +1,20 @@
-import { Card, CardContent, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import type { CollectionType } from '../types/collection';
+import { Card, CardContent, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
+import type { CollectionType } from '../types/collection'
 
 export function CollectionCard({ type }: { type: CollectionType }) {
   return (
-    <Card 
-      component={Link} 
-      to={`/types/${type.id}`} 
-      sx={{ 
-        textDecoration: 'none',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+    <Card
+      component={Link}
+      to={`/types/${type.id}`}
+      sx={{
+        'textDecoration': 'none',
+        'height': '100%',
+        'display': 'flex',
+        'flexDirection': 'column',
         '&:hover': {
-          boxShadow: 6
-        }
+          boxShadow: 6,
+        },
       }}
     >
       <CardContent>
@@ -25,9 +25,11 @@ export function CollectionCard({ type }: { type: CollectionType }) {
           {type.description}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          {type.fieldDefs.length} fields
+          {type.fieldDefs.length}
+          {' '}
+          fields
         </Typography>
       </CardContent>
     </Card>
-  );
+  )
 }

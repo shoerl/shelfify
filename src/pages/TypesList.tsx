@@ -1,16 +1,16 @@
-import { Grid, TextField, Box } from '@mui/material';
-import { useCollectionTypes } from '../hooks/useCollectionTypes';
-import { CollectionCard } from '../components/CollectionCard';
-import { useState } from 'react';
+import { Grid, TextField, Box } from '@mui/material'
+import { useCollectionTypes } from '../hooks/useCollectionTypes'
+import { CollectionCard } from '../components/CollectionCard'
+import { useState } from 'react'
 
 export default function TypesList() {
-  const { data: types = [], isLoading } = useCollectionTypes();
-  const [searchTerm, setSearchTerm] = useState('');
+  const { data: types = [], isLoading } = useCollectionTypes()
+  const [searchTerm, setSearchTerm] = useState('')
 
-  const filteredTypes = types.filter(type => 
-    type.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    type.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTypes = types.filter(type =>
+    type.name.toLowerCase().includes(searchTerm.toLowerCase())
+    || type.description.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
 
   return (
     <Box>
@@ -18,7 +18,7 @@ export default function TypesList() {
         fullWidth
         label="Search types"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={e => setSearchTerm(e.target.value)}
         sx={{ mb: 3 }}
       />
       <Grid container spacing={2}>
@@ -29,5 +29,5 @@ export default function TypesList() {
         ))}
       </Grid>
     </Box>
-  );
+  )
 }

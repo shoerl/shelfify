@@ -1,9 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
-import { AppShell } from './components/Layout/AppShell';
-import TypesList from './pages/TypesList';
-import TypeDetail from './pages/TypeDetail';
-import AllItems from './pages/AllItems';
-import Home from './pages/Home';
+import { Routes, Route } from 'react-router-dom'
+import { AppShell } from './components/Layout/AppShell'
+import TypesList from './pages/TypesList'
+import TypeDetail from './pages/TypeDetail'
+import AllItems from './pages/AllItems'
+import Home from './pages/Home'
 
 export default function App() {
   return (
@@ -15,5 +15,5 @@ export default function App() {
         <Route path="/all-items" element={<AllItems />} />
       </Routes>
     </AppShell>
-  );
+  )
 }

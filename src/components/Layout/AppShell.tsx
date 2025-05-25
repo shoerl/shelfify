@@ -1,12 +1,12 @@
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  IconButton, 
-  Drawer, 
-  List, 
-  ListItem, 
-  ListItemIcon, 
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
   ListItemText,
   ListItemButton,
   Switch,
@@ -27,10 +27,10 @@ import {
   MenuItem,
   ListItemAvatar,
   Button,
-  Collapse
-} from '@mui/material';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+  Collapse,
+} from '@mui/material'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import {
   Menu as MenuIcon,
   CollectionsBookmark as CollectionsIcon,
@@ -45,70 +45,70 @@ import {
   Close as CloseIcon,
   Person as PersonIcon,
   Logout as LogoutIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon
-} from '@mui/icons-material';
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+} from '@mui/icons-material'
 
-const DRAWER_WIDTH = 280;
+const DRAWER_WIDTH = 280
 
 const collectionTypes = [
   { label: 'Music', path: '/collections/music' },
   { label: 'Movies', path: '/collections/movies' },
-];
+]
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null);
-  const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
-  const location = useLocation();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null)
+  const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null)
+  const location = useLocation()
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const navigate = useNavigate()
 
   // Determine if Collections is selected
-  const collectionsSelected = location.pathname.startsWith('/collections');
+  const collectionsSelected = location.pathname.startsWith('/collections')
 
   const toggleTheme = () => {
-    setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
-  };
+    setThemeMode(prev => prev === 'light' ? 'dark' : 'light')
+  }
 
   const handleNotificationsOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setNotificationsAnchor(event.currentTarget);
-  };
+    setNotificationsAnchor(event.currentTarget)
+  }
 
   const handleNotificationsClose = () => {
-    setNotificationsAnchor(null);
-  };
+    setNotificationsAnchor(null)
+  }
 
   const handleProfileOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setProfileAnchor(event.currentTarget);
-  };
+    setProfileAnchor(event.currentTarget)
+  }
 
   const handleProfileClose = () => {
-    setProfileAnchor(null);
-  };
+    setProfileAnchor(null)
+  }
 
   const notifications = [
     {
       id: 1,
       title: 'New Collection Added',
       message: 'Your "Books" collection has been created',
-      time: '2 minutes ago'
+      time: '2 minutes ago',
     },
     {
       id: 2,
       title: 'Collection Updated',
       message: '3 new items added to "Movies"',
-      time: '1 hour ago'
+      time: '1 hour ago',
     },
     {
       id: 3,
       title: 'Type Proposal Approved',
       message: 'Your "Games" type proposal was approved',
-      time: '2 hours ago'
-    }
-  ];
+      time: '2 hours ago',
+    },
+  ]
 
   const drawer = (
     <Box sx={{ width: DRAWER_WIDTH, height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -133,11 +133,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             selected={collectionsSelected}
             onClick={() => navigate('/collections')}
             sx={{
-              borderRadius: 2,
-              width: '100%',
-              mb: 0.5,
-              backgroundColor: collectionsSelected ? 'primary.main' : undefined,
-              color: collectionsSelected ? 'primary.contrastText' : undefined,
+              'borderRadius': 2,
+              'width': '100%',
+              'mb': 0.5,
+              'backgroundColor': collectionsSelected ? 'primary.main' : undefined,
+              'color': collectionsSelected ? 'primary.contrastText' : undefined,
               '&:hover': {
                 backgroundColor: collectionsSelected ? 'primary.dark' : 'action.hover',
               },
@@ -157,7 +157,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           {/* Always expanded submenu if selected */}
           <Collapse in={collectionsSelected} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
             <List component="div" disablePadding>
-              {collectionTypes.map((type) => (
+              {collectionTypes.map(type => (
                 <ListItemButton
                   key={type.path}
                   component={Link}
@@ -184,11 +184,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             to="/settings"
             selected={location.pathname === '/settings'}
             sx={{
-              borderRadius: 2,
-              width: '100%',
+              'borderRadius': 2,
+              'width': '100%',
               '&.Mui-selected': {
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
+                'backgroundColor': 'primary.main',
+                'color': 'primary.contrastText',
                 '&:hover': {
                   backgroundColor: 'primary.dark',
                 },
@@ -217,16 +217,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </ListItem>
       </List>
     </Box>
-  );
+  )
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-      <AppBar 
-        position="fixed" 
-        sx={{ 
-          zIndex: (theme) => theme.zIndex.drawer + 1,
+      <AppBar
+        position="fixed"
+        sx={{
+          zIndex: theme => theme.zIndex.drawer + 1,
           backgroundColor: 'background.paper',
-          color: 'text.primary'
+          color: 'text.primary',
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -239,22 +239,22 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography 
-              variant="h6" 
-              component={Link} 
-              to="/" 
-              sx={{ 
-                textDecoration: 'none', 
+            <Typography
+              variant="h6"
+              component={Link}
+              to="/"
+              sx={{
+                textDecoration: 'none',
                 color: 'inherit',
                 fontWeight: 700,
                 letterSpacing: '-0.5px',
-                display: { xs: 'none', sm: 'block' }
+                display: { xs: 'none', sm: 'block' },
               }}
             >
               Shelfify
             </Typography>
           </Box>
-          
+
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Tooltip title="Search">
               <IconButton color="inherit" onClick={() => setSearchOpen(true)}>
@@ -269,31 +269,31 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </IconButton>
             </Tooltip>
             <Tooltip title="Profile">
-              <IconButton 
-                color="inherit" 
+              <IconButton
+                color="inherit"
                 onClick={handleProfileOpen}
-                sx={{ 
-                  display: 'flex', 
+                sx={{
+                  display: 'flex',
                   alignItems: 'center',
                   gap: 1,
-                  textTransform: 'none'
+                  textTransform: 'none',
                 }}
               >
-                <Avatar 
-                  sx={{ 
-                    width: 32, 
+                <Avatar
+                  sx={{
+                    width: 32,
                     height: 32,
                     bgcolor: 'primary.main',
-                    fontSize: '0.875rem'
+                    fontSize: '0.875rem',
                   }}
                 >
                   S
                 </Avatar>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
+                <Typography
+                  variant="body2"
+                  sx={{
                     display: { xs: 'none', sm: 'block' },
-                    fontWeight: 500
+                    fontWeight: 500,
                   }}
                 >
                   Sean
@@ -304,18 +304,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </Box>
         </Toolbar>
       </AppBar>
-      
+
       {/* Search Dialog */}
-      <Dialog 
-        open={searchOpen} 
+      <Dialog
+        open={searchOpen}
         onClose={() => setSearchOpen(false)}
         fullWidth
         maxWidth="sm"
         PaperProps={{
           sx: {
             borderRadius: 2,
-            mt: 8
-          }
+            mt: 8,
+          },
         }}
       >
         <DialogTitle sx={{ pb: 1 }}>
@@ -345,7 +345,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             Popular searches:
           </Typography>
           <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            {['Books', 'Movies', 'Games', 'Music'].map((term) => (
+            {['Books', 'Movies', 'Games', 'Music'].map(term => (
               <Button
                 key={term}
                 variant="outlined"
@@ -371,8 +371,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             width: 360,
             maxHeight: 400,
             borderRadius: 2,
-            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
-          }
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          },
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -381,16 +381,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Typography variant="h6">Notifications</Typography>
         </Box>
         <Divider />
-        {notifications.map((notification) => (
-          <MenuItem 
+        {notifications.map(notification => (
+          <MenuItem
             key={notification.id}
             onClick={handleNotificationsClose}
-            sx={{ 
-              py: 1.5,
-              px: 2,
+            sx={{
+              'py': 1.5,
+              'px': 2,
               '&:hover': {
-                backgroundColor: 'rgba(37, 99, 235, 0.08)'
-              }
+                backgroundColor: 'rgba(37, 99, 235, 0.08)',
+              },
             }}
           >
             <ListItemAvatar>
@@ -411,9 +411,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ))}
         <Divider />
         <Box sx={{ p: 1 }}>
-          <Button 
-            fullWidth 
-            variant="text" 
+          <Button
+            fullWidth
+            variant="text"
             onClick={handleNotificationsClose}
             sx={{ justifyContent: 'center' }}
           >
@@ -432,8 +432,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             mt: 1.5,
             width: 240,
             borderRadius: 2,
-            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
-          }
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          },
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
@@ -443,8 +443,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Typography variant="body2" color="text.secondary">sean@example.com</Typography>
         </Box>
         <Divider />
-        <MenuItem 
-          component={Link} 
+        <MenuItem
+          component={Link}
           to="/profile"
           onClick={handleProfileClose}
           sx={{ py: 1.5 }}
@@ -454,8 +454,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </ListItemIcon>
           <ListItemText>Profile</ListItemText>
         </MenuItem>
-        <MenuItem 
-          component={Link} 
+        <MenuItem
+          component={Link}
           to="/settings"
           onClick={handleProfileClose}
           sx={{ py: 1.5 }}
@@ -466,7 +466,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <ListItemText>Settings</ListItemText>
         </MenuItem>
         <Divider />
-        <MenuItem 
+        <MenuItem
           onClick={handleProfileClose}
           sx={{ py: 1.5, color: 'error.main' }}
         >
@@ -476,45 +476,47 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <ListItemText>Logout</ListItemText>
         </MenuItem>
       </Menu>
-      
+
       <Box
         component="nav"
-        sx={{ 
-          width: { sm: DRAWER_WIDTH }, 
-          flexShrink: { sm: 0 } 
+        sx={{
+          width: { sm: DRAWER_WIDTH },
+          flexShrink: { sm: 0 },
         }}
       >
-        {isMobile ? (
-          <Drawer
-            variant="temporary"
-            open={drawerOpen}
-            onClose={() => setDrawerOpen(false)}
-            ModalProps={{ keepMounted: true }}
-            sx={{
-              '& .MuiDrawer-paper': { 
-                boxSizing: 'border-box', 
-                width: DRAWER_WIDTH 
-              },
-            }}
-          >
-            {drawer}
-          </Drawer>
-        ) : (
-          <Drawer
-            variant="permanent"
-            sx={{
-              '& .MuiDrawer-paper': { 
-                boxSizing: 'border-box', 
-                width: DRAWER_WIDTH 
-              },
-            }}
-            open
-          >
-            {drawer}
-          </Drawer>
-        )}
+        {isMobile
+          ? (
+              <Drawer
+                variant="temporary"
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+                ModalProps={{ keepMounted: true }}
+                sx={{
+                  '& .MuiDrawer-paper': {
+                    boxSizing: 'border-box',
+                    width: DRAWER_WIDTH,
+                  },
+                }}
+              >
+                {drawer}
+              </Drawer>
+            )
+          : (
+              <Drawer
+                variant="permanent"
+                sx={{
+                  '& .MuiDrawer-paper': {
+                    boxSizing: 'border-box',
+                    width: DRAWER_WIDTH,
+                  },
+                }}
+                open
+              >
+                {drawer}
+              </Drawer>
+            )}
       </Box>
-      
+
       <Box
         component="main"
         sx={{
@@ -523,7 +525,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
           mt: '64px',
           backgroundColor: 'background.default',
-          minHeight: 'calc(100vh - 64px)'
+          minHeight: 'calc(100vh - 64px)',
         }}
       >
         <Fade in timeout={500}>
@@ -533,5 +535,5 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </Fade>
       </Box>
     </Box>
-  );
+  )
 }

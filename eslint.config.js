@@ -1,28 +1,44 @@
+// eslint.config.js
 import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import tsParser from '@typescript-eslint/parser'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
+import reactPlugin from 'eslint-plugin-react'
+import stylistic from '@stylistic/eslint-plugin'
 
-export default tseslint.config(
-  { ignores: ['dist'] },
+export default [
+  // 1) Core ESLint recommended
+  js.configs.recommended,
+
+  // 2) TS + React in one go
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+      },
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      '@typescript-eslint': tsPlugin,
+      'react': reactPlugin,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      // all the TS-recommended rules…
+      ...tsPlugin.configs.recommended.rules,
+      // …plus React’s recommended rules
+      ...reactPlugin.configs.recommended.rules,
+      // …but disable the old “must import React” rule:
+      'react/react-in-jsx-scope': 'off',
     },
+    settings: { 'react': { version: 'detect' }, 'react/jsx-runtime': 'automatic' },
   },
-)
+
+  // 3) Your stylistic overrides
+  stylistic.configs.customize({
+    indent: 2,
+    quotes: 'single',
+    semi: false,
+    jsx: true,
+  }),
+]

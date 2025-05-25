@@ -16,23 +16,23 @@ import {
   Select,
   FormControl,
   InputLabel,
-  Fade
-} from '@mui/material';
+  Fade,
+} from '@mui/material'
 import {
   Search as SearchIcon,
   Sort as SortIcon,
-  FilterList as FilterIcon
-} from '@mui/icons-material';
-import { useState } from 'react';
+  FilterList as FilterIcon,
+} from '@mui/icons-material'
+import { useState } from 'react'
 
 interface CollectionItem {
-  id: number;
-  category: 'Music' | 'Movies';
-  title: string;
-  condition: string;
-  pricePaid: number;
-  format: string;
-  year: number;
+  id: number
+  category: 'Music' | 'Movies'
+  title: string
+  condition: string
+  pricePaid: number
+  format: string
+  year: number
 }
 
 // Mock data - replace with actual data fetching
@@ -44,7 +44,7 @@ const mockData: CollectionItem[] = [
     condition: 'Near Mint',
     pricePaid: 25,
     format: 'Vinyl',
-    year: 1979
+    year: 1979,
   },
   {
     id: 2,
@@ -53,9 +53,9 @@ const mockData: CollectionItem[] = [
     condition: 'Sealed',
     pricePaid: 30,
     format: 'Blu-ray',
-    year: 2010
-  }
-];
+    year: 2010,
+  },
+]
 
 const conditions = [
   'Sealed',
@@ -65,34 +65,34 @@ const conditions = [
   'Good Plus',
   'Good',
   'Fair',
-  'Poor'
-];
+  'Poor',
+]
 
 export function MyCollection() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('title');
-  const [filterCategory, setFilterCategory] = useState<string>('all');
-  const [filterCondition, setFilterCondition] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sortBy, setSortBy] = useState('title')
+  const [filterCategory, setFilterCategory] = useState<string>('all')
+  const [filterCondition, setFilterCondition] = useState<string>('all')
 
-  const filteredData = mockData.filter(item => {
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = filterCategory === 'all' || item.category === filterCategory;
-    const matchesCondition = filterCondition === 'all' || item.condition === filterCondition;
-    return matchesSearch && matchesCategory && matchesCondition;
-  });
+  const filteredData = mockData.filter((item) => {
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesCategory = filterCategory === 'all' || item.category === filterCategory
+    const matchesCondition = filterCondition === 'all' || item.condition === filterCondition
+    return matchesSearch && matchesCategory && matchesCondition
+  })
 
   const sortedData = [...filteredData].sort((a, b) => {
     switch (sortBy) {
       case 'title':
-        return a.title.localeCompare(b.title);
+        return a.title.localeCompare(b.title)
       case 'year':
-        return b.year - a.year;
+        return b.year - a.year
       case 'price':
-        return b.pricePaid - a.pricePaid;
+        return b.pricePaid - a.pricePaid
       default:
-        return 0;
+        return 0
     }
-  });
+  })
 
   return (
     <Box>
@@ -107,7 +107,7 @@ export function MyCollection() {
         <TextField
           placeholder="Search collection..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
           sx={{ flexGrow: 1, minWidth: 200 }}
           InputProps={{
             startAdornment: (
@@ -122,12 +122,12 @@ export function MyCollection() {
           <Select
             value={filterCategory}
             label="Category"
-            onChange={(e) => setFilterCategory(e.target.value)}
-            startAdornment={
+            onChange={e => setFilterCategory(e.target.value)}
+            startAdornment={(
               <InputAdornment position="start">
                 <FilterIcon color="action" />
               </InputAdornment>
-            }
+            )}
           >
             <MenuItem value="all">All Categories</MenuItem>
             <MenuItem value="Music">Music</MenuItem>
@@ -139,10 +139,10 @@ export function MyCollection() {
           <Select
             value={filterCondition}
             label="Condition"
-            onChange={(e) => setFilterCondition(e.target.value)}
+            onChange={e => setFilterCondition(e.target.value)}
           >
             <MenuItem value="all">All Conditions</MenuItem>
-            {conditions.map((condition) => (
+            {conditions.map(condition => (
               <MenuItem key={condition} value={condition}>
                 {condition}
               </MenuItem>
@@ -154,12 +154,12 @@ export function MyCollection() {
           <Select
             value={sortBy}
             label="Sort By"
-            onChange={(e) => setSortBy(e.target.value)}
-            startAdornment={
+            onChange={e => setSortBy(e.target.value)}
+            startAdornment={(
               <InputAdornment position="start">
                 <SortIcon color="action" />
               </InputAdornment>
-            }
+            )}
           >
             <MenuItem value="title">Title</MenuItem>
             <MenuItem value="year">Year</MenuItem>
@@ -181,41 +181,44 @@ export function MyCollection() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedData.map((item) => (
+            {sortedData.map(item => (
               <TableRow key={item.id}>
                 <TableCell>
-                  <Chip 
+                  <Chip
                     label={item.category}
                     size="small"
-                    sx={{ 
+                    sx={{
                       backgroundColor: item.category === 'Music' ? '#2563eb15' : '#7c3aed15',
-                      color: item.category === 'Music' ? '#2563eb' : '#7c3aed'
+                      color: item.category === 'Music' ? '#2563eb' : '#7c3aed',
                     }}
                   />
                 </TableCell>
                 <TableCell>{item.title}</TableCell>
                 <TableCell>{item.year}</TableCell>
                 <TableCell>
-                  <Chip 
+                  <Chip
                     label={item.format}
                     size="small"
-                    sx={{ 
+                    sx={{
                       backgroundColor: item.format === 'Vinyl' || item.format === 'Blu-ray' ? '#2563eb15' : '#7c3aed15',
-                      color: item.format === 'Vinyl' || item.format === 'Blu-ray' ? '#2563eb' : '#7c3aed'
+                      color: item.format === 'Vinyl' || item.format === 'Blu-ray' ? '#2563eb' : '#7c3aed',
                     }}
                   />
                 </TableCell>
                 <TableCell>
-                  <Chip 
+                  <Chip
                     label={item.condition}
                     size="small"
-                    sx={{ 
+                    sx={{
                       backgroundColor: item.condition === 'Sealed' || item.condition === 'Near Mint' ? '#2563eb15' : '#7c3aed15',
-                      color: item.condition === 'Sealed' || item.condition === 'Near Mint' ? '#2563eb' : '#7c3aed'
+                      color: item.condition === 'Sealed' || item.condition === 'Near Mint' ? '#2563eb' : '#7c3aed',
                     }}
                   />
                 </TableCell>
-                <TableCell align="right">${item.pricePaid}</TableCell>
+                <TableCell align="right">
+                  $
+                  {item.pricePaid}
+                </TableCell>
               </TableRow>
             ))}
             {sortedData.length === 0 && (
@@ -231,5 +234,5 @@ export function MyCollection() {
         </Table>
       </TableContainer>
     </Box>
-  );
-} 
+  )
+}
