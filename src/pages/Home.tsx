@@ -16,6 +16,7 @@ import MovieIcon from '@mui/icons-material/Movie';
 import CasinoIcon from '@mui/icons-material/Casino';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Link } from 'react-router-dom';
+import { useModal } from '../../contexts/ModalContext'; // Import useModal
 
 // Mock data for demo
 const userName = 'Sean';
@@ -29,9 +30,9 @@ const copiesData = [
 ];
 
 const mockShelvesPreview = [
-  { name: 'Music Shelf', count: 3 },
-  { name: 'Movies Shelf', count: 1 },
-  { name: 'Pokémon Shelf', count: 0 },
+  { id: 'music', name: 'Music Shelf', count: 3 },
+  { id: 'movies', name: 'Movies Shelf', count: 1 },
+  { id: 'pokemon', name: 'Pokémon Shelf', count: 0 },
 ];
 
 const mockMetrics = [
@@ -41,28 +42,30 @@ const mockMetrics = [
 ];
 
 const mockRecentlyAdded = [
-  { thumbnail: true, title: 'The Wall — Vinyl, UK', condition: 'Near Mint', price: 25, timeAgo: '2h' },
-  { thumbnail: true, title: 'Inception — DVD, Region 1', condition: 'Sealed', price: 30, timeAgo: '1d' },
-  // Add more mock data as needed
+  { id: '1', thumbnail: true, title: 'The Wall — Vinyl, UK', condition: 'Near Mint', price: 25, timeAgo: '2h' },
+  { id: '2', thumbnail: true, title: 'Inception — DVD, Region 1', condition: 'Sealed', price: 30, timeAgo: '1d' },
+  { id: '3', thumbnail: true, title: 'Charizard Holo - Pokémon Card', condition: 'PSA 9', price: 250, timeAgo: '3d' },
 ];
 
 const mockExploreMore = [
-  { label: 'Start your Pokémon Shelf', action: 'goToPokemonReleases' }, // action will need implementation
-  { label: 'New Release: [Title]', action: 'viewRelease' }, // action will need implementation
+  { label: 'Start your Pokémon Shelf', action: 'goToPokemonReleases', link: '/shelves/pokemon' },
+  { label: 'New Release: Dune Part Two - Blu-ray', action: 'viewRelease', link: '/releases/dune-part-two-bluray' }, // Example link
 ];
 
 export default function Home() {
   const navigate = useNavigate();
+  const { openAddCopyModal } = useModal(); // Get modal control
 
   // Helper function for actions (placeholders for now)
   const handleExploreAction = (action: string) => {
     console.log(`Action clicked: ${action}`);
     // Implement actual navigation or modal opens here later
-    if (action === 'goToPokemonReleases') {
-      navigate('/releases/pokemon'); // Example navigation (assuming this route exists)
-    }
-    else if (action === 'viewRelease') {
-      // navigate to a specific release page
+    const item = mockExploreMore.find(item => item.action === action);
+    if (item && item.link) {
+      navigate(item.link);
+    } else if (action === 'viewRelease') {
+      // Potentially open a modal with release details or navigate to a generic new releases page
+      console.log('View Release action triggered for a generic new release.');
     }
   };
 
@@ -92,13 +95,16 @@ export default function Home() {
           Your physical media, perfectly organized.
         </Typography>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <Button variant="contained" size="large" startIcon={<AddIcon />}>
-            {' '}
-            {/* Using AddIcon for 'Add Manually' feel */}
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<AddIcon />}
+            onClick={() => openAddCopyModal()} // Open modal
+          >
             Add Manually
           </Button>
           {/* Barcode Scan CTA - Placeholder for now */}
-          <Button variant="outlined" size="large">
+          <Button variant="outlined" size="large" onClick={() => console.log('Scan Barcode clicked (placeholder)')}>
             Scan Barcode
           </Button>
         </Stack>
@@ -125,7 +131,7 @@ export default function Home() {
                 'cursor': 'pointer',
                 '&:hover': { boxShadow: '0 4px 12px #0002' },
               }}
-              onClick={() => navigate(`/shelves/${shelf.name.toLowerCase().replace(' ', '-')}`)} // Example navigation
+              onClick={() => navigate(`/shelves/${shelf.id}`)}
             >
               <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%', justifyContent: 'space-between' }}>
                 <Box>
@@ -192,35 +198,37 @@ export default function Home() {
       <Typography variant="h5" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
         Recently Added
       </Typography>
-      <Stack spacing={2} sx={{ mb: 6 }}>
-        {mockRecentlyAdded.map((item, index) => (
-          <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            {/* Thumbnail Placeholder */}
-            {item.thumbnail && (
-              <Box sx={{ width: 50, height: 50, bgcolor: 'grey.300', borderRadius: 1 }} />
-            )}
-            <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{item.title}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Condition:
-                {' '}
-                {item.condition}
-                {' '}
-                | Price: $
-                {item.price}
-                {' '}
-                | Added:
-                {' '}
-                {item.timeAgo}
-                {' '}
-                ago
-              </Typography>
-            </Box>
-            {/* Optional: View Item button */}
-            <Button variant="outlined" size="small">View</Button>
-          </Box>
+      <Grid container spacing={3} sx={{ mb: 6 }}>
+        {mockRecentlyAdded.map((item) => (
+          <Grid item xs={12} sm={6} md={4} key={item.id}>
+            <Card sx={{ borderRadius: 3, boxShadow: '0 2px 8px #0001', '&:hover': { boxShadow: '0 4px 12px #0002' } }}>
+              {item.thumbnail && (
+                <Box sx={{ height: 140, bgcolor: 'grey.300', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* Placeholder for actual image or icon */}
+                  <Typography variant="caption" color="text.secondary">Thumbnail</Typography>
+                </Box>
+              )}
+              <CardContent>
+                <Typography variant="subtitle1" sx={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {item.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Condition: {item.condition}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Price: ${item.price}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Added: {item.timeAgo} ago
+                </Typography>
+              </CardContent>
+              <Box sx={{ p: 2, pt: 0 }}>
+                <Button fullWidth variant="outlined" size="small" onClick={() => console.log('View item:', item.id)}>View</Button>
+              </Box>
+            </Card>
+          </Grid>
         ))}
-      </Stack>
+      </Grid>
 
       <Divider sx={{ my: 4 }} />
       {' '}

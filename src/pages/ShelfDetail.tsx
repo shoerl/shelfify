@@ -1,207 +1,250 @@
-/* eslint-disable */
-/* tslint:disable */
-// @ts-nocheck
 import React, { useState } from 'react';
-import { Box, Typography, Button, Tabs, Tab, useTheme, useMediaQuery, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Card, CardContent, Grid, Stack, Divider, Chip, Container } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import {
+  Box,
+  Typography,
+  Button,
+  Tabs,
+  Tab,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
+  Container,
+  Stack,
+} from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import { useModal } from '../../contexts/ModalContext'; // Import useModal
 
-// Mock data for shelves and items
+// Consistent with MyShelves.tsx and AppShell.tsx
 const mockShelves = [
-  {
-    id: 'music',
-    name: 'Music Shelf',
-    items: [
-      { id: 1, title: 'The Wall', artist: 'Pink Floyd', format: 'Vinyl' },
-      { id: 2, title: 'Thriller', artist: 'Michael Jackson', format: 'CD' },
-      { id: 5, title: 'Abbey Road', artist: 'The Beatles', format: 'Vinyl' },
-      { id: 6, title: 'Rumours', artist: 'Fleetwood Mac', format: 'Cassette' },
-    ]
-  },
-  {
-    id: 'movies',
-    name: 'Movies Shelf',
-    items: [
-      { id: 3, title: 'Inception', director: 'Christopher Nolan', format: 'Blu-ray' },
-      { id: 4, title: 'Parasite', director: 'Bong Joon Ho', format: 'DVD' },
-      { id: 7, title: 'The Matrix', director: 'Lana Wachowski, Lilly Wachowski', format: '4K UHD' },
-    ]
-  },
-  { id: 'pokemon', name: 'Pokémon Shelf', items: [] },
+  { id: 'music', name: 'Music Shelf' },
+  { id: 'movies', name: 'Movies Shelf' },
+  { id: 'pokemon', name: 'Pokémon Shelf' },
 ];
 
-// Mock data for copies across shelves (for demonstration)
-const mockCopies = [
+// Mock data for owned items, structured for easy filtering by shelfId
+const mockOwnedItems = [
   {
-    id: 1,
+    id: 'item1',
     shelfId: 'music',
-    title: 'The Wall',
-    variant: 'Vinyl, UK',
+    title: 'The Dark Side of the Moon',
+    variant: 'Vinyl, 1973 UK Pressing',
     condition: 'Near Mint',
-    pricePaid: 25,
-    dateAcquired: '2023-10-01',
+    pricePaid: 50,
+    dateAcquired: '2023-01-15',
   },
   {
-    id: 2,
+    id: 'item2',
+    shelfId: 'music',
+    title: 'Abbey Road',
+    variant: 'Vinyl, Reissue',
+    condition: 'Very Good Plus',
+    pricePaid: 25,
+    dateAcquired: '2022-05-10',
+  },
+  {
+    id: 'item3',
     shelfId: 'movies',
     title: 'Inception',
-    variant: 'DVD, Region 1',
-    condition: 'Sealed',
-    pricePaid: 30,
-    dateAcquired: '2023-11-15',
-  },
-   {
-    id: 3,
-    shelfId: 'music',
-    title: 'Dark Side of the Moon',
-    variant: 'CD, Remastered',
-    condition: 'Very Good Plus',
+    variant: 'Blu-ray, Special Edition',
+    condition: 'Very Good',
     pricePaid: 15,
-    dateAcquired: '2024-01-20',
+    dateAcquired: '2022-11-20',
+  },
+  {
+    id: 'item4',
+    shelfId: 'movies',
+    title: 'Pulp Fiction',
+    variant: 'DVD',
+    condition: 'Good',
+    pricePaid: 5,
+    dateAcquired: '2020-03-01',
+  },
+  {
+    id: 'item5',
+    shelfId: 'pokemon',
+    title: 'Charizard VMAX',
+    variant: 'Rainbow Rare',
+    condition: 'Mint',
+    pricePaid: 120,
+    dateAcquired: '2023-07-22',
   },
 ];
 
-// Placeholder components for tab content
-const YourCopiesTabPanel = ({ shelfId }: { shelfId: string }) => {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
 
-  // Filter mock data for the current shelf
-  const shelfCopies = mockCopies.filter(copy => copy.shelfId === shelfId);
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
 
   return (
-    <Box sx={{ p: 0 }}>{/* Removed padding here, will be handled by main content box */}
-      {shelfCopies.length > 0 ? (
-        isDesktop ? (
-          // Desktop Table View
-          <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Variant</TableCell>
-                  <TableCell>Condition</TableCell>
-                  <TableCell align="right">Price Paid</TableCell>
-                  <TableCell>Date Acquired</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {shelfCopies.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell>{item.title}</TableCell>
-                    <TableCell>{item.variant}</TableCell>
-                    <TableCell>
-                      <Chip label={item.condition} size="small" />
-                    </TableCell>
-                    <TableCell align="right">${item.pricePaid.toFixed(2)}</TableCell>
-                    <TableCell>{item.dateAcquired}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          // Mobile Card View
-          <Grid container spacing={2}>
-            {shelfCopies.map(item => (
-              <Grid item xs={12} key={item.id}> {/* Full width cards on mobile */}
-                <Card sx={{ borderRadius: 2, boxShadow: '0 2px 8px #0001' }}>
-                  <CardContent>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-                      {item.title}
-                    </Typography>
-                    <Stack spacing={1} direction="column">
-                       <Typography variant="body2" color="text.secondary">Variant: {item.variant}</Typography>
-                       <Typography variant="body2" color="text.secondary">Condition: {item.condition}</Typography>
-                       <Typography variant="body2" color="text.secondary">Price Paid: ${item.pricePaid.toFixed(2)}</Typography>
-                       <Typography variant="body2" color="text.secondary">Date Acquired: {item.dateAcquired}</Typography>
-                     </Stack>
-                     {/* Optional: Add action buttons */}
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        )
-      ) : (
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography variant="h6" color="text.secondary">No copies found in this shelf.</Typography>
-          {/* TODO: Add CTA to add copy */}
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`shelf-tabpanel-${index}`}
+      aria-labelledby={`shelf-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ pt: 3 }}> {/* Add padding top to tab panel content */}
+          {children}
         </Box>
       )}
+    </div>
+  );
+}
 
-    </Box>
+const YourCopiesTabPanel = ({ shelfId }: { shelfId: string }) => {
+  const shelfCopies = mockOwnedItems.filter(copy => copy.shelfId === shelfId);
+
+  if (shelfCopies.length === 0) {
+    return (
+      <Box sx={{ textAlign: 'center', py: 4 }}>
+        <Typography variant="h6" color="text.secondary">
+          No copies found in this shelf yet.
+        </Typography>
+        <Button variant="outlined" startIcon={<AddIcon />} sx={{ mt: 2 }}>
+          Add Your First Copy
+        </Button>
+      </Box>
+    );
+  }
+
+  return (
+    <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ fontWeight: 'bold' }}>Title</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>Variant</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>Condition</TableCell>
+            <TableCell align="right" sx={{ fontWeight: 'bold' }}>Price Paid</TableCell>
+            <TableCell sx={{ fontWeight: 'bold' }}>Date Acquired</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {shelfCopies.map(item => (
+            <TableRow key={item.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCell>{item.title}</TableCell>
+              <TableCell>{item.variant}</TableCell>
+              <TableCell>
+                <Chip label={item.condition} size="small" />
+              </TableCell>
+              <TableCell align="right">${item.pricePaid.toFixed(2)}</TableCell>
+              <TableCell>{item.dateAcquired}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
-const BrowseReleasesTabPanel = ({ shelfId }: { shelfId: string }) => (
-  <Box sx={{ p: 3 }}>
-    <Typography variant="h6">Browse Releases for {shelfId}</Typography>
-    <Typography>Content for Browse Releases filters and items will go here.</Typography>
-    {/* TODO: Implement filters, grid/table view, and inline Add Copy */}
+const BrowseReleasesTabPanel = ({ shelfName }: { shelfName: string }) => (
+  <Box sx={{ textAlign: 'center', py: 4 }}>
+    <Typography variant="h6" color="text.secondary">
+      Browse Releases for {shelfName} - Coming Soon!
+    </Typography>
+    <Typography variant="body1" color="text.secondary">
+      Filters and release listings will be available here in a future update.
+    </Typography>
   </Box>
 );
 
 export function ShelfDetail() {
   const { shelfId } = useParams<{ shelfId: string }>();
+  const navigate = useNavigate();
+  const { openAddCopyModal } = useModal(); // Get modal control
   const [currentTab, setCurrentTab] = useState(0);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const shelf = mockShelves.find(s => s.id === shelfId);
+  const shelfCopies = mockOwnedItems.filter(copy => copy.shelfId === shelfId);
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
   };
 
-  // Find the shelf based on the shelfId from the URL
-  const shelf = mockShelves.find(s => s.id === shelfId);
+  // const handleAddCopyClick = () => { // Replaced by modal
+  //   console.log(`Add Copy clicked for shelf: ${shelfId}`);
+  //   // Placeholder: navigate('/copies/new', { state: { shelfId } });
+  // };
 
   if (!shelf) {
     return (
-      <Container sx={{ mt: 4 }}>
-        <Typography variant="h4" color="error">Shelf Not Found</Typography>
-        <Typography variant="body1">The shelf with ID "{shelfId}" does not exist.</Typography>
+      <Container sx={{ textAlign: 'center', py: { xs: 4, md: 8 } }}>
+        <Typography variant="h4" color="error.main" gutterBottom>
+          Shelf Not Found
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+          The shelf with ID "{shelfId}" could not be found. It might have been removed or the link is incorrect.
+        </Typography>
+        <Button variant="contained" onClick={() => navigate('/shelves')}>
+          Back to My Shelves
+        </Button>
       </Container>
     );
   }
 
+  // Mock number of releases for display
+  const mockReleasesCount = shelfId === 'music' ? 125 : shelfId === 'movies' ? 78 : 30;
+
+
   return (
-    <Box sx={{ maxWidth: 1000, mx: 'auto', py: { xs: 2, md: 4 } }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ mb: 1 }}>{shelf.name}</Typography>
-        <Typography variant="body1" color="text.secondary">
-          Items in this shelf
-        </Typography>
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          justifyContent: 'space-between',
+          alignItems: { xs: 'flex-start', sm: 'center' },
+          mb: 4,
+          gap: 2,
+        }}
+      >
+        <Box>
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
+            {shelf.name}
+          </Typography>
+          <Stack direction="row" spacing={2} color="text.secondary" sx={{ mt: 1 }}>
+            <Typography variant="body1">
+              {shelfCopies.length} Cop{shelfCopies.length === 1 ? 'y' : 'ies'}
+            </Typography>
+            <Typography variant="body1">
+              {mockReleasesCount} Release{mockReleasesCount === 1 ? '' : 's'} {/* Mocked */}
+            </Typography>
+          </Stack>
+        </Box>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => openAddCopyModal({ shelfId: shelf?.id, shelfName: shelf?.name })} // Pass shelf context
+          sx={{ mt: { xs: 2, sm: 0 } }}
+        >
+          Add Copy
+        </Button>
       </Box>
 
-      {shelf.items.length > 0 ? (
-        <Grid container spacing={2}>
-          {shelf.items.map(item => (
-            // Adjust grid sizes for responsiveness
-            <Grid item xs={12} sm={6} md={4} key={item.id}>
-              <Card sx={{ borderRadius: 2, boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 1 }}>{item.title}</Typography>
-                  {/* Display relevant details based on item type */}
-                  {'artist' in item && (
-                    <Typography variant="body2" color="text.secondary">Artist: {item.artist}</Typography>
-                  )}
-                  {'director' in item && (
-                    <Typography variant="body2" color="text.secondary">Director: {item.director}</Typography>
-                  )}
-                   {'format' in item && (
-                    <Typography variant="body2" color="text.secondary">Format: {item.format}</Typography>
-                  )}
-                  {/* Add more item details here based on item type */}
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      ) : (
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography variant="h6" color="text.secondary">No items in this shelf yet.</Typography>
-        </Box>
-      )}
-    </Box>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={currentTab} onChange={handleChangeTab} aria-label="Shelf detail tabs">
+          <Tab label="Your Copies" id="shelf-tab-0" aria-controls="shelf-tabpanel-0" />
+          <Tab label="Browse Releases" id="shelf-tab-1" aria-controls="shelf-tabpanel-1" />
+        </Tabs>
+      </Box>
+
+      <TabPanel value={currentTab} index={0}>
+        <YourCopiesTabPanel shelfId={shelf.id} />
+      </TabPanel>
+      <TabPanel value={currentTab} index={1}>
+        <BrowseReleasesTabPanel shelfName={shelf.name} />
+      </TabPanel>
+    </Container>
   );
-} 
+}

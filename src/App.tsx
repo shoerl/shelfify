@@ -7,12 +7,16 @@ import { Helmet } from 'react-helmet-async';
 import Home from './pages/Home';
 import MyShelves from './pages/MyShelves'; // Import the new MyShelves component
 import { AllCopies } from './pages/AllCopies'; // Corrected import to directly import AllCopies
+import { ShelfDetail } from './pages/ShelfDetail'; // Import ShelfDetail
+import Wishlist from './pages/Wishlist'; // Import Wishlist
+import Statistics from './pages/Statistics'; // Import Statistics
+import ActivityFeed from './pages/ActivityFeed'; // Import ActivityFeed
 
 // Placeholder components for new pages
-const ShelfDetailPlaceholder = () => <div>Shelf Detail Page Placeholder</div>;
-const WishlistPlaceholder = () => <div>Wishlist Page Placeholder</div>;
-const StatisticsPlaceholder = () => <div>Statistics Page Placeholder</div>;
-const ActivityFeedPlaceholder = () => <div>Activity Feed Page Placeholder</div>;
+// const ShelfDetailPlaceholder = () => <div>Shelf Detail Page Placeholder</div>; // Remove placeholder
+// const WishlistPlaceholder = () => <div>Wishlist Page Placeholder</div>; // Remove placeholder
+// const StatisticsPlaceholder = () => <div>Statistics Page Placeholder</div>; // Remove placeholder
+// const ActivityFeedPlaceholder = () => <div>Activity Feed Page Placeholder</div>; // Remove placeholder
 
 export default function App() {
   const previewId = import.meta.env.VITE_PREVIEW_ID;
@@ -25,15 +29,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shelves" element={<MyShelves />} />
-        {' '}
-        {/* Use the new MyShelves component */}
-        <Route path="/shelves/:shelfId" element={<ShelfDetailPlaceholder />} />
+        <Route path="/shelves/:shelfId" element={<ShelfDetail />} /> {/* Use ShelfDetail component */}
         <Route path="/copies" element={<AllCopies />} />
-        {' '}
-        {/* Use the aliased AllCopies component */}
-        <Route path="/wishlist" element={<WishlistPlaceholder />} />
-        <Route path="/stats" element={<StatisticsPlaceholder />} />
-        <Route path="/activity" element={<ActivityFeedPlaceholder />} />
+        <Route path="/wishlist" element={<Wishlist />} /> {/* Use Wishlist component */}
+        <Route path="/stats" element={<Statistics />} /> {/* Use Statistics component */}
+        <Route path="/activity" element={<ActivityFeed />} /> {/* Use ActivityFeed component */}
 
         {/* Old routes - uncomment or remove as needed */}
         {/* <Route path="/types" element={<TypesList />} /> */}

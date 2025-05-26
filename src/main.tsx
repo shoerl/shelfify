@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import { theme } from './theme';
+import { ModalProvider } from './contexts/ModalContext'; // Import ModalProvider
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <CssBaseline />
         <HelmetProvider>
           <BrowserRouter basename={basePath}>
-            <App />
+            <ModalProvider> {/* Wrap App with ModalProvider */}
+              <App />
+            </ModalProvider>
           </BrowserRouter>
         </HelmetProvider>
       </ThemeProvider>
