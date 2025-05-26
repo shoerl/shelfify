@@ -22,8 +22,7 @@ const mockWishlistItems = [
     artist: 'The Beatles',
     releaseYear: 1969,
     format: 'Vinyl, 180g Remastered',
-    image: 'https://via.placeholder.com/150',
-    estimatedValue: 35,
+    image: '/static/images/placeholders/album.svg',
     shelfId: 'music',
   },
   {
@@ -32,8 +31,7 @@ const mockWishlistItems = [
     director: 'Francis Ford Coppola',
     releaseYear: 1972,
     format: 'Blu-ray, 4K UHD',
-    image: 'https://via.placeholder.com/150',
-    estimatedValue: 25,
+    image: '/static/images/placeholders/movie.svg',
     shelfId: 'movies',
   },
   {
@@ -42,8 +40,7 @@ const mockWishlistItems = [
     set: 'Base Set',
     number: '4/102',
     condition: 'Near Mint',
-    image: 'https://via.placeholder.com/150',
-    estimatedValue: 350,
+    image: '/static/images/placeholders/book.svg',
     shelfId: 'pokemon',
   },
 ];

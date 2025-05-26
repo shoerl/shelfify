@@ -298,7 +298,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
             <Tooltip title="Account settings">
               <IconButton onClick={handleProfileOpen} sx={{ ml: 2 }}>
-                <Avatar alt="User" src="/static/images/avatar/1.jpg" />
+                <Avatar alt="User" src="/static/images/avatar/user1.svg" />
               </IconButton>
             </Tooltip>
             <Menu
