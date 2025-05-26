@@ -10,7 +10,7 @@ import {
   Card,
   CardContent,
   Divider,
-  Chip
+  Chip,
 } from '@mui/material';
 import {
   Album as AlbumIcon,
@@ -31,7 +31,7 @@ const mockActivities = [
     item: 'The Wall by Pink Floyd',
     timestamp: '2 hours ago',
     shelf: 'Music',
-    icon: <AlbumIcon />
+    icon: <AlbumIcon />,
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ const mockActivities = [
     timestamp: '1 day ago',
     price: 15,
     shelf: 'Movies',
-    icon: <MovieIcon />
+    icon: <MovieIcon />,
   },
   {
     id: 3,
@@ -50,7 +50,7 @@ const mockActivities = [
     item: 'Charizard Holo #4',
     timestamp: '3 days ago',
     shelf: 'Pokémon',
-    icon: <PokemonIcon />
+    icon: <PokemonIcon />,
   },
   {
     id: 4,
@@ -60,7 +60,7 @@ const mockActivities = [
     timestamp: '1 week ago',
     details: 'Updated condition from "Very Good" to "Near Mint"',
     shelf: 'Music',
-    icon: <AlbumIcon />
+    icon: <AlbumIcon />,
   },
   {
     id: 5,
@@ -70,7 +70,7 @@ const mockActivities = [
     timestamp: '2 weeks ago',
     rating: 5,
     shelf: 'Movies',
-    icon: <MovieIcon />
+    icon: <MovieIcon />,
   },
 ];
 
@@ -90,8 +90,20 @@ const getActivityIcon = (type: string) => {
   }
 };
 
+interface ActivityItem {
+  id: string;
+  user: string;
+  userAvatar: string;
+  type: 'add' | 'sell' | 'edit' | 'buy' | 'remove' | 'review';
+  item: string;
+  shelf?: string;
+  price?: number;
+  timestamp: string;
+  details?: string;
+}
+
 // Helper function to get activity text
-const getActivityText = (activity: any) => {
+const getActivityText = (activity: ActivityItem) => {
   switch (activity.type) {
     case 'add':
       return `added ${activity.item} to ${activity.shelf} shelf`;
@@ -128,7 +140,7 @@ export default function ActivityFeed() {
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary={
+                    primary={(
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Typography component="span" variant="body1" fontWeight={500}>
                           {activity.user}
@@ -137,8 +149,8 @@ export default function ActivityFeed() {
                           {activity.timestamp}
                         </Typography>
                       </Box>
-                    }
-                    secondary={
+                    )}
+                    secondary={(
                       <Box sx={{ mt: 0.5 }}>
                         <Typography variant="body1">
                           {getActivityText(activity)}
@@ -147,14 +159,14 @@ export default function ActivityFeed() {
                           <Avatar sx={{ width: 24, height: 24, mr: 1 }}>
                             {activity.icon}
                           </Avatar>
-                          <Chip 
-                            label={activity.shelf} 
-                            size="small" 
+                          <Chip
+                            label={activity.shelf}
+                            size="small"
                             variant="outlined"
                           />
                         </Box>
                       </Box>
-                    }
+                    )}
                   />
                 </ListItem>
                 {index < mockActivities.length - 1 && <Divider variant="inset" component="li" />}
@@ -163,7 +175,7 @@ export default function ActivityFeed() {
           </List>
         </CardContent>
       </Card>
-      
+
       {mockActivities.length === 0 && (
         <Box sx={{ textAlign: 'center', mt: 6 }}>
           <Typography variant="h6" color="text.secondary">No recent activity</Typography>

@@ -32,7 +32,7 @@ export default function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/stats" element={<Statistics />} />
           <Route path="/activity" element={<ActivityFeed />} />
-          
+
           {/* Old routes - uncomment or remove as needed */}
           {/* <Route path="/types" element={<TypesList />} /> */}
           {/* <Route path="/types/:typeId" element={<TypeDetail />} /> */}

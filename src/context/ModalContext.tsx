@@ -36,13 +36,13 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
-      <Dialog 
-        open={isOpen} 
-        onClose={closeModal} 
-        fullWidth 
+      <Dialog
+        open={isOpen}
+        onClose={closeModal}
+        fullWidth
         maxWidth="sm"
         PaperProps={{
-          sx: { borderRadius: 2 }
+          sx: { borderRadius: 2 },
         }}
       >
         {modalTitle && (

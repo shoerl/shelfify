@@ -41,7 +41,7 @@ interface AddCopyFormProps {
 
 export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormProps) {
   const { closeModal } = useModal();
-  
+
   const [formData, setFormData] = useState({
     title: '',
     variant: '',
@@ -58,7 +58,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
     const { name, value } = e.target;
     if (name) {
       setFormData(prev => ({ ...prev, [name]: value }));
-      
+
       // Clear error on field change
       if (errors[name]) {
         setErrors(prev => ({ ...prev, [name]: '' }));
@@ -68,7 +68,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.title.trim()) newErrors.title = 'Title is required';
     if (!formData.shelfId) newErrors.shelfId = 'Shelf is required';
     if (!formData.condition) newErrors.condition = 'Condition is required';
@@ -82,11 +82,11 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validate()) {
       // Here we would usually submit the data to an API
       console.log('Submitting copy data:', formData);
-      
+
       // Simulate success
       setTimeout(() => {
         if (onSuccess) onSuccess();
@@ -114,7 +114,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
             required
           />
         </Grid>
-        
+
         <Grid item xs={12}>
           <TextField
             name="variant"
@@ -125,7 +125,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
             placeholder="e.g., Vinyl, UK pressing, 1st Edition"
           />
         </Grid>
-        
+
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth required error={!!errors.condition}>
             <InputLabel>Condition</InputLabel>
@@ -142,7 +142,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
             {errors.condition && <FormHelperText>{errors.condition}</FormHelperText>}
           </FormControl>
         </Grid>
-        
+
         <Grid item xs={12} sm={6}>
           <TextField
             name="pricePaid"
@@ -157,7 +157,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
             placeholder="0.00"
           />
         </Grid>
-        
+
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth required error={!!errors.shelfId}>
             <InputLabel>Shelf</InputLabel>
@@ -175,7 +175,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
             {errors.shelfId && <FormHelperText>{errors.shelfId}</FormHelperText>}
           </FormControl>
         </Grid>
-        
+
         <Grid item xs={12} sm={6}>
           <TextField
             name="dateAcquired"
@@ -187,7 +187,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
             InputLabelProps={{ shrink: true }}
           />
         </Grid>
-        
+
         <Grid item xs={12}>
           <TextField
             name="notes"
@@ -201,7 +201,7 @@ export default function AddCopyForm({ selectedShelfId, onSuccess }: AddCopyFormP
           />
         </Grid>
       </Grid>
-      
+
       <Stack direction="row" spacing={2} sx={{ mt: 3, justifyContent: 'flex-end' }}>
         <Button onClick={handleCancel} variant="outlined">
           Cancel

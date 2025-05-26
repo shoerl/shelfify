@@ -34,7 +34,7 @@ export function MobileBottomNavigation() {
   const handleAddCopyClick = () => {
     openModal(
       <AddCopyForm />,
-      "Add Copy to Your Collection"
+      'Add Copy to Your Collection',
     );
   };
 
@@ -58,7 +58,7 @@ export function MobileBottomNavigation() {
       >
         <AddIcon />
       </Fab>
-      
+
       <BottomNavigation value={value} onChange={handleChange}>
         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction label="Shelves" icon={<ShelvesIcon />} />

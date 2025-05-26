@@ -9,9 +9,9 @@ import {
   CardHeader,
   Paper,
   Tabs,
-  Tab
+  Tab,
 } from '@mui/material';
-import { 
+import {
   Timeline as TimelineIcon,
   Category as CategoryIcon,
   Payments as PaymentsIcon,
@@ -36,8 +36,8 @@ export default function Statistics() {
       </Box>
 
       <Paper sx={{ mb: 3, borderRadius: 1 }}>
-        <Tabs 
-          value={currentTab} 
+        <Tabs
+          value={currentTab}
           onChange={handleTabChange}
           variant="fullWidth"
           indicatorColor="primary"
@@ -50,7 +50,7 @@ export default function Statistics() {
           <Tab icon={<TrendingUpIcon />} label="VALUE" />
         </Tabs>
       </Paper>
-      
+
       {currentTab === 0 && (
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
@@ -63,7 +63,7 @@ export default function Statistics() {
               </CardContent>
             </Card>
           </Grid>
-          
+
           <Grid item xs={12} md={4}>
             <Card sx={{ borderRadius: 2, mb: 3 }}>
               <CardHeader title="Total Spend" />
@@ -73,7 +73,7 @@ export default function Statistics() {
                 <Skeleton variant="text" height={30} />
               </CardContent>
             </Card>
-            
+
             <Card sx={{ borderRadius: 2 }}>
               <CardHeader title="Spend by Category" />
               <CardContent>
@@ -81,7 +81,7 @@ export default function Statistics() {
               </CardContent>
             </Card>
           </Grid>
-          
+
           <Grid item xs={12} md={6}>
             <Card sx={{ borderRadius: 2 }}>
               <CardHeader title="Monthly Budget" />
@@ -90,7 +90,7 @@ export default function Statistics() {
               </CardContent>
             </Card>
           </Grid>
-          
+
           <Grid item xs={12} md={6}>
             <Card sx={{ borderRadius: 2 }}>
               <CardHeader title="Spend Breakdown" />
@@ -101,7 +101,7 @@ export default function Statistics() {
           </Grid>
         </Grid>
       )}
-      
+
       {currentTab === 1 && (
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
@@ -112,7 +112,7 @@ export default function Statistics() {
               </CardContent>
             </Card>
           </Grid>
-          
+
           <Grid item xs={12} md={6}>
             <Card sx={{ borderRadius: 2 }}>
               <CardHeader title="Collection Growth" />
@@ -123,7 +123,7 @@ export default function Statistics() {
           </Grid>
         </Grid>
       )}
-      
+
       {currentTab === 2 && (
         <Card sx={{ borderRadius: 2 }}>
           <CardHeader title="Recent Activity" />
@@ -135,7 +135,7 @@ export default function Statistics() {
           </CardContent>
         </Card>
       )}
-      
+
       {currentTab === 3 && (
         <Grid container spacing={3}>
           <Grid item xs={12}>

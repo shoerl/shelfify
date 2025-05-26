@@ -107,7 +107,7 @@ export function AllCopies() {
   const handleAddCopyClick = () => {
     openModal(
       <AddCopyForm />,
-      "Add Copy to Your Collection"
+      'Add Copy to Your Collection',
     );
   };
 
@@ -140,7 +140,7 @@ export function AllCopies() {
             View and manage all copies you own across all your shelves
           </Typography>
         </Box>
-        
+
         <Button
           variant="contained"
           startIcon={<AddIcon />}

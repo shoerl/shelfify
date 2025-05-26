@@ -20,7 +20,7 @@ import {
   Stack,
   Divider,
   Chip,
-  Container
+  Container,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -37,7 +37,7 @@ const mockShelves = [
       { id: 2, title: 'Thriller', artist: 'Michael Jackson', format: 'CD' },
       { id: 5, title: 'Abbey Road', artist: 'The Beatles', format: 'Vinyl' },
       { id: 6, title: 'Rumours', artist: 'Fleetwood Mac', format: 'Cassette' },
-    ]
+    ],
   },
   {
     id: 'movies',
@@ -46,7 +46,7 @@ const mockShelves = [
       { id: 3, title: 'Inception', director: 'Christopher Nolan', format: 'Blu-ray' },
       { id: 4, title: 'Parasite', director: 'Bong Joon Ho', format: 'DVD' },
       { id: 7, title: 'The Matrix', director: 'Lana Wachowski, Lilly Wachowski', format: '4K UHD' },
-    ]
+    ],
   },
   { id: 'pokemon', name: 'Pokémon Shelf', items: [] },
 ];
@@ -71,7 +71,7 @@ const mockCopies = [
     pricePaid: 30,
     dateAcquired: '2023-11-15',
   },
-   {
+  {
     id: 3,
     shelfId: 'music',
     title: 'Dark Side of the Moon',
@@ -94,15 +94,15 @@ const YourCopiesTabPanel = ({ shelfId }: { shelfId: string }) => {
   const handleAddCopyClick = () => {
     openModal(
       <AddCopyForm selectedShelfId={shelfId} />,
-      "Add Copy to Your Collection"
+      'Add Copy to Your Collection',
     );
   };
 
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-        <Button 
-          variant="contained" 
+        <Button
+          variant="contained"
           startIcon={<AddIcon />}
           onClick={handleAddCopyClick}
         >
@@ -110,90 +110,120 @@ const YourCopiesTabPanel = ({ shelfId }: { shelfId: string }) => {
         </Button>
       </Box>
 
-      {shelfCopies.length > 0 ? (
-        isDesktop ? (
-          // Desktop Table View
-          <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Variant</TableCell>
-                  <TableCell>Condition</TableCell>
-                  <TableCell align="right">Price Paid</TableCell>
-                  <TableCell>Date Acquired</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {shelfCopies.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell>{item.title}</TableCell>
-                    <TableCell>{item.variant}</TableCell>
-                    <TableCell>
-                      <Chip label={item.condition} size="small" />
-                    </TableCell>
-                    <TableCell align="right">${item.pricePaid.toFixed(2)}</TableCell>
-                    <TableCell>{item.dateAcquired}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          // Mobile Card View
-          <Grid container spacing={2}>
-            {shelfCopies.map(item => (
-              <Grid item xs={12} key={item.id}> {/* Full width cards on mobile */}
-                <Card sx={{ borderRadius: 2, boxShadow: '0 2px 8px #0001' }}>
-                  <CardContent>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-                      {item.title}
-                    </Typography>
-                    <Stack spacing={1} direction="column">
-                       <Typography variant="body2" color="text.secondary">Variant: {item.variant}</Typography>
-                       <Typography variant="body2" color="text.secondary">Condition: {item.condition}</Typography>
-                       <Typography variant="body2" color="text.secondary">Price Paid: ${item.pricePaid.toFixed(2)}</Typography>
-                       <Typography variant="body2" color="text.secondary">Date Acquired: {item.dateAcquired}</Typography>
-                     </Stack>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        )
-      ) : (
-        <Box sx={{ textAlign: 'center', mt: 6 }}>
-          <Typography variant="h6" color="text.secondary">No copies found in this shelf.</Typography>
-          <Button 
-            variant="contained" 
-            startIcon={<AddIcon />} 
-            onClick={handleAddCopyClick}
-            sx={{ mt: 2 }}
-          >
-            Add Your First Copy
-          </Button>
-        </Box>
-      )}
+      {shelfCopies.length > 0
+        ? (
+            isDesktop
+              ? (
+            // Desktop Table View
+                  <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Title</TableCell>
+                          <TableCell>Variant</TableCell>
+                          <TableCell>Condition</TableCell>
+                          <TableCell align="right">Price Paid</TableCell>
+                          <TableCell>Date Acquired</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {shelfCopies.map(item => (
+                          <TableRow key={item.id}>
+                            <TableCell>{item.title}</TableCell>
+                            <TableCell>{item.variant}</TableCell>
+                            <TableCell>
+                              <Chip label={item.condition} size="small" />
+                            </TableCell>
+                            <TableCell align="right">
+                              $
+                              {item.pricePaid.toFixed(2)}
+                            </TableCell>
+                            <TableCell>{item.dateAcquired}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                )
+              : (
+            // Mobile Card View
+                  <Grid container spacing={2}>
+                    {shelfCopies.map(item => (
+                      <Grid item xs={12} key={item.id}>
+                        {' '}
+                        {/* Full width cards on mobile */}
+                        <Card sx={{ borderRadius: 2, boxShadow: '0 2px 8px #0001' }}>
+                          <CardContent>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+                              {item.title}
+                            </Typography>
+                            <Stack spacing={1} direction="column">
+                              <Typography variant="body2" color="text.secondary">
+                                Variant:
+                                {item.variant}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Condition:
+                                {item.condition}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Price Paid: $
+                                {item.pricePaid.toFixed(2)}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Date Acquired:
+                                {item.dateAcquired}
+                              </Typography>
+                            </Stack>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))}
+                  </Grid>
+                )
+          )
+        : (
+            <Box sx={{ textAlign: 'center', mt: 6 }}>
+              <Typography variant="h6" color="text.secondary">No copies found in this shelf.</Typography>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={handleAddCopyClick}
+                sx={{ mt: 2 }}
+              >
+                Add Your First Copy
+              </Button>
+            </Box>
+          )}
     </Box>
   );
 };
 
 const BrowseReleasesTabPanel = ({ shelfId }: { shelfId: string }) => {
   const { openModal } = useModal();
-  
+
+  interface Release {
+    id: number;
+    title: string;
+    artist?: string;
+    director?: string;
+    year: number;
+    format: string;
+  }
+
   // Mock data for browsing releases
   const mockReleases = [
     { id: 101, title: 'Dark Side of the Moon', artist: 'Pink Floyd', year: 1973, format: 'Vinyl, UK Pressing' },
     { id: 102, title: 'OK Computer', artist: 'Radiohead', year: 1997, format: 'CD, Special Edition' },
   ];
 
-  const handleAddToCollection = (release: any) => {
+  const handleAddToCollection = (release: Release) => {
     openModal(
-      <AddCopyForm 
-        selectedShelfId={shelfId} 
+      <AddCopyForm
+        selectedShelfId={shelfId}
         // Pre-fill some data based on the selected release
       />,
-      `Add ${release.title} to Your Collection`
+      `Add ${release.title} to Your Collection`,
     );
   };
 
@@ -201,9 +231,13 @@ const BrowseReleasesTabPanel = ({ shelfId }: { shelfId: string }) => {
     <Box sx={{ mt: 2 }}>
       <Typography variant="h6" sx={{ mb: 2 }}>Browse Available Releases</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Find items to add to your {shelfId} shelf
+        Find items to add to your
+        {' '}
+        {shelfId}
+        {' '}
+        shelf
       </Typography>
-      
+
       <Grid container spacing={2}>
         {mockReleases.map(release => (
           <Grid item xs={12} sm={6} key={release.id}>
@@ -213,14 +247,17 @@ const BrowseReleasesTabPanel = ({ shelfId }: { shelfId: string }) => {
                   {release.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {release.artist} • {release.year}
+                  {release.artist}
+                  {' '}
+                  •
+                  {release.year}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {release.format}
                 </Typography>
-                <Button 
-                  variant="outlined" 
-                  size="small" 
+                <Button
+                  variant="outlined"
+                  size="small"
                   sx={{ mt: 2 }}
                   onClick={() => handleAddToCollection(release)}
                 >
@@ -249,7 +286,7 @@ export function ShelfDetail() {
   const handleAddCopyClick = () => {
     openModal(
       <AddCopyForm selectedShelfId={shelfId} />,
-      "Add Copy to Your Collection"
+      'Add Copy to Your Collection',
     );
   };
 
@@ -260,7 +297,11 @@ export function ShelfDetail() {
     return (
       <Container sx={{ mt: 4 }}>
         <Typography variant="h4" color="error">Shelf Not Found</Typography>
-        <Typography variant="body1">The shelf with ID "{shelfId}" does not exist.</Typography>
+        <Typography variant="body1">
+          The shelf with ID &quot;
+          {shelfId}
+          &quot; does not exist.
+        </Typography>
       </Container>
     );
   }
@@ -271,7 +312,9 @@ export function ShelfDetail() {
         <Box sx={{ mb: { xs: 2, md: 0 } }}>
           <Typography variant="h4" sx={{ mb: 1 }}>{shelf.name}</Typography>
           <Typography variant="body1" color="text.secondary">
-            {mockCopies.filter(copy => copy.shelfId === shelfId).length} copies in this shelf
+            {mockCopies.filter(copy => copy.shelfId === shelfId).length}
+            {' '}
+            copies in this shelf
           </Typography>
         </Box>
         <Button
@@ -285,10 +328,10 @@ export function ShelfDetail() {
 
       {/* Tabs for Your Copies and Browse Releases */}
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-        <Tabs 
-          value={currentTab} 
+        <Tabs
+          value={currentTab}
           onChange={handleChangeTab}
-          variant={isMobile ? "fullWidth" : "standard"}
+          variant={isMobile ? 'fullWidth' : 'standard'}
         >
           <Tab label="Your Copies" />
           <Tab label="Browse Releases" />
@@ -302,4 +345,4 @@ export function ShelfDetail() {
       </Box>
     </Box>
   );
-} 
+}

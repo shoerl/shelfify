@@ -128,7 +128,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const handleAddCopyClick = () => {
     openModal(
       <AddCopyForm />,
-      "Add Copy to Your Collection"
+      'Add Copy to Your Collection',
     );
   };
 
@@ -277,7 +277,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 Add Copy
               </Button>
             )}
-            
+
             {isDesktop && (
               <Box sx={{ position: 'relative', borderRadius: theme.shape.borderRadius, bgcolor: 'action.hover', ml: 0, width: 'auto' }}>
                 <Box sx={{ p: theme.spacing(0, 1), height: '100%', position: 'absolute', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

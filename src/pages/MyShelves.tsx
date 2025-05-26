@@ -20,7 +20,7 @@ export default function MyShelves() {
   const handleAddCopyClick = () => {
     openModal(
       <AddCopyForm />,
-      "Add Copy to Your Collection"
+      'Add Copy to Your Collection',
     );
   };
 
@@ -70,9 +70,9 @@ export default function MyShelves() {
       {mockShelves.length === 0 && (
         <Box sx={{ textAlign: 'center', mt: 6 }}>
           <Typography variant="h6" color="text.secondary">No shelves created yet.</Typography>
-          <Button 
-            variant="outlined" 
-            sx={{ mt: 2 }} 
+          <Button
+            variant="outlined"
+            sx={{ mt: 2 }}
             startIcon={<AddIcon />}
             onClick={() => console.log('Create shelf clicked')}
           >
