@@ -28,6 +28,7 @@ import {
   Button,
   Collapse,
   InputBase,
+  Container,
 } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
@@ -365,47 +366,49 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           ml: isDesktop ? `${DRAWER_WIDTH}px` : 0,
         }}
       >
-        <Dialog open={searchOpen} onClose={() => setSearchOpen(false)} fullWidth maxWidth="sm">
-          <DialogTitle>
-            Search
-            <IconButton
-              aria-label="close"
-              onClick={() => setSearchOpen(false)}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: theme => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="search"
-              label="Search your copies or explore releases..."
-              type="text"
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </DialogContent>
-        </Dialog>
+        <Container maxWidth="lg" disableGutters={!isDesktop}>
+          <Dialog open={searchOpen} onClose={() => setSearchOpen(false)} fullWidth maxWidth="sm">
+            <DialogTitle>
+              Search
+              <IconButton
+                aria-label="close"
+                onClick={() => setSearchOpen(false)}
+                sx={{
+                  position: 'absolute',
+                  right: 8,
+                  top: 8,
+                  color: theme => theme.palette.grey[500],
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="search"
+                label="Search your copies or explore releases..."
+                type="text"
+                fullWidth
+                variant="outlined"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </DialogContent>
+          </Dialog>
 
-        {children}
+          {children}
 
-        {!isDesktop && (
-          <Box sx={{ pb: '56px' }}></Box>
-        )}
+          {!isDesktop && (
+            <Box sx={{ pb: '56px' }}></Box>
+          )}
+        </Container>
       </Box>
 
       {!isDesktop && (
