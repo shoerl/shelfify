@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import { useModal } from '../../contexts/ModalContext'; // Import useModal
+import { useModal } from '../contexts/ModalContext';
 
 // Consistent with MyShelves.tsx and AppShell.tsx
 const mockShelves = [

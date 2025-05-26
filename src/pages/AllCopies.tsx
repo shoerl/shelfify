@@ -21,6 +21,7 @@ import {
   Stack,
   Container,
   SelectChangeEvent,
+  useTheme,
 } from '@mui/material';
 import { Sort as SortIcon, FilterList as FilterIcon } from '@mui/icons-material';
 

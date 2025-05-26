@@ -14,7 +14,7 @@ import MovieIcon from '@mui/icons-material/Movie';
 import CasinoIcon from '@mui/icons-material/Casino';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Link } from 'react-router-dom';
-import { useModal } from '../../contexts/ModalContext'; // Import useModal
+import { useModal } from '../contexts/ModalContext';
 
 // Mock data for demo
 const userName = 'Sean';
