@@ -16,8 +16,6 @@ import {
   useMediaQuery,
   Avatar,
   Tooltip,
-  Badge,
-  Fade,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -35,18 +33,10 @@ import React, { useState } from 'react';
 import {
   Menu as MenuIcon,
   CollectionsBookmark as ShelvesIcon,
-  Settings as SettingsIcon,
   ExpandLess,
   ExpandMore,
-  Add as AddIcon,
-  Brightness4 as DarkModeIcon,
-  Brightness7 as LightModeIcon,
-  Notifications as NotificationsIcon,
   Search as SearchIcon,
   Close as CloseIcon,
-  Person as PersonIcon,
-  Logout as LogoutIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon,
   Home as HomeIcon,
   AllInbox as CopiesIcon,
   Favorite as WishlistIcon,
@@ -59,6 +49,8 @@ import {
 
 // Import the new MobileBottomNavigation component
 import { MobileBottomNavigation } from './MobileBottomNavigation';
+import { AddCopyForm } from '../AddCopyForm'; // Import AddCopyForm
+import { useModal } from '../../contexts/ModalContext'; // Import useModal
 
 const DRAWER_WIDTH = 220;
 
@@ -90,8 +82,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
   const [searchOpen, setSearchOpen] = useState(false);
-  const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null);
   const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
+  const { addCopyOpen } = useModal(); // Get modal state from context
   const location = useLocation();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
@@ -105,14 +97,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const toggleTheme = () => {
     setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
-  };
-
-  const handleNotificationsOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setNotificationsAnchor(event.currentTarget);
-  };
-
-  const handleNotificationsClose = () => {
-    setNotificationsAnchor(null);
   };
 
   const handleProfileOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -286,10 +270,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-              <MenuItem onClick={handleProfileClose}>Your Proposals</MenuItem>
-              <MenuItem onClick={handleProfileClose}>Profile & Settings</MenuItem>
-              <MenuItem onClick={handleProfileClose}>Logout</MenuItem>
+              <MenuItem component={Link} to="/proposals" onClick={handleProfileClose}>
+                Your Proposals
+              </MenuItem>
+              <MenuItem component={Link} to="/profile-settings" onClick={handleProfileClose}>
+                Profile & Settings
+              </MenuItem>
+              <MenuItem onClick={() => {
+                handleProfileClose();
+                // Add actual logout logic here
+                console.log('Logout clicked');
+                navigate('/'); // Example: navigate to home after logout
+              }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
@@ -391,6 +389,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <MobileBottomNavigation />
         </Box>
       )}
+      {/* Render AddCopyForm Dialog if addCopyOpen is true */}
+      {addCopyOpen && <AddCopyForm />}
     </Box>
   );
 }
