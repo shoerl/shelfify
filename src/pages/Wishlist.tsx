@@ -146,19 +146,25 @@ export default function Wishlist() {
                   </Typography>
                   <Stack spacing={1}>
                     <Typography variant="body2" color="text.secondary">
-                      <strong>Variant:</strong> {item.variant}
+                      <strong>Variant:</strong>
+                      {' '}
+                      {item.variant}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      <strong>Target Shelf:</strong> {item.shelfName}
+                      <strong>Target Shelf:</strong>
+                      {' '}
+                      {item.shelfName}
                     </Typography>
                     {item.notes && (
-                      <Typography variant="body2" color="text.primary" sx={{ fontStyle: 'italic', mt: 1, bgcolor: 'action.hover', p:1, borderRadius: 1 }}>
-                        Notes: {item.notes}
+                      <Typography variant="body2" color="text.primary" sx={{ fontStyle: 'italic', mt: 1, bgcolor: 'action.hover', p: 1, borderRadius: 1 }}>
+                        Notes:
+                        {' '}
+                        {item.notes}
                       </Typography>
                     )}
                   </Stack>
                 </CardContent>
-                <CardActions sx={{ justifyContent: 'flex-end', p:2 }}>
+                <CardActions sx={{ justifyContent: 'flex-end', p: 2 }}>
                   <Button
                     variant="contained"
                     size="small"

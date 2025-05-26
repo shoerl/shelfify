@@ -21,7 +21,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <CssBaseline />
         <HelmetProvider>
           <BrowserRouter basename={basePath}>
-            <ModalProvider> {/* Wrap App with ModalProvider */}
+            <ModalProvider>
+              {' '}
+              {/* Wrap App with ModalProvider */}
               <App />
             </ModalProvider>
           </BrowserRouter>

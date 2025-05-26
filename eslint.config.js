@@ -49,7 +49,9 @@ export default [
       '@typescript-eslint/no-unused-vars': 'off',
 
       // don’t block you from ever using `any`
-      '@typescript-eslint/no-explicit-any': ['warn'],
+      '@typescript-eslint/no-explicit-any': ['off'],
+      'react/prop-types': 'off',
+      'react/no-unescaped-entities': 'off'
 
     },
     settings: {
@@ -69,6 +71,7 @@ export default [
   {
     rules: {
       '@stylistic/max-statements-per-line': 'off',
+      '@stylistic/multiline-ternary': 'off'
     },
   },
 ];

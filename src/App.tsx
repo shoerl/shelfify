@@ -31,11 +31,19 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shelves" element={<MyShelves />} />
-        <Route path="/shelves/:shelfId" element={<ShelfDetail />} /> {/* Use ShelfDetail component */}
+        <Route path="/shelves/:shelfId" element={<ShelfDetail />} />
+        {' '}
+        {/* Use ShelfDetail component */}
         <Route path="/copies" element={<AllCopies />} />
-        <Route path="/wishlist" element={<Wishlist />} /> {/* Use Wishlist component */}
-        <Route path="/stats" element={<Statistics />} /> {/* Use Statistics component */}
-        <Route path="/activity" element={<ActivityFeed />} /> {/* Use ActivityFeed component */}
+        <Route path="/wishlist" element={<Wishlist />} />
+        {' '}
+        {/* Use Wishlist component */}
+        <Route path="/stats" element={<Statistics />} />
+        {' '}
+        {/* Use Statistics component */}
+        <Route path="/activity" element={<ActivityFeed />} />
+        {' '}
+        {/* Use ActivityFeed component */}
         <Route path="/proposals" element={<UserProposalsPlaceholder />} />
         <Route path="/profile-settings" element={<ProfileSettingsPlaceholder />} />
 

@@ -61,7 +61,8 @@ export default function Home() {
     const item = mockExploreMore.find(item => item.action === action);
     if (item && item.link) {
       navigate(item.link);
-    } else if (action === 'viewRelease') {
+    }
+    else if (action === 'viewRelease') {
       // Potentially open a modal with release details or navigate to a generic new releases page
       console.log('View Release action triggered for a generic new release.');
     }
@@ -197,9 +198,9 @@ export default function Home() {
         Recently Added
       </Typography>
       <Grid container spacing={3} sx={{ mb: 6 }}>
-        {mockRecentlyAdded.map((item) => (
+        {mockRecentlyAdded.map(item => (
           <Grid item xs={12} sm={6} md={4} key={item.id}>
-            <Card sx={{ borderRadius: 3, boxShadow: '0 2px 8px #0001', '&:hover': { boxShadow: '0 4px 12px #0002' } }}>
+            <Card sx={{ 'borderRadius': 3, 'boxShadow': '0 2px 8px #0001', '&:hover': { boxShadow: '0 4px 12px #0002' } }}>
               {item.thumbnail && (
                 <Box sx={{ height: 140, bgcolor: 'grey.300', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {/* Placeholder for actual image or icon */}
@@ -211,13 +212,20 @@ export default function Home() {
                   {item.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Condition: {item.condition}
+                  Condition:
+                  {' '}
+                  {item.condition}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Price: ${item.price}
+                  Price: $
+                  {item.price}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Added: {item.timeAgo} ago
+                  Added:
+                  {' '}
+                  {item.timeAgo}
+                  {' '}
+                  ago
                 </Typography>
               </CardContent>
               <Box sx={{ p: 2, pt: 0 }}>

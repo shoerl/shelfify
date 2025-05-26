@@ -70,7 +70,6 @@ const conditionOrder: Record<string, number> = {
   'Sealed': 0, // Often considered highest
 };
 
-
 export function AllCopies() {
   const [selectedShelfId, setSelectedShelfId] = useState<string>('all');
   const [sortOption, setSortOption] = useState<string>('dateAcquired_desc'); // field_direction
@@ -161,8 +160,11 @@ export function AllCopies() {
             <MenuItem value="dateAcquired_asc">Date Acquired (Oldest First)</MenuItem>
             <MenuItem value="pricePaid_desc">Price Paid (High to Low)</MenuItem>
             <MenuItem value="pricePaid_asc">Price Paid (Low to High)</MenuItem>
-            <MenuItem value="condition_asc">Condition (Best First)</MenuItem> {/* asc for condition means lower number = better */}
-            <MenuItem value="condition_desc">Condition (Worst First)</MenuItem>{/* desc for condition means higher number = worse */}
+            <MenuItem value="condition_asc">Condition (Best First)</MenuItem>
+            {' '}
+            {/* asc for condition means lower number = better */}
+            <MenuItem value="condition_desc">Condition (Worst First)</MenuItem>
+            {/* desc for condition means higher number = worse */}
             <MenuItem value="title_asc">Title (A-Z)</MenuItem>
             <MenuItem value="title_desc">Title (Z-A)</MenuItem>
           </Select>
@@ -170,69 +172,85 @@ export function AllCopies() {
       </Stack>
 
       {filteredAndSortedCopies.length > 0 ? (
-        isDesktop ? (
-          <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow:3 }}>
-            <Table stickyHeader aria-label="all copies table">
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Shelf</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Title</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Variant</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Condition</TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 'bold' }}>Price Paid</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold' }}>Date Acquired</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+        isDesktop
+          ? (
+              <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 3 }}>
+                <Table stickyHeader aria-label="all copies table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Shelf</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Title</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Variant</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Condition</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 'bold' }}>Price Paid</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Date Acquired</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {filteredAndSortedCopies.map(copy => (
+                      <TableRow key={copy.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell>
+                          <Chip label={copy.shelfName} size="small" variant="outlined" />
+                        </TableCell>
+                        <TableCell>{copy.title}</TableCell>
+                        <TableCell>{copy.variant}</TableCell>
+                        <TableCell>
+                          <Chip label={copy.condition} size="small" />
+                        </TableCell>
+                        <TableCell align="right">
+                          $
+                          {copy.pricePaid.toFixed(2)}
+                        </TableCell>
+                        <TableCell>{new Date(copy.dateAcquired).toLocaleDateString()}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )
+          : (
+              <Grid container spacing={2}>
                 {filteredAndSortedCopies.map(copy => (
-                  <TableRow key={copy.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell>
-                      <Chip label={copy.shelfName} size="small" variant="outlined" />
-                    </TableCell>
-                    <TableCell>{copy.title}</TableCell>
-                    <TableCell>{copy.variant}</TableCell>
-                    <TableCell>
-                      <Chip label={copy.condition} size="small" />
-                    </TableCell>
-                    <TableCell align="right">${copy.pricePaid.toFixed(2)}</TableCell>
-                    <TableCell>{new Date(copy.dateAcquired).toLocaleDateString()}</TableCell>
-                  </TableRow>
+                  <Grid item xs={12} sm={6} key={copy.id}>
+                    <Card sx={{ borderRadius: 2, boxShadow: 2, height: '100%' }}>
+                      <CardContent>
+                        <Typography variant="h6" component="div" sx={{ fontWeight: 600, mb: 1 }}>
+                          {copy.title}
+                        </Typography>
+                        <Stack spacing={0.5}>
+                          <Typography variant="body2" color="text.secondary">
+                            <strong>Shelf:</strong>
+                            {' '}
+                            {copy.shelfName}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            <strong>Variant:</strong>
+                            {' '}
+                            {copy.variant}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            <strong>Condition:</strong>
+                            {' '}
+                            <Chip label={copy.condition} size="small" sx={{ ml: 0.5 }} />
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            <strong>Price Paid:</strong>
+                            {' '}
+                            $
+                            {copy.pricePaid.toFixed(2)}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            <strong>Date Acquired:</strong>
+                            {' '}
+                            {new Date(copy.dateAcquired).toLocaleDateString()}
+                          </Typography>
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Grid>
                 ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          <Grid container spacing={2}>
-            {filteredAndSortedCopies.map(copy => (
-              <Grid item xs={12} sm={6} key={copy.id}>
-                <Card sx={{ borderRadius: 2, boxShadow: 2, height: '100%' }}>
-                  <CardContent>
-                    <Typography variant="h6" component="div" sx={{ fontWeight: 600, mb: 1 }}>
-                      {copy.title}
-                    </Typography>
-                    <Stack spacing={0.5}>
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Shelf:</strong> {copy.shelfName}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Variant:</strong> {copy.variant}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Condition:</strong> <Chip label={copy.condition} size="small" sx={{ml:0.5}}/>
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Price Paid:</strong> ${copy.pricePaid.toFixed(2)}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <strong>Date Acquired:</strong> {new Date(copy.dateAcquired).toLocaleDateString()}
-                      </Typography>
-                    </Stack>
-                  </CardContent>
-                </Card>
               </Grid>
-            ))}
-          </Grid>
-        )
+            )
       ) : (
         <Box sx={{ textAlign: 'center', py: 8 }}>
           <Typography variant="h5" color="text.secondary" gutterBottom>
@@ -240,7 +258,7 @@ export function AllCopies() {
           </Typography>
           <Typography variant="body1" color="text.secondary">
             {selectedShelfId === 'all'
-              ? "You haven't added any copies to your collection yet."
+              ? 'You haven\'t added any copies to your collection yet.'
               : `There are no copies in "${mockShelves.find(s => s.id === selectedShelfId)?.name}".`}
           </Typography>
           {/* Optional: Add a CTA button here if desired */}

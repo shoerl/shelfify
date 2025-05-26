@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 interface ModalContextType {
   addCopyOpen: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   openAddCopyModal: (initialData?: any) => void; // initialData can be used later
   closeAddCopyModal: () => void;
 }
@@ -11,10 +11,9 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [addCopyOpen, setAddCopyOpen] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const [initialModalData, setInitialModalData] = useState<any>(null); // For future use
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const openAddCopyModal = (initialData?: any) => {
     setInitialModalData(initialData); // Store data if needed for pre-filling form
     setAddCopyOpen(true);

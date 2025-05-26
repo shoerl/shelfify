@@ -74,9 +74,9 @@ export const AddCopyForm = () => {
               id="condition"
               value={condition}
               label="Condition"
-              onChange={(e) => setCondition(e.target.value)}
+              onChange={e => setCondition(e.target.value)}
             >
-              {conditions.map((cond) => (
+              {conditions.map(cond => (
                 <MenuItem key={cond} value={cond}>
                   {cond}
                 </MenuItem>
@@ -93,7 +93,7 @@ export const AddCopyForm = () => {
             fullWidth
             variant="outlined"
             value={pricePaid}
-            onChange={(e) => setPricePaid(e.target.value)}
+            onChange={e => setPricePaid(e.target.value)}
             InputProps={{
               startAdornment: <Typography sx={{ mr: 0.5 }}>$</Typography>,
             }}
@@ -107,7 +107,7 @@ export const AddCopyForm = () => {
             fullWidth
             variant="outlined"
             value={dateAcquired}
-            onChange={(e) => setDateAcquired(e.target.value)}
+            onChange={e => setDateAcquired(e.target.value)}
             InputLabelProps={{
               shrink: true,
             }}
@@ -123,7 +123,7 @@ export const AddCopyForm = () => {
             rows={4}
             variant="outlined"
             value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            onChange={e => setNotes(e.target.value)}
           />
         </Stack>
       </DialogContent>

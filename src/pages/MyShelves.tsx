@@ -69,7 +69,10 @@ export default function MyShelves() {
                   {shelf.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {shelf.count} item{shelf.count !== 1 ? 's' : ''}
+                  {shelf.count}
+                  {' '}
+                  item
+                  {shelf.count !== 1 ? 's' : ''}
                 </Typography>
               </CardContent>
             </Card>
@@ -88,7 +91,7 @@ export default function MyShelves() {
           <Button
             variant="outlined"
             startIcon={<AddIcon />}
-            onClick={() => console.log("Create new shelf clicked - Placeholder")} // Placeholder for create shelf functionality
+            onClick={() => console.log('Create new shelf clicked - Placeholder')} // Placeholder for create shelf functionality
           >
             Create Your First Shelf
           </Button>

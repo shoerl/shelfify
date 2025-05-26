@@ -37,7 +37,7 @@ const mockActivityEntries: ActivityEntry[] = [
     thumbnailType: 'add',
     itemTitle: 'The Wall - Vinyl',
     shelfName: 'Music Shelf',
-    actionDescription: "You added 'The Wall - Vinyl' to Music Shelf.",
+    actionDescription: 'You added \'The Wall - Vinyl\' to Music Shelf.',
     timestamp: '2 hours ago',
     linkPath: '/shelves/music', // Example link to the shelf
   },
@@ -45,7 +45,7 @@ const mockActivityEntries: ActivityEntry[] = [
     id: 'act2',
     thumbnailType: 'wishlist',
     itemTitle: 'Blade Runner 2049',
-    actionDescription: "You added 'Blade Runner 2049' to your Wishlist.",
+    actionDescription: 'You added \'Blade Runner 2049\' to your Wishlist.',
     timestamp: '1 day ago',
     linkPath: '/wishlist', // Example link to wishlist
   },
@@ -54,7 +54,7 @@ const mockActivityEntries: ActivityEntry[] = [
     thumbnailType: 'edit',
     itemTitle: 'Inception - Blu-ray',
     fieldUpdated: 'condition to Near Mint',
-    actionDescription: "You updated 'Inception - Blu-ray', setting condition to Near Mint.",
+    actionDescription: 'You updated \'Inception - Blu-ray\', setting condition to Near Mint.',
     timestamp: '3 days ago',
     linkPath: '/copies', // Example link to all copies or a specific item
   },
@@ -62,7 +62,7 @@ const mockActivityEntries: ActivityEntry[] = [
     id: 'act4',
     thumbnailType: 'comment',
     itemTitle: 'Dark Side of the Moon - CD',
-    actionDescription: "User 'collector_jane' commented on your copy of 'Dark Side of the Moon - CD'.",
+    actionDescription: 'User \'collector_jane\' commented on your copy of \'Dark Side of the Moon - CD\'.',
     timestamp: '5 days ago',
     linkPath: '#', // Placeholder for a comment link
   },
@@ -131,7 +131,7 @@ export default function ActivityFeed() {
                   component={entry.linkPath ? RouterLink : 'div'}
                   to={entry.linkPath || undefined}
                   sx={{
-                    py: 2,
+                    'py': 2,
                     '&:hover': {
                       backgroundColor: entry.linkPath ? theme.palette.action.hover : 'transparent',
                     },
@@ -143,16 +143,16 @@ export default function ActivityFeed() {
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary={
+                    primary={(
                       <Typography variant="body1" component="span">
                         {entry.actionDescription}
                       </Typography>
-                    }
-                    secondary={
+                    )}
+                    secondary={(
                       <Typography variant="caption" color="text.secondary">
                         {entry.timestamp}
                       </Typography>
-                    }
+                    )}
                   />
                   {/* Optional: Could add an IconButton here for more actions if needed */}
                 </ListItem>

@@ -284,7 +284,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 // Add actual logout logic here
                 console.log('Logout clicked');
                 navigate('/'); // Example: navigate to home after logout
-              }}>
+              }}
+              >
                 Logout
               </MenuItem>
             </Menu>

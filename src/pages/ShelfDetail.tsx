@@ -94,7 +94,9 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ pt: 3 }}> {/* Add padding top to tab panel content */}
+        <Box sx={{ pt: 3 }}>
+          {' '}
+          {/* Add padding top to tab panel content */}
           {children}
         </Box>
       )}
@@ -138,7 +140,10 @@ const YourCopiesTabPanel = ({ shelfId }: { shelfId: string }) => {
               <TableCell>
                 <Chip label={item.condition} size="small" />
               </TableCell>
-              <TableCell align="right">${item.pricePaid.toFixed(2)}</TableCell>
+              <TableCell align="right">
+                $
+                {item.pricePaid.toFixed(2)}
+              </TableCell>
               <TableCell>{item.dateAcquired}</TableCell>
             </TableRow>
           ))}
@@ -151,7 +156,11 @@ const YourCopiesTabPanel = ({ shelfId }: { shelfId: string }) => {
 const BrowseReleasesTabPanel = ({ shelfName }: { shelfName: string }) => (
   <Box sx={{ textAlign: 'center', py: 4 }}>
     <Typography variant="h6" color="text.secondary">
-      Browse Releases for {shelfName} - Coming Soon!
+      Browse Releases for
+      {' '}
+      {shelfName}
+      {' '}
+      - Coming Soon!
     </Typography>
     <Typography variant="body1" color="text.secondary">
       Filters and release listings will be available here in a future update.
@@ -184,7 +193,9 @@ export function ShelfDetail() {
           Shelf Not Found
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          The shelf with ID "{shelfId}" could not be found. It might have been removed or the link is incorrect.
+          The shelf with ID "
+          {shelfId}
+          " could not be found. It might have been removed or the link is incorrect.
         </Typography>
         <Button variant="contained" onClick={() => navigate('/shelves')}>
           Back to My Shelves
@@ -195,7 +206,6 @@ export function ShelfDetail() {
 
   // Mock number of releases for display
   const mockReleasesCount = shelfId === 'music' ? 125 : shelfId === 'movies' ? 78 : 30;
-
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
@@ -215,10 +225,18 @@ export function ShelfDetail() {
           </Typography>
           <Stack direction="row" spacing={2} color="text.secondary" sx={{ mt: 1 }}>
             <Typography variant="body1">
-              {shelfCopies.length} Cop{shelfCopies.length === 1 ? 'y' : 'ies'}
+              {shelfCopies.length}
+              {' '}
+              Cop
+              {shelfCopies.length === 1 ? 'y' : 'ies'}
             </Typography>
             <Typography variant="body1">
-              {mockReleasesCount} Release{mockReleasesCount === 1 ? '' : 's'} {/* Mocked */}
+              {mockReleasesCount}
+              {' '}
+              Release
+              {mockReleasesCount === 1 ? '' : 's'}
+              {' '}
+              {/* Mocked */}
             </Typography>
           </Stack>
         </Box>

@@ -65,7 +65,9 @@ export default function Statistics() {
 
       <Grid container spacing={isMobile ? 2 : 4}>
         {panels.map((panel, index) => (
-          <Grid item xs={12} sm={6} md={6} key={index}> {/* On md, take half width for 2x2 */}
+          <Grid item xs={12} sm={6} md={6} key={index}>
+            {' '}
+            {/* On md, take half width for 2x2 */}
             <StatPanel title={panel.title} placeholderText={panel.placeholder} />
           </Grid>
         ))}
