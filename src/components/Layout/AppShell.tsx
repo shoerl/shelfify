@@ -17,7 +17,6 @@ import {
   Avatar,
   Tooltip,
   Badge,
-  Fade,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -59,6 +58,8 @@ import {
 
 // Import the new MobileBottomNavigation component
 import { MobileBottomNavigation } from './MobileBottomNavigation';
+import { useModal } from '../../context/ModalContext';
+import AddCopyForm from '../../components/AddCopyForm';
 
 const DRAWER_WIDTH = 220;
 
@@ -96,6 +97,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
+  const { openModal } = useModal();
 
   const [shelvesOpen, setShelvesOpen] = useState(location.pathname.startsWith('/shelves'));
 
@@ -121,6 +123,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const handleProfileClose = () => {
     setProfileAnchor(null);
+  };
+
+  const handleAddCopyClick = () => {
+    openModal(
+      <AddCopyForm />,
+      "Add Copy to Your Collection"
+    );
   };
 
   const drawer = (
@@ -257,7 +266,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {isDesktop && (
-              <Box sx={{ position: 'relative', borderRadius: theme.shape.borderRadius, bgcolor: 'action.hover', ml: 2, width: 'auto' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<AddIcon />}
+                onClick={handleAddCopyClick}
+                sx={{ mr: 2 }}
+              >
+                Add Copy
+              </Button>
+            )}
+            
+            {isDesktop && (
+              <Box sx={{ position: 'relative', borderRadius: theme.shape.borderRadius, bgcolor: 'action.hover', ml: 0, width: 'auto' }}>
                 <Box sx={{ p: theme.spacing(0, 1), height: '100%', position: 'absolute', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <SearchIcon />
                 </Box>
