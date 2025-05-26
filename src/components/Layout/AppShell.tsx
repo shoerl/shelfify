@@ -28,13 +28,12 @@ import {
   ListItemAvatar,
   Button,
   Collapse,
-  InputBase,
 } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Menu as MenuIcon,
-  CollectionsBookmark as ShelvesIcon,
+  CollectionsBookmark as CollectionsIcon,
   Settings as SettingsIcon,
   ExpandLess,
   ExpandMore,
@@ -47,43 +46,13 @@ import {
   Person as PersonIcon,
   Logout as LogoutIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
-  Home as HomeIcon,
-  AllInbox as CopiesIcon,
-  Favorite as WishlistIcon,
-  BarChart as StatsIcon,
-  DynamicFeed as ActivityIcon,
-  LibraryMusic as MusicIcon,
-  Movie as MovieIcon,
-  Casino as PokemonIcon,
 } from '@mui/icons-material';
 
-// Import the new MobileBottomNavigation component
-import { MobileBottomNavigation } from './MobileBottomNavigation';
+const DRAWER_WIDTH = 280;
 
-const DRAWER_WIDTH = 220;
-
-// Mock data for navigation and shelves
-const sidebarNavItems = [
-  { label: 'Home', path: '/', icon: <HomeIcon /> },
-  { label: 'My Shelves', path: '/shelves', icon: <ShelvesIcon />, expandable: true },
-  { label: 'All Copies', path: '/copies', icon: <CopiesIcon /> },
-  { label: 'Wishlist', path: '/wishlist', icon: <WishlistIcon /> },
-  { label: 'Statistics', path: '/stats', icon: <StatsIcon /> },
-  { label: 'Activity Feed', path: '/activity', icon: <ActivityIcon /> },
-];
-
-const topNavItems = [
-  { label: 'Home', path: '/' },
-  { label: 'My Shelves', path: '/shelves' },
-  { label: 'All Copies', path: '/copies' },
-  { label: 'Wishlist', path: '/wishlist' },
-  { label: 'Statistics', path: '/stats' },
-];
-
-const mockShelves = [
-  { id: 'music', name: 'Music Shelf', count: 3, icon: <MusicIcon /> },
-  { id: 'movies', name: 'Movies Shelf', count: 1, icon: <MovieIcon /> },
-  { id: 'pokemon', name: 'Pokémon Shelf', count: 0, icon: <PokemonIcon /> },
+const collectionTypes = [
+  { label: 'Music', path: '/collections/music' },
+  { label: 'Movies', path: '/collections/movies' },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -94,14 +63,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
   const location = useLocation();
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
 
-  const [shelvesOpen, setShelvesOpen] = useState(location.pathname.startsWith('/shelves'));
-
-  const handleShelvesClick = () => {
-    setShelvesOpen(!shelvesOpen);
-  };
+  // Determine if Collections is selected
+  const collectionsSelected = location.pathname.startsWith('/collections');
 
   const toggleTheme = () => {
     setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
@@ -123,72 +89,125 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     setProfileAnchor(null);
   };
 
+  const notifications = [
+    {
+      id: 1,
+      title: 'New Collection Added',
+      message: 'Your "Books" collection has been created',
+      time: '2 minutes ago',
+    },
+    {
+      id: 2,
+      title: 'Collection Updated',
+      message: '3 new items added to "Movies"',
+      time: '1 hour ago',
+    },
+    {
+      id: 3,
+      title: 'Type Proposal Approved',
+      message: 'Your "Games" type proposal was approved',
+      time: '2 hours ago',
+    },
+  ];
+
   const drawer = (
     <Box sx={{ width: DRAWER_WIDTH, height: '100%', display: 'flex', flexDirection: 'column' }}>
+      {/* Propose Type button at top */}
+      <Box sx={{ p: 2, pb: 0 }}>
+        <Button
+          variant="outlined"
+          size="small"
+          startIcon={<AddIcon />}
+          component={Link}
+          to="/propose"
+          sx={{ borderRadius: 2, mb: 2, fontWeight: 500 }}
+        >
+          Propose Type
+        </Button>
+      </Box>
       <Divider sx={{ mb: 1 }} />
       <List sx={{ px: 2, flex: 1 }}>
-        {sidebarNavItems.map(item => (
-          <React.Fragment key={item.label}>
-            <ListItem disablePadding sx={{ mb: 1 }}>
-              <ListItemButton
-                component={Link}
-                to={item.path}
-                selected={location.pathname === item.path || (item.expandable && location.pathname.startsWith(item.path))}
-                onClick={item.expandable ? handleShelvesClick : undefined}
-                sx={{
-                  'borderRadius': 2,
-                  'width': '100%',
-                  '&.Mui-selected': {
-                    'backgroundColor': 'primary.main',
-                    'color': 'primary.contrastText',
-                    '&:hover': {
-                      backgroundColor: 'primary.dark',
-                    },
-                    '& .MuiListItemIcon-root': {
-                      color: 'inherit',
-                    },
-                  },
-                }}
-              >
-                <ListItemIcon sx={{ minWidth: 40 }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-                {item.expandable && (shelvesOpen ? <ExpandLess /> : <ExpandMore />)}
-              </ListItemButton>
-            </ListItem>
-            {item.expandable && (
-              <Collapse in={shelvesOpen} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {mockShelves.map(shelf => (
-                    <ListItemButton
-                      key={shelf.id}
-                      component={Link}
-                      to={`/shelves/${shelf.id}`}
-                      selected={location.pathname === `/shelves/${shelf.id}`}
-                      sx={{
-                        'pl': 6,
-                        'borderRadius': 2,
-                        'mb': 0.5,
-                        '&.Mui-selected': {
-                          backgroundColor: 'primary.light',
-                          color: 'primary.contrastText',
-                        },
-                      }}
-                    >
-                      <ListItemAvatar sx={{ minWidth: 40 }}>
-                        <Avatar sx={{ bgcolor: '#fff', color: 'primary.main', width: 24, height: 24 }}>
-                          {shelf.icon}
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={shelf.name} />
-                    </ListItemButton>
-                  ))}
-                </List>
-              </Collapse>
-            )}
-          </React.Fragment>
-        ))}
+        {/* Collections Main Item */}
+        <ListItem disablePadding sx={{ mb: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
+          <ListItemButton
+            selected={collectionsSelected}
+            onClick={() => navigate('/collections')}
+            sx={{
+              'borderRadius': 2,
+              'width': '100%',
+              'mb': 0.5,
+              'backgroundColor': collectionsSelected ? 'primary.main' : undefined,
+              'color': collectionsSelected ? 'primary.contrastText' : undefined,
+              '&:hover': {
+                backgroundColor: collectionsSelected ? 'primary.dark' : 'action.hover',
+              },
+            }}
+          >
+            <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+              <CollectionsIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Collections"
+              secondary="Browse and manage your collections"
+              primaryTypographyProps={{ fontWeight: 700 }}
+              secondaryTypographyProps={{ sx: { fontSize: '0.75rem', opacity: 0.7 } }}
+            />
+            {collectionsSelected ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          {/* Always expanded submenu if selected */}
+          <Collapse in={collectionsSelected} timeout="auto" unmountOnExit sx={{ width: '100%' }}>
+            <List component="div" disablePadding>
+              {collectionTypes.map(type => (
+                <ListItemButton
+                  key={type.path}
+                  component={Link}
+                  to={type.path}
+                  selected={location.pathname === type.path}
+                  sx={{
+                    pl: 6,
+                    borderRadius: 2,
+                    mb: 0.5,
+                    backgroundColor: location.pathname === type.path ? 'primary.light' : undefined,
+                    color: location.pathname === type.path ? 'primary.contrastText' : undefined,
+                  }}
+                >
+                  <ListItemText primary={type.label} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Collapse>
+        </ListItem>
+        {/* Settings Main Item */}
+        <ListItem disablePadding sx={{ mb: 1 }}>
+          <ListItemButton
+            component={Link}
+            to="/settings"
+            selected={location.pathname === '/settings'}
+            sx={{
+              'borderRadius': 2,
+              'width': '100%',
+              '&.Mui-selected': {
+                'backgroundColor': 'primary.main',
+                'color': 'primary.contrastText',
+                '&:hover': {
+                  backgroundColor: 'primary.dark',
+                },
+                '& .MuiListItemIcon-root': {
+                  color: 'inherit',
+                },
+              },
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 40 }}>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Settings"
+              secondary="Manage your preferences"
+              secondaryTypographyProps={{ sx: { fontSize: '0.75rem', opacity: 0.7 } }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider sx={{ mt: 'auto' }} />
       <List sx={{ px: 2 }}>
@@ -212,185 +231,309 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {!isDesktop && (
-              <IconButton
-                color="inherit"
-                edge="start"
-                onClick={() => setDrawerOpen(!drawerOpen)}
-                sx={{ mr: 2 }}
-              >
-                <MenuIcon />
-              </IconButton>
-            )}
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={() => setDrawerOpen(!drawerOpen)}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
             <Typography
               variant="h6"
               component={Link}
               to="/"
-              onClick={() => navigate('/')}
               sx={{
                 textDecoration: 'none',
                 color: 'inherit',
                 fontWeight: 700,
                 letterSpacing: '-0.5px',
-                mr: 2,
+                display: { xs: 'none', sm: 'block' },
               }}
             >
               Shelfify
             </Typography>
-
-            {isDesktop && (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {topNavItems.map(item => (
-                  <Button
-                    key={item.label}
-                    component={Link}
-                    to={item.path}
-                    color="inherit"
-                    sx={{ mr: 1, fontWeight: 600 }}
-                  >
-                    {item.label}
-                  </Button>
-                ))}
-              </Box>
-            )}
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {isDesktop && (
-              <Box sx={{ position: 'relative', borderRadius: theme.shape.borderRadius, bgcolor: 'action.hover', ml: 2, width: 'auto' }}>
-                <Box sx={{ p: theme.spacing(0, 1), height: '100%', position: 'absolute', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <SearchIcon />
-                </Box>
-                <InputBase
-                  placeholder="Search your copies or explore releases..."
-                  sx={{ 'color': 'inherit', '& .MuiInputBase-input': { p: theme.spacing(1, 1, 1, 0), pl: `calc(1em + ${theme.spacing(3)})`, transition: theme.transitions.create('width'), width: '20ch' } }}
-                />
-              </Box>
-            )}
-
-            {!isDesktop && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Tooltip title="Search">
               <IconButton color="inherit" onClick={() => setSearchOpen(true)}>
                 <SearchIcon />
               </IconButton>
-            )}
-
-            <Tooltip title="Account settings">
-              <IconButton onClick={handleProfileOpen} sx={{ ml: 2 }}>
-                <Avatar alt="User" src="/static/images/avatar/1.jpg" />
+            </Tooltip>
+            <Tooltip title="Notifications">
+              <IconButton color="inherit" onClick={handleNotificationsOpen}>
+                <Badge badgeContent={notifications.length} color="error">
+                  <NotificationsIcon />
+                </Badge>
               </IconButton>
             </Tooltip>
-            <Menu
-              anchorEl={profileAnchor}
-              open={Boolean(profileAnchor)}
-              onClose={handleProfileClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem onClick={handleProfileClose}>Your Proposals</MenuItem>
-              <MenuItem onClick={handleProfileClose}>Profile & Settings</MenuItem>
-              <MenuItem onClick={handleProfileClose}>Logout</MenuItem>
-            </Menu>
+            <Tooltip title="Profile">
+              <IconButton
+                color="inherit"
+                onClick={handleProfileOpen}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  textTransform: 'none',
+                }}
+              >
+                <Avatar
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    bgcolor: 'primary.main',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  S
+                </Avatar>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    fontWeight: 500,
+                  }}
+                >
+                  Sean
+                </Typography>
+                <KeyboardArrowDownIcon sx={{ fontSize: 20 }} />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Toolbar>
       </AppBar>
 
-      {isDesktop && (
-        <Drawer
-          sx={{
-            'width': DRAWER_WIDTH,
-            'flexShrink': 0,
-            '& .MuiDrawer-paper': {
-              width: DRAWER_WIDTH,
-              boxSizing: 'border-box',
-              marginTop: '64px',
-              height: 'calc(100% - 64px)',
-              boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-          open
-        >
-          {drawer}
-        </Drawer>
-      )}
+      {/* Search Dialog */}
+      <Dialog
+        open={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        fullWidth
+        maxWidth="sm"
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            mt: 8,
+          },
+        }}
+      >
+        <DialogTitle sx={{ pb: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h6">Search</Typography>
+            <IconButton onClick={() => setSearchOpen(false)} size="small">
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            fullWidth
+            placeholder="Search collections, items, or types..."
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon color="action" />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ mb: 2 }}
+          />
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            Popular searches:
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+            {['Books', 'Movies', 'Games', 'Music'].map(term => (
+              <Button
+                key={term}
+                variant="outlined"
+                size="small"
+                onClick={() => setSearchOpen(false)}
+                sx={{ borderRadius: 2 }}
+              >
+                {term}
+              </Button>
+            ))}
+          </Box>
+        </DialogContent>
+      </Dialog>
 
-      {!isDesktop && (
-        <Drawer
-          variant="temporary"
-          anchor="left"
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
-          }}
+      {/* Notifications Menu */}
+      <Menu
+        anchorEl={notificationsAnchor}
+        open={Boolean(notificationsAnchor)}
+        onClose={handleNotificationsClose}
+        PaperProps={{
+          sx: {
+            mt: 1.5,
+            width: 360,
+            maxHeight: 400,
+            borderRadius: 2,
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Box sx={{ p: 2, pb: 1 }}>
+          <Typography variant="h6">Notifications</Typography>
+        </Box>
+        <Divider />
+        {notifications.map(notification => (
+          <MenuItem
+            key={notification.id}
+            onClick={handleNotificationsClose}
+            sx={{
+              'py': 1.5,
+              'px': 2,
+              '&:hover': {
+                backgroundColor: 'rgba(37, 99, 235, 0.08)',
+              },
+            }}
+          >
+            <ListItemAvatar>
+              <Avatar sx={{ bgcolor: 'primary.main', width: 32, height: 32 }}>
+                <NotificationsIcon sx={{ fontSize: 20 }} />
+              </Avatar>
+            </ListItemAvatar>
+            <Box>
+              <Typography variant="subtitle2">{notification.title}</Typography>
+              <Typography variant="body2" color="text.secondary">
+                {notification.message}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {notification.time}
+              </Typography>
+            </Box>
+          </MenuItem>
+        ))}
+        <Divider />
+        <Box sx={{ p: 1 }}>
+          <Button
+            fullWidth
+            variant="text"
+            onClick={handleNotificationsClose}
+            sx={{ justifyContent: 'center' }}
+          >
+            View All Notifications
+          </Button>
+        </Box>
+      </Menu>
+
+      {/* Profile Menu */}
+      <Menu
+        anchorEl={profileAnchor}
+        open={Boolean(profileAnchor)}
+        onClose={handleProfileClose}
+        PaperProps={{
+          sx: {
+            mt: 1.5,
+            width: 240,
+            borderRadius: 2,
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <Box sx={{ p: 2, pb: 1 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Sean Hoerl</Typography>
+          <Typography variant="body2" color="text.secondary">sean@example.com</Typography>
+        </Box>
+        <Divider />
+        <MenuItem
+          component={Link}
+          to="/profile"
+          onClick={handleProfileClose}
+          sx={{ py: 1.5 }}
         >
-          {drawer}
-        </Drawer>
-      )}
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Profile</ListItemText>
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to="/settings"
+          onClick={handleProfileClose}
+          sx={{ py: 1.5 }}
+        >
+          <ListItemIcon>
+            <SettingsIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Settings</ListItemText>
+        </MenuItem>
+        <Divider />
+        <MenuItem
+          onClick={handleProfileClose}
+          sx={{ py: 1.5, color: 'error.main' }}
+        >
+          <ListItemIcon>
+            <LogoutIcon fontSize="small" color="error" />
+          </ListItemIcon>
+          <ListItemText>Logout</ListItemText>
+        </MenuItem>
+      </Menu>
+
+      <Box
+        component="nav"
+        sx={{
+          width: { sm: DRAWER_WIDTH },
+          flexShrink: { sm: 0 },
+        }}
+      >
+        {isMobile
+          ? (
+              <Drawer
+                variant="temporary"
+                open={drawerOpen}
+                onClose={() => setDrawerOpen(false)}
+                ModalProps={{ keepMounted: true }}
+                sx={{
+                  '& .MuiDrawer-paper': {
+                    boxSizing: 'border-box',
+                    width: DRAWER_WIDTH,
+                  },
+                }}
+              >
+                {drawer}
+              </Drawer>
+            )
+          : (
+              <Drawer
+                variant="permanent"
+                sx={{
+                  '& .MuiDrawer-paper': {
+                    boxSizing: 'border-box',
+                    width: DRAWER_WIDTH,
+                  },
+                }}
+                open
+              >
+                {drawer}
+              </Drawer>
+            )}
+      </Box>
 
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
-          marginTop: '64px',
-          width: isDesktop ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%',
-          ml: isDesktop ? `${DRAWER_WIDTH}px` : 0,
+          width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+          mt: '64px',
+          backgroundColor: 'background.default',
+          minHeight: 'calc(100vh - 64px)',
         }}
       >
-        <Dialog open={searchOpen} onClose={() => setSearchOpen(false)} fullWidth maxWidth="sm">
-          <DialogTitle>
-            Search
-            <IconButton
-              aria-label="close"
-              onClick={() => setSearchOpen(false)}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: theme => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="search"
-              label="Search your copies or explore releases..."
-              type="text"
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </DialogContent>
-        </Dialog>
-
-        {children}
-
-        {!isDesktop && (
-          <Box sx={{ pb: '56px' }}></Box>
-        )}
+        <Fade in timeout={500}>
+          <Box>
+            {children}
+          </Box>
+        </Fade>
       </Box>
-
-      {!isDesktop && (
-        <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: theme => theme.zIndex.drawer + 1 }}>
-          <MobileBottomNavigation />
-        </Box>
-      )}
     </Box>
   );
 }

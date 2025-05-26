@@ -3013,15 +3013,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "invariant@npm:2.2.4"
-  dependencies:
-    loose-envify: "npm:^1.0.0"
-  checksum: 10c0/5af133a917c0bcf65e84e7f23e779e7abc1cd49cb7fdc62d00d1de74b0d8c1b5ee74ac7766099fb3be1b05b26dfc67bab76a17030d2fe7ea2eef867434362dfc
-  languageName: node
-  linkType: hard
-
 "ip-address@npm:^9.0.5":
   version: 9.0.5
   resolution: "ip-address@npm:9.0.5"
@@ -3514,7 +3505,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.0.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -4096,26 +4087,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "react-fast-compare@npm:3.2.2"
-  checksum: 10c0/0bbd2f3eb41ab2ff7380daaa55105db698d965c396df73e6874831dbafec8c4b5b08ba36ff09df01526caa3c61595247e3269558c284e37646241cba2b90a367
-  languageName: node
-  linkType: hard
-
-"react-helmet-async@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "react-helmet-async@npm:2.0.5"
-  dependencies:
-    invariant: "npm:^2.2.4"
-    react-fast-compare: "npm:^3.2.2"
-    shallowequal: "npm:^1.1.0"
-  peerDependencies:
-    react: ^16.6.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/f390ea8bf13c2681850e5f8eb5b73d8613f407c245a5fd23e9db9b2cc14a3700dd1ce992d3966632886d1d613083294c2aeee009193f49dfa7d145d9f13ea2b0
-  languageName: node
-  linkType: hard
-
 "react-hook-form@npm:^7.56.4":
   version: 7.56.4
   resolution: "react-hook-form@npm:7.56.4"
@@ -4147,20 +4118,20 @@ __metadata:
   linkType: hard
 
 "react-router-dom@npm:^7.6.0":
-  version: 7.6.1
-  resolution: "react-router-dom@npm:7.6.1"
+  version: 7.6.0
+  resolution: "react-router-dom@npm:7.6.0"
   dependencies:
-    react-router: "npm:7.6.1"
+    react-router: "npm:7.6.0"
   peerDependencies:
     react: ">=18"
     react-dom: ">=18"
-  checksum: 10c0/9d448d82d73c18475c8e3e2f93cf9dd16ca0488379e295f5a949aa849aaf770eb6257d48f2aef2c62ac1635e8ccddd0fa53173c2479525305eb656936f330812
+  checksum: 10c0/a13098a0dac97cde81f9af061c0dfb5ebf76ca00bdb75618d84b26e8abddab1fe9f3db88bce1736dc7c1a8f205ad0135a00148dd43ba72f2ed2c7e69ab77a739
   languageName: node
   linkType: hard
 
-"react-router@npm:7.6.1":
-  version: 7.6.1
-  resolution: "react-router@npm:7.6.1"
+"react-router@npm:7.6.0":
+  version: 7.6.0
+  resolution: "react-router@npm:7.6.0"
   dependencies:
     cookie: "npm:^1.0.1"
     set-cookie-parser: "npm:^2.6.0"
@@ -4170,7 +4141,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10c0/9968dcccc6695671cb216a74a756d717f47d5b8613869be72764966c2dc252ce12aa91a5f74838776b78d65a2297d7d5455c26a3ed78a380897905383b30c7d8
+  checksum: 10c0/abc4d37c01804a3137b1cfd12cf7e55bff092a67c835404ab9da1411ec9e170fe72773b9846d2db084cc0272179237e59d88dbf46cef9db031892feebcb48640
   languageName: node
   linkType: hard
 
@@ -4517,13 +4488,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shallowequal@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "shallowequal@npm:1.1.0"
-  checksum: 10c0/b926efb51cd0f47aa9bc061add788a4a650550bbe50647962113a4579b60af2abe7b62f9b02314acc6f97151d4cf87033a2b15fc20852fae306d1a095215396c
-  languageName: node
-  linkType: hard
-
 "shebang-command@npm:^2.0.0":
   version: 2.0.0
   resolution: "shebang-command@npm:2.0.0"
@@ -4569,7 +4533,6 @@ __metadata:
     lint-staged: "npm:^16.0.0"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
-    react-helmet-async: "npm:^2.0.5"
     react-hook-form: "npm:^7.56.4"
     react-router-dom: "npm:^7.6.0"
     typescript: "npm:^5.8.3"
@@ -4883,12 +4846,12 @@ __metadata:
   linkType: hard
 
 "tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.13":
-  version: 0.2.14
-  resolution: "tinyglobby@npm:0.2.14"
+  version: 0.2.13
+  resolution: "tinyglobby@npm:0.2.13"
   dependencies:
     fdir: "npm:^6.4.4"
     picomatch: "npm:^4.0.2"
-  checksum: 10c0/f789ed6c924287a9b7d3612056ed0cda67306cd2c80c249fd280cf1504742b12583a2089b61f4abbd24605f390809017240e250241f09938054c9b363e51c0a6
+  checksum: 10c0/ef07dfaa7b26936601d3f6d999f7928a4d1c6234c5eb36896bb88681947c0d459b7ebe797022400e555fe4b894db06e922b95d0ce60cb05fd827a0a66326b18c
   languageName: node
   linkType: hard
 
