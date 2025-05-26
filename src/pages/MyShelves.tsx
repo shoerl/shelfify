@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Typography, Grid, Card, CardContent, Button } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, Button, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import { useModal } from '../context/ModalContext';
+import AddCopyForm from '../components/AddCopyForm';
 
 // Mock data for shelves
 const mockShelves = [
@@ -13,10 +15,13 @@ const mockShelves = [
 
 export default function MyShelves() {
   const navigate = useNavigate();
+  const { openModal } = useModal();
 
   const handleAddCopyClick = () => {
-    console.log('Add New Copy clicked');
-    // TODO: Implement the add copy flow (modal/new page)
+    openModal(
+      <AddCopyForm />,
+      "Add Copy to Your Collection"
+    );
   };
 
   return (
@@ -62,13 +67,25 @@ export default function MyShelves() {
         ))}
       </Grid>
 
-      {/* TODO: Implement Empty state UI */}
-      {/* {mockShelves.length === 0 && ( */}
-      {/*   <Box sx={{ textAlign: 'center', mt: 6 }}> */}
-      {/*     <Typography variant="h6" color="text.secondary">No shelves created yet.</Typography> */}
-      {/*     <Button variant="outlined" sx={{ mt: 2 }} onClick={handleAddCopyClick}>Create Your First Shelf</Button> */}
-      {/*   </Box> */}
-      {/* )} */}
+      {mockShelves.length === 0 && (
+        <Box sx={{ textAlign: 'center', mt: 6 }}>
+          <Typography variant="h6" color="text.secondary">No shelves created yet.</Typography>
+          <Button 
+            variant="outlined" 
+            sx={{ mt: 2 }} 
+            startIcon={<AddIcon />}
+            onClick={() => console.log('Create shelf clicked')}
+          >
+            Create Your First Shelf
+          </Button>
+        </Box>
+      )}
+
+      {mockShelves.length > 0 && !mockShelves.reduce((total, shelf) => total + shelf.count, 0) && (
+        <Alert severity="info" sx={{ mt: 4 }}>
+          Your shelves are ready! Start adding copies to your collection.
+        </Alert>
+      )}
     </Box>
   );
 }
