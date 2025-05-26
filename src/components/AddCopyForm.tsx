@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   Stack,
+  Typography,
 } from '@mui/material';
 import { useModal } from '../contexts/ModalContext'; // Assuming ModalContext is in src/contexts
 

@@ -10,7 +10,6 @@ import {
   Avatar,
   Paper,
   Divider,
-  Link as MuiLink, // For potential inline links
   useTheme,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom'; // For navigation

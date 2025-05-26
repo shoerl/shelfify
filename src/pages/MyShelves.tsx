@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Typography, Grid, Card, CardContent, Button, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Typography,
@@ -8,7 +7,6 @@ import {
   Grid,
   Avatar,
   Stack,
-  Tooltip,
   Divider,
 } from '@mui/material';
 import AlbumIcon from '@mui/icons-material/Album';
@@ -20,14 +18,14 @@ import { useModal } from '../../contexts/ModalContext'; // Import useModal
 
 // Mock data for demo
 const userName = 'Sean';
-const exploreData = [
-  { title: 'Music', count: 12, icon: <AlbumIcon />, color: '#F7C873' },
-  { title: 'Movies', count: 8, icon: <MovieIcon />, color: '#7EC4CF' },
-];
-const copiesData = [
-  { title: 'My Music Copies', count: 3, icon: <AlbumIcon />, color: '#F7C873' },
-  { title: 'My Movie Copies', count: 1, icon: <MovieIcon />, color: '#7EC4CF' },
-];
+// const exploreData = [
+//   { title: 'Music', count: 12, icon: <AlbumIcon />, color: '#F7C873' },
+//   { title: 'Movies', count: 8, icon: <MovieIcon />, color: '#7EC4CF' },
+// ];
+// const copiesData = [
+//   { title: 'My Music Copies', count: 3, icon: <AlbumIcon />, color: '#F7C873' },
+//   { title: 'My Movie Copies', count: 1, icon: <MovieIcon />, color: '#7EC4CF' },
+// ];
 
 const mockShelvesPreview = [
   { id: 'music', name: 'Music Shelf', count: 3 },

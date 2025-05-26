@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Typography,
@@ -44,8 +43,7 @@ const StatPanel: React.FC<StatPanelProps> = ({ title, placeholderText }) => {
 };
 
 export default function Statistics() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
   const panels = [
     { title: 'Spend Over Time', placeholder: '[Chart for Spend Over Time will be displayed here]' },

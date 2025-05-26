@@ -15,7 +15,6 @@ import {
   FormControl,
   InputLabel,
   useMediaQuery,
-  useTheme,
   Card,
   CardContent,
   Grid,
@@ -76,8 +75,7 @@ export function AllCopies() {
   const [selectedShelfId, setSelectedShelfId] = useState<string>('all');
   const [sortOption, setSortOption] = useState<string>('dateAcquired_desc'); // field_direction
 
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md')); // Use 'md' for a more common breakpoint for tables
+  const isDesktop = useMediaQuery(useTheme().breakpoints.up('md')); // Use 'md' for a more common breakpoint for tables
 
   const handleShelfChange = (event: SelectChangeEvent<string>) => {
     setSelectedShelfId(event.target.value);

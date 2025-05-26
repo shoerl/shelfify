@@ -11,6 +11,8 @@ import { ShelfDetail } from './pages/ShelfDetail'; // Import ShelfDetail
 import Wishlist from './pages/Wishlist'; // Import Wishlist
 import Statistics from './pages/Statistics'; // Import Statistics
 import ActivityFeed from './pages/ActivityFeed'; // Import ActivityFeed
+import UserProposalsPlaceholder from './pages/UserProposalsPlaceholder'; // Import UserProposalsPlaceholder
+import ProfileSettingsPlaceholder from './pages/ProfileSettingsPlaceholder'; // Import ProfileSettingsPlaceholder
 
 // Placeholder components for new pages
 // const ShelfDetailPlaceholder = () => <div>Shelf Detail Page Placeholder</div>; // Remove placeholder
@@ -34,6 +36,8 @@ export default function App() {
         <Route path="/wishlist" element={<Wishlist />} /> {/* Use Wishlist component */}
         <Route path="/stats" element={<Statistics />} /> {/* Use Statistics component */}
         <Route path="/activity" element={<ActivityFeed />} /> {/* Use ActivityFeed component */}
+        <Route path="/proposals" element={<UserProposalsPlaceholder />} />
+        <Route path="/profile-settings" element={<ProfileSettingsPlaceholder />} />
 
         {/* Old routes - uncomment or remove as needed */}
         {/* <Route path="/types" element={<TypesList />} /> */}

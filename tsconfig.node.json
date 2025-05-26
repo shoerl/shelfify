@@ -11,8 +11,11 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "composite": true,
-    "noEmit": false,
+    "composite": true, // Reverted to true
+    "declaration": true, // Added declaration
+    "declarationMap": true, // Added declarationMap
+    "noEmit": false, // Ensure this is false if declarations are to be emitted
+    "outDir": ".cache/tsconfig.node-out", // Added outDir
 
     /* Linting */
     "strict": true,

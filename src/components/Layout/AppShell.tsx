@@ -270,10 +270,23 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               MenuListProps={{
                 'aria-labelledby': 'basic-button',
               }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-              <MenuItem onClick={handleProfileClose}>Your Proposals</MenuItem>
-              <MenuItem onClick={handleProfileClose}>Profile & Settings</MenuItem>
-              <MenuItem onClick={handleProfileClose}>Logout</MenuItem>
+              <MenuItem component={Link} to="/proposals" onClick={handleProfileClose}>
+                Your Proposals
+              </MenuItem>
+              <MenuItem component={Link} to="/profile-settings" onClick={handleProfileClose}>
+                Profile & Settings
+              </MenuItem>
+              <MenuItem onClick={() => {
+                handleProfileClose();
+                // Add actual logout logic here
+                console.log('Logout clicked');
+                navigate('/'); // Example: navigate to home after logout
+              }}>
+                Logout
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
