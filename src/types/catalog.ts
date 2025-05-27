@@ -10,7 +10,7 @@ export interface ReleaseVariant {
   id: string;
   name: string;
   description?: string;
-  attributes: Record<string, any>;
+  attributes: Record<string, string | number | boolean | null>;
   rarity?: 'common' | 'uncommon' | 'rare' | 'ultra-rare';
   estimatedValue?: number;
 }
@@ -40,7 +40,15 @@ export interface CatalogData {
     notes?: string;
   };
   // plus any dynamic keys in JSONB
-  [key: string]: any;
+  [key: string]: string | number | boolean | null | undefined | ReleaseVariant[] | PriceHistory[] | {
+    barcode?: string;
+    catalogNumber?: string;
+    isLimited?: boolean;
+    isOutOfPrint?: boolean;
+    releaseDate?: string;
+    reissueDate?: string;
+    notes?: string;
+  };
 }
 
 export interface CatalogItem {

@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "packageManager": "yarn@4.9.1",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -46,5 +48,6 @@
     "lint-staged": "^16.0.0",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"
-  }
+  },
+  "packageManager": "yarn@4.9.1"
 }
