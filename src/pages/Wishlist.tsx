@@ -24,6 +24,7 @@ const mockWishlistItems = [
     format: 'Vinyl, 180g Remastered',
     image: '/static/images/placeholders/album.svg',
     shelfId: 'music',
+    estimatedValue: 35
   },
   {
     id: 2,
@@ -33,6 +34,7 @@ const mockWishlistItems = [
     format: 'Blu-ray, 4K UHD',
     image: '/static/images/placeholders/movie.svg',
     shelfId: 'movies',
+    estimatedValue: 25
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const mockWishlistItems = [
     condition: 'Near Mint',
     image: '/static/images/placeholders/book.svg',
     shelfId: 'pokemon',
+    estimatedValue: 500
   },
 ];
 

@@ -363,7 +363,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           p: 3,
           marginTop: '64px',
           width: isDesktop ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%',
-          ml: isDesktop ? `${DRAWER_WIDTH}px` : 0,
+          // Removed the explicit left margin since Container handles centering
         }}
       >
         <Container maxWidth="lg" disableGutters={!isDesktop}>
