@@ -16,6 +16,7 @@ import MovieIcon from '@mui/icons-material/Movie';
 import CasinoIcon from '@mui/icons-material/Casino';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Link } from 'react-router-dom';
+import { DashboardCard } from '../components/Dashboard/DashboardCard';
 
 // Mock data for demo
 const userName = 'Sean';
@@ -159,27 +160,11 @@ export default function Home() {
       <Grid container spacing={3} sx={{ mb: 6 }}>
         {mockMetrics.map(metric => (
           <Grid item xs={12} sm={6} md={4} key={metric.label}>
-            <Card
-              sx={{
-                'borderRadius': 3,
-                'boxShadow': '0 2px 8px #0001',
-                'minHeight': 100,
-                'display': 'flex',
-                'alignItems': 'center',
-                'cursor': metric.link ? 'pointer' : 'default',
-                '&:hover': { boxShadow: metric.link ? '0 4px 12px #0002' : 'none' },
-              }}
+            <DashboardCard
+              title={metric.label}
+              value={metric.value}
               onClick={metric.link ? () => navigate(metric.link) : undefined}
-            >
-              <CardContent>
-                <Typography variant="h4" sx={{ fontWeight: 800 }}>
-                  {metric.value}
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  {metric.label}
-                </Typography>
-              </CardContent>
-            </Card>
+            />
           </Grid>
         ))}
       </Grid>

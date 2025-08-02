@@ -9,7 +9,6 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemButton,
-  Switch,
   Box,
   Divider,
   useTheme,
@@ -31,7 +30,7 @@ import {
   InputBase,
 } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Menu as MenuIcon,
   CollectionsBookmark as ShelvesIcon,
@@ -39,8 +38,6 @@ import {
   ExpandLess,
   ExpandMore,
   Add as AddIcon,
-  Brightness4 as DarkModeIcon,
-  Brightness7 as LightModeIcon,
   Notifications as NotificationsIcon,
   Search as SearchIcon,
   Close as CloseIcon,
@@ -59,6 +56,7 @@ import {
 
 // Import the new MobileBottomNavigation component
 import { MobileBottomNavigation } from './MobileBottomNavigation';
+import { ThemeToggle } from './ThemeToggle';
 
 const DRAWER_WIDTH = 220;
 
@@ -88,7 +86,6 @@ const mockShelves = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
   const [searchOpen, setSearchOpen] = useState(false);
   const [notificationsAnchor, setNotificationsAnchor] = useState<null | HTMLElement>(null);
   const [profileAnchor, setProfileAnchor] = useState<null | HTMLElement>(null);
@@ -96,15 +93,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const [shelvesOpen, setShelvesOpen] = useState(location.pathname.startsWith('/shelves'));
 
   const handleShelvesClick = () => {
     setShelvesOpen(!shelvesOpen);
-  };
-
-  const toggleTheme = () => {
-    setThemeMode(prev => prev === 'light' ? 'dark' : 'light');
   };
 
   const handleNotificationsOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -122,6 +116,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const handleProfileClose = () => {
     setProfileAnchor(null);
   };
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === '/' && !searchOpen) {
+        e.preventDefault();
+        setSearchOpen(true);
+        setTimeout(() => searchInputRef.current?.focus(), 0);
+      }
+      if (e.key.toLowerCase() === 'e') {
+        e.preventDefault();
+        console.log('Quick edit shortcut');
+      }
+      if (e.key === 'ArrowRight') {
+        console.log('Next item');
+      }
+      if (e.key === 'ArrowLeft') {
+        console.log('Previous item');
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [searchOpen]);
 
   const drawer = (
     <Box sx={{ width: DRAWER_WIDTH, height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -191,12 +207,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         ))}
       </List>
       <Divider sx={{ mt: 'auto' }} />
-      <List sx={{ px: 2 }}>
-        <ListItem>
-          <ListItemText primary="Dark Mode" />
-          <Switch edge="end" checked={themeMode === 'dark'} onChange={toggleTheme} />
-        </ListItem>
-      </List>
+      <Box sx={{ px: 2, py: 1, display: 'flex', justifyContent: 'center' }}>
+        <ThemeToggle />
+      </Box>
     </Box>
   );
 
@@ -368,6 +381,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               type="text"
               fullWidth
               variant="outlined"
+              inputRef={searchInputRef}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

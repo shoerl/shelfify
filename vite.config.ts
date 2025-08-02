@@ -21,6 +21,11 @@ export default defineConfig(({ command }) => {
   return {
     plugins: [react()],
     base,
+    resolve: {
+      alias: {
+        '@mui/styled-engine': '@mui/styled-engine-sc',
+      },
+    },
     // Add proper handling for client-side routing
     build: {
       outDir: 'dist',
