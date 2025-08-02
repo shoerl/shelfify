@@ -17,7 +17,6 @@ import {
   Avatar,
   Tooltip,
   Badge,
-  Fade,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -29,6 +28,7 @@ import {
   Button,
   Collapse,
   InputBase,
+  Container,
 } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
@@ -59,6 +59,8 @@ import {
 
 // Import the new MobileBottomNavigation component
 import { MobileBottomNavigation } from './MobileBottomNavigation';
+import { useModal } from '../../context/ModalContext';
+import AddCopyForm from '../../components/AddCopyForm';
 
 const DRAWER_WIDTH = 220;
 
@@ -96,6 +98,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
   const navigate = useNavigate();
+  const { openModal } = useModal();
 
   const [shelvesOpen, setShelvesOpen] = useState(location.pathname.startsWith('/shelves'));
 
@@ -121,6 +124,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const handleProfileClose = () => {
     setProfileAnchor(null);
+  };
+
+  const handleAddCopyClick = () => {
+    openModal(
+      <AddCopyForm />,
+      'Add Copy to Your Collection',
+    );
   };
 
   const drawer = (
@@ -257,7 +267,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {isDesktop && (
-              <Box sx={{ position: 'relative', borderRadius: theme.shape.borderRadius, bgcolor: 'action.hover', ml: 2, width: 'auto' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                startIcon={<AddIcon />}
+                onClick={handleAddCopyClick}
+                sx={{ mr: 2 }}
+              >
+                Add Copy
+              </Button>
+            )}
+
+            {isDesktop && (
+              <Box sx={{ position: 'relative', borderRadius: theme.shape.borderRadius, bgcolor: 'action.hover', ml: 0, width: 'auto' }}>
                 <Box sx={{ p: theme.spacing(0, 1), height: '100%', position: 'absolute', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <SearchIcon />
                 </Box>
@@ -276,7 +299,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
             <Tooltip title="Account settings">
               <IconButton onClick={handleProfileOpen} sx={{ ml: 2 }}>
-                <Avatar alt="User" src="/static/images/avatar/1.jpg" />
+                <Avatar alt="User" src="/static/images/avatar/user1.svg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -340,50 +363,52 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           p: 3,
           marginTop: '64px',
           width: isDesktop ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%',
-          ml: isDesktop ? `${DRAWER_WIDTH}px` : 0,
+          // Removed the explicit left margin since Container handles centering
         }}
       >
-        <Dialog open={searchOpen} onClose={() => setSearchOpen(false)} fullWidth maxWidth="sm">
-          <DialogTitle>
-            Search
-            <IconButton
-              aria-label="close"
-              onClick={() => setSearchOpen(false)}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 8,
-                color: theme => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="search"
-              label="Search your copies or explore releases..."
-              type="text"
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </DialogContent>
-        </Dialog>
+        <Container maxWidth="lg" disableGutters={!isDesktop}>
+          <Dialog open={searchOpen} onClose={() => setSearchOpen(false)} fullWidth maxWidth="sm">
+            <DialogTitle>
+              Search
+              <IconButton
+                aria-label="close"
+                onClick={() => setSearchOpen(false)}
+                sx={{
+                  position: 'absolute',
+                  right: 8,
+                  top: 8,
+                  color: theme => theme.palette.grey[500],
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="search"
+                label="Search your copies or explore releases..."
+                type="text"
+                fullWidth
+                variant="outlined"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </DialogContent>
+          </Dialog>
 
-        {children}
+          {children}
 
-        {!isDesktop && (
-          <Box sx={{ pb: '56px' }}></Box>
-        )}
+          {!isDesktop && (
+            <Box sx={{ pb: '56px' }}></Box>
+          )}
+        </Container>
       </Box>
 
       {!isDesktop && (

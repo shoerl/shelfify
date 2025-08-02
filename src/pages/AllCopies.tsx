@@ -10,27 +10,28 @@ import {
   TableRow,
   TextField,
   InputAdornment,
-  IconButton,
+  Button,
   Chip,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
-  Fade,
   useMediaQuery,
   useTheme,
   Card,
   CardContent,
   Grid,
   Stack,
-  Divider,
 } from '@mui/material';
 import {
   Search as SearchIcon,
   Sort as SortIcon,
   FilterList as FilterIcon,
+  Add as AddIcon,
 } from '@mui/icons-material';
 import React, { useState } from 'react';
+import { useModal } from '../context/ModalContext';
+import AddCopyForm from '../components/AddCopyForm';
 
 interface CollectionItem {
   id: number;
@@ -98,9 +99,17 @@ export function AllCopies() {
   const [sortBy, setSortBy] = useState('title');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [filterCondition, setFilterCondition] = useState<string>('all');
+  const { openModal } = useModal();
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const handleAddCopyClick = () => {
+    openModal(
+      <AddCopyForm />,
+      'Add Copy to Your Collection',
+    );
+  };
 
   const filteredData = mockData.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -124,11 +133,22 @@ export function AllCopies() {
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', py: { xs: 2, md: 4 } }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ mb: 1 }}>All Copies</Typography>
-        <Typography variant="body1" color="text.secondary">
-          View and manage all copies you own across all your shelves
-        </Typography>
+      <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <Box>
+          <Typography variant="h4" sx={{ mb: 1 }}>All Copies</Typography>
+          <Typography variant="body1" color="text.secondary">
+            View and manage all copies you own across all your shelves
+          </Typography>
+        </Box>
+
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={handleAddCopyClick}
+          sx={{ mb: { xs: 2, md: 0 } }}
+        >
+          Add New Copy
+        </Button>
       </Box>
 
       <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>

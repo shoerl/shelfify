@@ -5,40 +5,39 @@ import { Helmet } from 'react-helmet-async';
 // import TypeDetail from './pages/TypeDetail'; // Removed unused import
 // import AllItems from './pages/AllItems'; // Removed unused import
 import Home from './pages/Home';
-import MyShelves from './pages/MyShelves'; // Import the new MyShelves component
-import { AllCopies } from './pages/AllCopies'; // Corrected import to directly import AllCopies
+import MyShelves from './pages/MyShelves';
+import { AllCopies } from './pages/AllCopies';
+import { ModalProvider } from './context/ModalContext';
 
-// Placeholder components for new pages
-const ShelfDetailPlaceholder = () => <div>Shelf Detail Page Placeholder</div>;
-const WishlistPlaceholder = () => <div>Wishlist Page Placeholder</div>;
-const StatisticsPlaceholder = () => <div>Statistics Page Placeholder</div>;
-const ActivityFeedPlaceholder = () => <div>Activity Feed Page Placeholder</div>;
+// Import actual components rather than using placeholders
+import { ShelfDetail } from './pages/ShelfDetail';
+import Wishlist from './pages/Wishlist';
+import Statistics from './pages/Statistics';
+import ActivityFeed from './pages/ActivityFeed';
 
 export default function App() {
   const previewId = import.meta.env.VITE_PREVIEW_ID;
 
   return (
-    <AppShell>
-      <Helmet>
-        <title>{`Shelfify${previewId ? ' (Preview ' + previewId + ')' : ''}`}</title>
-      </Helmet>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shelves" element={<MyShelves />} />
-        {' '}
-        {/* Use the new MyShelves component */}
-        <Route path="/shelves/:shelfId" element={<ShelfDetailPlaceholder />} />
-        <Route path="/copies" element={<AllCopies />} />
-        {' '}
-        {/* Use the aliased AllCopies component */}
-        <Route path="/wishlist" element={<WishlistPlaceholder />} />
-        <Route path="/stats" element={<StatisticsPlaceholder />} />
-        <Route path="/activity" element={<ActivityFeedPlaceholder />} />
+    <ModalProvider>
+      <AppShell>
+        <Helmet>
+          <title>{`Shelfify${previewId ? ' (Preview ' + previewId + ')' : ''}`}</title>
+        </Helmet>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/shelves" element={<MyShelves />} />
+          <Route path="/shelves/:shelfId" element={<ShelfDetail />} />
+          <Route path="/copies" element={<AllCopies />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/stats" element={<Statistics />} />
+          <Route path="/activity" element={<ActivityFeed />} />
 
-        {/* Old routes - uncomment or remove as needed */}
-        {/* <Route path="/types" element={<TypesList />} /> */}
-        {/* <Route path="/types/:typeId" element={<TypeDetail />} /> */}
-      </Routes>
-    </AppShell>
+          {/* Old routes - uncomment or remove as needed */}
+          {/* <Route path="/types" element={<TypesList />} /> */}
+          {/* <Route path="/types/:typeId" element={<TypeDetail />} /> */}
+        </Routes>
+      </AppShell>
+    </ModalProvider>
   );
 }
